@@ -1,0 +1,24 @@
+.main-content {
+
+}
+
+.main-sidebar {
+  width: 20%;
+  float: left;
+  background-color: #eee;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.page-content {
+  width: 50%;
+  float: left;
+  margin-left: 20%;
+}
+
+.right-sidebar {
+  width: 30%;
+  float: left;
+}
