@@ -1,0 +1,21 @@
+.main-content {
+  display: flex;
+}
+
+.main-sidebar {
+  background-color: #eee;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 20%;
+}
+
+.page-content {
+  flex: 5 0 50%;
+  margin-left: 20%;
+}
+
+.right-sidebar {
+  flex: 3 0 30%;
+}

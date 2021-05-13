@@ -1,7 +1,11 @@
 @import "variables";
+@import "root";
 
 @import "./modules/normalize";
 @import "./modules/sidebar";
+@import "./modules/layout";
+@import "./modules/main-content";
 
 @import "./components/logo";
+@import "./components/article";
 

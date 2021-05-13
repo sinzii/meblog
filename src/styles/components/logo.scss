@@ -7,6 +7,11 @@
   line-height: 80px;
   position: relative;
 
+  &--inner {
+    color: $primary-color;
+    font-family: $serif-font;
+  }
+
   &--url {
     display: inline-block;
     width: 100%;
@@ -21,6 +26,10 @@
 
     .logo--underscore {
       color: $primary-color;
+    }
+
+    .logo--inner {
+      color: $text-color;
     }
   }
 }
