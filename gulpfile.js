@@ -13,8 +13,16 @@ const defaultPug = require('pug');
 const posts = require('./data/posts.json');
 const tags = require('./data/tags.json');
 
+const DATE_TIME_FORMAT = 'MMM DD, YYYY - HH:mm';
+
 posts.map(p => {
-    p.publishedAt = moment(p.publishedAt).format('MMM DD, YYYY - HH:mm');
+    p.publishedAt = moment(p.publishedAt).format(DATE_TIME_FORMAT);
+});
+
+Object.values(tags).forEach(posts => {
+    posts.map(p => {
+        p.publishedAt = moment(p.publishedAt).format(DATE_TIME_FORMAT);
+    });
 })
 
 function pugData(data) {
