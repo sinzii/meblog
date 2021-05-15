@@ -4,6 +4,7 @@ const moment = require('moment');
 const faker = require('faker');
 const marked = require('marked');
 const glob = require('glob');
+const _ = require('lodash');
 
 const TAG_POOL = ['programming', 'coding', 'engineering', 'life', 'thoughts', 'random', 'opinion', 'DIY', 'stuff'];
 const SAMPLE_MD_FILES = glob.sync(path.join(__dirname, '../sample/**/*.md'));
@@ -51,18 +52,22 @@ const markdownBody = () => {
     return body;
 }
 
-const post = () => {
+const post = (html=true) => {
     const title = heading();
     const tagCount = faker.datatype.number({min: 1, max: 3});
-    const tags = faker.random.arrayElements(TAG_POOL, tagCount)
+    const tags = faker.random.arrayElements(TAG_POOL, tagCount);
+    let body = pickSampleMd();
+    if (html) {
+       marked(body);
+    }
 
     return {
         title,
         slug: faker.helpers.slugify(title).toLowerCase(),
-        publishedAt: moment(faker.date.past()).format('MMM DD, YYYY - HH:mm'),
+        publishedAt: faker.date.past(),
         tags,
         excerpt: faker.lorem.sentence(faker.datatype.number({min: 20, max: 35})),
-        body: marked(pickSampleMd())
+        body
     }
 };
 
@@ -73,7 +78,7 @@ const posts = (numberOfPost=1, save=true) => {
     }
 
     if (save) {
-        const filePath = path.join(__dirname, '../data/posts.json');
+        const filePath = path.join(__dirname, '../../data/posts.json');
         fs.writeFileSync(filePath, JSON.stringify(posts, null, 2));
     }
 
@@ -81,22 +86,53 @@ const posts = (numberOfPost=1, save=true) => {
 }
 
 const tags = (save=true) => {
-    const posts = require('../data/posts.json');
+    const posts = require('../../data/posts.json');
     const tags = {};
     for (const tag of TAG_POOL) {
         tags[tag] = posts.filter(p => p.tags.includes(tag));
     }
 
     if (save) {
-        const tagFilePath = path.join(__dirname, '../data/tags.json');
+        const tagFilePath = path.join(__dirname, '../../data/tags.json');
         fs.writeFileSync(tagFilePath, JSON.stringify(tags, null, 2));
     }
 
     return tags;
 }
 
+const mdPost = () => {
+    const newPost = post(false);
 
-posts(100);
-tags();
+    const meta = _.pick(newPost, ['title', 'slug', 'publishedAt']);
+    meta.tags = newPost.tags.join(", ");
 
-// pickSampleMd();
+
+    return [`${JSON.stringify(meta, null, 2)}
+---
+${newPost.excerpt}
+---
+${newPost.body}
+`, meta];
+}
+
+const mdPosts = (numberOfPost=1, save=true) => {
+    const posts = [];
+    for (let index = 0; index < numberOfPost; index += 1) {
+        const [content, meta] = mdPost();
+        posts.push(content);
+
+        if (save) {
+            const filePath = path.join(__dirname, '../../posts', `${index + 1}.md`);
+            fs.writeFileSync(filePath, content);
+        }
+    }
+
+    return posts;
+}
+
+
+// posts(100);
+// tags();
+
+
+mdPosts(10);

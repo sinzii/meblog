@@ -3,15 +3,19 @@ const gulp = require('gulp');
 const del = require('del');
 const through = require('through2');
 const File = require('vinyl');
+const moment = require('moment');
 
 const browserSync = require('browser-sync').create();
 
 const scss = require('gulp-sass');
 const defaultPug = require('pug');
 
+const posts = require('./data/posts.json');
+const tags = require('./data/tags.json');
 
-const posts = require('./src/data/posts.json');
-const tags = require('./src/data/tags.json');
+posts.map(p => {
+    p.publishedAt = moment(p.publishedAt).format('MMM DD, YYYY - HH:mm');
+})
 
 function pugData(data) {
     return {
@@ -54,6 +58,7 @@ function pug() {
             }
             cb();
         } else {
+            console.log(posts.map(p => p.title));
             file.path = file.path.replace('.pug', '.html');
             file.contents = compilePugTemplate(file, {posts});
             cb(null, file);
