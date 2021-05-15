@@ -11,8 +11,7 @@ This is my first post while the blog is still in development.
 Usually, we only start blogging after the site is officially launched.
 But I thought it would be interesting to start blogging when the site is still incubating. 
 I will update the blog development process along the way 
-and it would be a good way to save some thoughts for the future 
-when I look back to see how much I was growing over time.
+and it's a good idea to save some thoughts to look back in the future to see how much I was growing over time.
 
 Anyway, this blog is intended to be a space 
 where I publish all of my writing from now on. 
