@@ -58,7 +58,6 @@ function pug() {
             }
             cb();
         } else {
-            console.log(posts.map(p => p.title));
             file.path = file.path.replace('.pug', '.html');
             file.contents = compilePugTemplate(file, {posts});
             cb(null, file);
@@ -78,8 +77,8 @@ gulp.task('enable-prod', (done) => {
     done();
 });
 
-gulp.task('clean-dev', (done) => {
-    del([getOutputDir('dev') + '/*']);
+gulp.task('clean', (done) => {
+    del([getOutputDir() + '/*']);
     done();
 });
 
@@ -99,7 +98,7 @@ gulp.task('generate-css', () => {
         .pipe(browserSync.stream());
 })
 
-gulp.task('serve', gulp.series('clean-dev', 'generate-pages', 'generate-css', (done) => {
+gulp.task('serve', gulp.series('clean', 'generate-pages', 'generate-css', (done) => {
     browserSync.init({
         server: {
             baseDir: getOutputDir()
@@ -110,3 +109,5 @@ gulp.task('serve', gulp.series('clean-dev', 'generate-pages', 'generate-css', (d
     gulp.watch('./src/templates/**/*.pug', gulp.series('generate-pages'));
     done();
 }));
+
+gulp.task('build', gulp.series('enable-prod', 'clean', 'generate-pages', 'generate-css'));
