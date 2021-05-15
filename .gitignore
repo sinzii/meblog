@@ -4,4 +4,6 @@
 out
 gen
 
-node_modulesi
+node_modules
+dev
+package-lock.json
