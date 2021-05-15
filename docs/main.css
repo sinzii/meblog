@@ -329,10 +329,11 @@ template {
     display: flow-root; }
     .main-sidebar--header .logo {
       margin: 30px auto 20px auto; }
-    .main-sidebar--header .moto {
-      font-family: serif;
-      font-style: italic;
-      text-align: center; }
+  .main-sidebar .moto {
+    margin: 20px;
+    font-family: serif;
+    font-style: italic;
+    text-align: center; }
   .main-sidebar--menu {
     margin: 20px;
     list-style: none;
@@ -365,7 +366,7 @@ template {
   margin-left: 380px; }
 
 .right-sidebar {
-  flex: 3 0 auto; }
+  flex: 1 0 auto; }
 
 body {
   color: #444444;
