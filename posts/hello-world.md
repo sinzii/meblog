@@ -1,7 +1,7 @@
 {
     "title": "My own journey to the west",
     "slug": "my-own-journey-to-the-west",
-    "publishedAt": "2021-05-15T18:04:00Z",
+    "publishedAt": "2021-05-15T18:04:00+07:00",
     "tags": "life"
 }
 ---
