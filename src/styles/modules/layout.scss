@@ -8,14 +8,14 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 20%;
+  width: 380px;
 }
 
 .page-content {
-  flex: 5 0 50%;
-  margin-left: 20%;
+  width: 960px;
+  margin-left: 380px;
 }
 
 .right-sidebar {
-  flex: 3 0 30%;
+  flex: 1 0 auto;
 }

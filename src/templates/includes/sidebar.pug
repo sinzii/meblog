@@ -4,19 +4,21 @@ aside.main-sidebar
             div.logo
                 span.logo--inner S
                 span.logo--underscore _
-                a.logo--url(href="/")
-            div.moto "Every moment waited is a moment wasted and each wasted moment degrades your clarity of purpose" - David Deida
+                a.logo--url(href=`${baseUrl}/`)
         hr.main-sidebar--separator
         ul.main-sidebar--menu
             li
-                a(href='index.html') Home
+                a(href=`${baseUrl}/`) Home
             li
-                a(href='rss.xml') Github
+                a(href='https://github.com/sinzii' target='_blank') Github
             li
-                a(href='rss.xml') RSS
+                a(href=`${baseUrl}/rss.xml`) RSS
             li
-                a(href='about.html') About
+                a(href=`${baseUrl}/about.html`) About
+        hr.main-sidebar--separator
+        div.moto "Every moment waited is a moment wasted and each wasted moment degrades your clarity of purpose" - David Deida
     .main-sidebar-footer
         span Powered by a&nbsp;
             a(href='https://github.com/sinzii/myblog-template' target='_blank')
-                strong DIY site generator
+            strong DIY site generator
+

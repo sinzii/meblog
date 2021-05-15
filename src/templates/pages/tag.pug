@@ -1,9 +1,10 @@
 extends ../layouts/main
 
 block prepend head
-    - var title = 'Home'
+    - var title = `#${tag} - My Blog`
 
 block content
+    h1=`#${tag}`
     include ../includes/article
     each post in posts
         +article(post)
