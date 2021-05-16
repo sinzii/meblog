@@ -4,7 +4,6 @@ block prepend head
     - var title = 'Home'
 
 block content
-    include ../includes/article
     each post in posts
-        +article(post)
+        +post-summary(post)
 
