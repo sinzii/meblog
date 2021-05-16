@@ -1,39 +1,10 @@
-{
-  "programming": [
-    "et-aut-qui-qui-quae-et-asperiores-repellat-est",
-    "veniam-nobis-necessitatibus",
-    "sint-dolorum-est-sint-nostrum-soluta-in-voluptatum-est-ut-ipsum-ducimus"
-  ],
-  "DIY": [
-    "velit-porro-omnis-quam",
-    "est-qui-eos-voluptatem",
-    "sint-dolorum-est-sint-nostrum-soluta-in-voluptatum-est-ut-ipsum-ducimus"
-  ],
-  "random": [
-    "et-aut-qui-qui-quae-et-asperiores-repellat-est",
-    "veniam-nobis-necessitatibus",
-    "sint-dolorum-est-sint-nostrum-soluta-in-voluptatum-est-ut-ipsum-ducimus",
-    "quaerat-iusto-debitis-facere-cumque-autem"
-  ],
-  "life": [
-    "unde-sunt-dolores"
-  ],
-  "opinion": [
-    "nisi-laudantium-repellat-facilis-nihil-ullam-quam-ut-vel-ad-exercitationem-itaque",
-    "velit-porro-omnis-quam",
-    "unde-sunt-dolores"
-  ],
-  "coding": [
-    "nisi-laudantium-repellat-facilis-nihil-ullam-quam-ut-vel-ad-exercitationem-itaque",
-    "rerum-quod-in-doloremque-illum",
-    "quisquam-dolores-vero-nulla-pariatur-nobis-voluptatem-fugiat-eum-assumenda-aut"
-  ],
-  "thoughts": [
-    "nisi-laudantium-repellat-facilis-nihil-ullam-quam-ut-vel-ad-exercitationem-itaque",
-    "velit-porro-omnis-quam",
-    "rerum-quod-in-doloremque-illum"
-  ],
-  "engineering": [
-    "rerum-quod-in-doloremque-illum"
-  ]
-}
+[
+  "programming",
+  "DIY",
+  "random",
+  "life",
+  "opinion",
+  "coding",
+  "thoughts",
+  "engineering"
+]

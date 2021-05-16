@@ -87,7 +87,7 @@ const posts = (numberOfPost=1, save=true) => {
 }
 
 const tags = (save=true) => {
-    const posts = require('../../data/posts.json');
+    const posts = require('../../../data/posts.json');
     const tags = {};
     for (const tag of TAG_POOL) {
         tags[tag] = posts.filter(p => p.tags.includes(tag)).map(p => p.slug);
