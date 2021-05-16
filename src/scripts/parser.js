@@ -35,9 +35,8 @@ const parse = () => {
     const tagPool = [...new Set(tagNames)];
     const tags = {};
     for (const tag of tagPool) {
-        tags[tag] = posts.filter(p => p.tags.includes(tag));
+        tags[tag] = posts.filter(p => p.tags.includes(tag)).map(p => p.slug);
     }
-
 
     const postsPath = path.join(__dirname, '../../data/posts.json');
     const tagsPath = path.join(__dirname, '../../data/tags.json');

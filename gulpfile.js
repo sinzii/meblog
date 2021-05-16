@@ -19,10 +19,9 @@ posts.map(p => {
     p.publishedAt = moment(p.publishedAt).format(DATE_TIME_FORMAT);
 });
 
-Object.values(tags).forEach(posts => {
-    posts.map(p => {
-        p.publishedAt = moment(p.publishedAt).format(DATE_TIME_FORMAT);
-    });
+Object.keys(tags).forEach(tag => {
+    const slugs = tags[tag];
+    tags[tag] = posts.filter(p => slugs.includes(p.slug));
 })
 
 function pugData(data) {
