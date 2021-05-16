@@ -4,5 +4,7 @@ block prepend head
     - var title = `${post.title} - My Blog`
 
 block content
-    h1=post.title
-    div.content !{post.body}
+    article.post-single
+        +post-info(post)
+        h1.post-single__title=post.title
+        .post-single__content !{post.body}

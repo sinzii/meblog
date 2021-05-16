@@ -1,0 +1,30 @@
+.post-summary {
+  margin-bottom: 25px;
+
+  &__title {
+    margin: 10px 0;
+  }
+
+  &__excerpt {
+    margin-bottom: 15px;
+  }
+}
+
+.post-info {
+  &__meta {
+    display: inline-block;
+    margin-right: 20px;
+  }
+
+  &__tag {
+    margin-right: 10px;
+  }
+
+  &__published_at {
+    color: var(--meta-color);
+  }
+}
+
+.post-single {
+  margin-top: 20px;
+}
