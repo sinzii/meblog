@@ -1,47 +1,39 @@
 {
-  "opinion": [
-    "molestias-est-dolores-quos-reprehenderit-doloribus",
-    "veniam-sed-molestias-nostrum-enim-et-ut-ea-porro-dicta",
-    "quia-molestiae-quisquam-quasi-rerum-illo-totam-enim-nostrum-quibusdam-tempora"
-  ],
-  "engineering": [
-    "possimus-amet-molestiae-enim-sequi-et-nihil-alias-odit",
-    "non-nemo-iusto-iusto-illum-qui-facere-quos-veniam",
-    "quia-molestiae-quisquam-quasi-rerum-illo-totam-enim-nostrum-quibusdam-tempora"
-  ],
-  "thoughts": [
-    "nobis-totam-nisi-numquam-dolor-laboriosam-itaque-magnam-labore-mollitia-voluptas",
-    "non-nemo-iusto-iusto-illum-qui-facere-quos-veniam",
-    "facere-sint-minus-sed-consequatur-iure"
-  ],
-  "coding": [
-    "et-deleniti-eveniet",
-    "non-nemo-iusto-iusto-illum-qui-facere-quos-veniam"
-  ],
   "programming": [
-    "quod-dolor-perspiciatis-molestiae-hic-quia-et-assumenda-est-qui-dolores",
-    "quia-molestiae-quisquam-quasi-rerum-illo-totam-enim-nostrum-quibusdam-tempora",
-    "facere-sint-minus-sed-consequatur-iure"
-  ],
-  "random": [
-    "facere-sint-minus-sed-consequatur-iure"
-  ],
-  "life": [
-    "nobis-totam-nisi-numquam-dolor-laboriosam-itaque-magnam-labore-mollitia-voluptas"
+    "et-aut-qui-qui-quae-et-asperiores-repellat-est",
+    "veniam-nobis-necessitatibus",
+    "sint-dolorum-est-sint-nostrum-soluta-in-voluptatum-est-ut-ipsum-ducimus"
   ],
   "DIY": [
-    "nobis-totam-nisi-numquam-dolor-laboriosam-itaque-magnam-labore-mollitia-voluptas"
+    "velit-porro-omnis-quam",
+    "est-qui-eos-voluptatem",
+    "sint-dolorum-est-sint-nostrum-soluta-in-voluptatum-est-ut-ipsum-ducimus"
   ],
-  "stuff": [
-    "consequuntur-ipsum-maiores-voluptate-quisquam"
+  "random": [
+    "et-aut-qui-qui-quae-et-asperiores-repellat-est",
+    "veniam-nobis-necessitatibus",
+    "sint-dolorum-est-sint-nostrum-soluta-in-voluptatum-est-ut-ipsum-ducimus",
+    "quaerat-iusto-debitis-facere-cumque-autem"
   ],
-  "x": [
-    "journey-to-the-west"
+  "life": [
+    "unde-sunt-dolores"
   ],
-  "y": [
-    "journey-to-the-west"
+  "opinion": [
+    "nisi-laudantium-repellat-facilis-nihil-ullam-quam-ut-vel-ad-exercitationem-itaque",
+    "velit-porro-omnis-quam",
+    "unde-sunt-dolores"
   ],
-  "z...": [
-    "journey-to-the-west"
+  "coding": [
+    "nisi-laudantium-repellat-facilis-nihil-ullam-quam-ut-vel-ad-exercitationem-itaque",
+    "rerum-quod-in-doloremque-illum",
+    "quisquam-dolores-vero-nulla-pariatur-nobis-voluptatem-fugiat-eum-assumenda-aut"
+  ],
+  "thoughts": [
+    "nisi-laudantium-repellat-facilis-nihil-ullam-quam-ut-vel-ad-exercitationem-itaque",
+    "velit-porro-omnis-quam",
+    "rerum-quod-in-doloremque-illum"
+  ],
+  "engineering": [
+    "rerum-quod-in-doloremque-illum"
   ]
 }
