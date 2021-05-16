@@ -5,6 +5,7 @@ const faker = require('faker');
 const marked = require('marked');
 const glob = require('glob');
 const _ = require('lodash');
+const del = require('del');
 
 const TAG_POOL = ['programming', 'coding', 'engineering', 'life', 'thoughts', 'random', 'opinion', 'DIY', 'stuff'];
 const SAMPLE_MD_FILES = glob.sync(path.join(__dirname, '../sample/**/*.md'));
@@ -56,7 +57,7 @@ const post = (html=true) => {
     const title = heading();
     const tagCount = faker.datatype.number({min: 1, max: 3});
     const tags = faker.random.arrayElements(TAG_POOL, tagCount);
-    let body = pickSampleMd();
+    let body = faker.datatype.boolean() ? pickSampleMd() : markdownBody();
     if (html) {
        marked(body);
     }
@@ -116,6 +117,10 @@ ${newPost.body}
 }
 
 const mdPosts = (numberOfPost=1, save=true) => {
+    if (save) {
+        del.sync(path.join(__dirname, '../../posts/*'))
+    }
+
     const posts = [];
     for (let index = 0; index < numberOfPost; index += 1) {
         const [content, meta] = mdPost();
