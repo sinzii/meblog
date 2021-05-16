@@ -410,16 +410,24 @@ h1, h2, h3, h4, h5, h6 {
     .logo:hover .logo--inner {
       color: #444444; }
 
-.post {
-  margin-bottom: 25px; }
-  .post--title {
+.post-summary {
+  margin-bottom: 25px;
+  text-align: justify; }
+  .post-summary__title {
     margin: 10px 0; }
-  .post--info {
-    margin-top: 15px; }
-  .post--meta {
-    display: inline-block;
-    margin-right: 15px; }
-  .post--tag {
-    margin-right: 5px; }
-  .post--published_at {
-    color: var(--meta-color); }
+  .post-summary__excerpt {
+    margin-bottom: 15px; }
+
+.post-info__meta {
+  display: inline-block;
+  margin-right: 20px; }
+
+.post-info__tag {
+  margin-right: 10px; }
+
+.post-info__published_at {
+  color: var(--meta-color); }
+
+.post-single {
+  margin-top: 20px;
+  text-align: justify; }
