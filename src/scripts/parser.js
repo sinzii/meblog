@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
 const marked = require('marked');
+const faker = require('faker');
 
 const POSTS_GLOB = path.join(__dirname, '../../posts/**/*.md');
 const SEPARATOR = "---";
@@ -18,6 +19,10 @@ const parse = () => {
         meta.publishedAt = new Date(meta.publishedAt);
         meta.tags = meta.tags.split(",").map(t => t.trim());
         tagNames.push(...meta.tags);
+
+        if (!meta.slug) {
+            meta.slug = faker.helpers.slugify(meta.title).toLowerCase();
+        }
 
         const excerpt = parts.shift().trim();
         const body = parts.join(SEPARATOR).trim();
