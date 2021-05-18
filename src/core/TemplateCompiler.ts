@@ -3,8 +3,8 @@ import * as _ from 'lodash';
 import * as path from 'path';
 import pug from 'pug';
 import through from 'through2';
-import ConfigHolder from "../core/ConfigHolder";
-import DataSource from "../data/DataSource";
+import ConfigHolder from "./ConfigHolder";
+import DataSource from "./DataSource";
 
 export default class TemplateCompiler extends ConfigHolder {
     private readonly dataSource: DataSource;

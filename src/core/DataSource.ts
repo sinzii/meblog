@@ -1,5 +1,5 @@
-import {Config, Post, Tag} from "../core/model";
-import ConfigHolder from "../core/ConfigHolder";
+import {Config, Post, Tag} from "./model";
+import ConfigHolder from "./ConfigHolder";
 
 export default abstract class DataSource extends ConfigHolder {
     protected constructor(config: Config) {

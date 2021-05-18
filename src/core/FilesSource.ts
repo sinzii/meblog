@@ -7,7 +7,7 @@ import moment from 'moment';
 import Debug from 'debug';
 
 import DataSource from "./DataSource";
-import {Config, Post, Tag} from "../core/model";
+import {Config, Post, Tag} from "./model";
 const debug = Debug("/scripts/data/FilesSource");
 
 export default class FilesSource extends DataSource {

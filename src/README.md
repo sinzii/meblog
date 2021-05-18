@@ -1,3 +1,0 @@
-# MyBlog Template
-
-- Under development
