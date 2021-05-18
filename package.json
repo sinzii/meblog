@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npx gulp -f gulpfile.ts --series dev serve",
     "build": "npx gulp -f gulpfile.ts --series prod build",
-    "clean": "npx gulp -f gulpfile.ts --series dev clean prod clean"
+    "clean": "npx gulp -f gulpfile.ts --series dev clean prod clean",
+    "sample": "npx ts-node ./src/core/sample_generator.ts"
   },
   "author": "@sinzii",
   "license": "MIT",

@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const moment = require('moment');
 const faker = require('faker');
 const marked = require('marked');
 const glob = require('glob');
@@ -72,35 +71,6 @@ const post = (html=true) => {
     }
 };
 
-const posts = (numberOfPost=1, save=true) => {
-    const posts = [];
-    for (let index = 0; index < numberOfPost; index += 1) {
-        posts.push(post());
-    }
-
-    if (save) {
-        const filePath = path.join(__dirname, '../../data/posts.json');
-        fs.writeFileSync(filePath, JSON.stringify(posts, null, 2));
-    }
-
-    return posts;
-}
-
-const tags = (save=true) => {
-    const posts = require('../../../data/posts.json');
-    const tags = {};
-    for (const tag of TAG_POOL) {
-        tags[tag] = posts.filter(p => p.tags.includes(tag)).map(p => p.slug);
-    }
-
-    if (save) {
-        const tagFilePath = path.join(__dirname, '../../data/tags.json');
-        fs.writeFileSync(tagFilePath, JSON.stringify(tags, null, 2));
-    }
-
-    return tags;
-}
-
 const mdPost = () => {
     const newPost = post(false);
 
@@ -136,8 +106,4 @@ const mdPosts = (numberOfPost=1, save=true) => {
 }
 
 
-// posts(100);
-// tags();
-
-
-mdPosts(10);
+mdPosts(20);
