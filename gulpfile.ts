@@ -24,7 +24,7 @@ class SiteGenerator {
     }
 
     generatePages() {
-        const postsDirPath = path.join(__dirname, 'posts');
+        const postsDirPath = path.join(__dirname, config.devMode ? 'posts-dev' : 'posts');
         const dataSource = new FilesSource(config, postsDirPath);
         dataSource.loadData();
 

@@ -8,3 +8,4 @@ node_modules
 dev
 package-lock.json
 data
+posts-dev

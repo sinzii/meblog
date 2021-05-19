@@ -88,7 +88,7 @@ ${newPost.body}
 
 const mdPosts = (numberOfPost=1, save=true) => {
     if (save) {
-        del.sync(path.join(__dirname, '../../posts/*'))
+        del.sync(path.join(__dirname, '../../posts-dev/*'))
     }
 
     const posts = [];
@@ -97,7 +97,7 @@ const mdPosts = (numberOfPost=1, save=true) => {
         posts.push(content);
 
         if (save) {
-            const filePath = path.join(__dirname, '../../posts', `${index + 1}.md`);
+            const filePath = path.join(__dirname, '../../posts-dev', `${index + 1}.md`);
             fs.writeFileSync(filePath, content);
         }
     }
