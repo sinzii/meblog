@@ -19,3 +19,19 @@
 .right-sidebar {
   flex: 1 0 auto;
 }
+
+@media (max-width: $breakpoint) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .main-sidebar {
+    position: static;
+    width: auto;
+  }
+
+  .page-content {
+    width: auto;
+    margin-left: 0;
+  }
+}

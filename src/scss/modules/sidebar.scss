@@ -37,9 +37,24 @@
   }
 
   &-footer {
-    margin: 10px;
+    margin: 20px 10px;
     text-align: center;
     font-family: var(--serif-font);
     font-size: 14px;
+  }
+
+  @media (max-width: $breakpoint) {
+    &--menu {
+      margin: 10px 20px;
+
+      li {
+        display: inline-block;
+        margin: 10px;
+      }
+    }
+
+    &-footer {
+      display: none;
+    }
   }
 }

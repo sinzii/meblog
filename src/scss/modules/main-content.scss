@@ -8,6 +8,11 @@ body {
 
 .page-content {
   padding: 30px 50px;
+
+  @media (max-width: $breakpoint) {
+    padding-left: 35px;
+    padding-right: 35px;
+  }
 }
 
 a {
