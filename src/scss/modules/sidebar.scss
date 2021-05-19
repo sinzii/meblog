@@ -15,14 +15,12 @@
   }
 
   .moto {
-    margin: 20px;
-
-    font-family: $serif-font;
     font-style: italic;
     text-align: center;
   }
 
   &--menu {
+    font-family: $sans-font;
     margin: 20px;
     list-style: none;
     text-align: center;

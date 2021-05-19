@@ -8,6 +8,7 @@
 
   &__excerpt {
     margin-bottom: 15px;
+    hyphens: auto;
   }
 }
 
@@ -29,4 +30,9 @@
 .post-single {
   margin-top: 20px;
   text-align: justify;
+
+  &__content {
+    //font-weight: 500;
+    line-height: 1.8em;
+  }
 }
