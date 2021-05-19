@@ -88,7 +88,12 @@ ${newPost.body}
 
 const mdPosts = (numberOfPost=1, save=true) => {
     if (save) {
-        del.sync(path.join(__dirname, '../../posts-dev/*'))
+        const postsDevDir = path.join(__dirname, '../../posts-dev');
+        if (fs.existsSync(postsDevDir)) {
+            del.sync(postsDevDir);
+        }
+
+        fs.mkdirSync(postsDevDir);
     }
 
     const posts = [];
