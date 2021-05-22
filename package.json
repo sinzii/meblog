@@ -4,10 +4,14 @@
   "description": "MyBlog Template",
   "main": "index.js",
   "scripts": {
-    "dev": "npx gulp -f gulpfile.ts --series dev serve",
-    "build": "npx gulp -f gulpfile.ts --series prod build",
-    "clean": "npx gulp -f gulpfile.ts --series dev clean prod clean",
-    "sample": "npx ts-node ./src/core/sample_generator.ts",
+    "dev:serve": "npx gulp -f gulpfile.ts --series dev serve",
+    "prod:build": "npx gulp -f gulpfile.ts --series prod build",
+    "dev:clean:build": "npx gulp -f gulpfile.ts --series dev clean",
+    "prod:clean:build": "npx gulp -f gulpfile.ts --series prod clean",
+    "dev:clean:posts": "npx gulp -f gulpfile.ts --series dev cleanPosts",
+    "prod:clean:posts": "npx gulp -f gulpfile.ts --series prod cleanPosts",
+    "dev:sample": "npx gulp -f gulpfile.ts --series dev generateSamplePosts",
+    "prod:sample": "npx gulp -f gulpfile.ts --series prod generateSamplePosts",
     "test": "npx mocha --require ts-node/register \"./**/*.test.@(js|ts)\""
   },
   "author": "@sinzii",
@@ -25,6 +29,7 @@
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-sass": "^4.1.0",
+    "minimist": "^1.2.5",
     "mocha": "^8.4.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
