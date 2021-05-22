@@ -1,6 +1,6 @@
 export type Tag = string;
 
-export interface Post {
+export interface IPost {
     title: string,
     slug: string,
     publishedAt: Date | string,

@@ -7,7 +7,7 @@ import moment from 'moment';
 import Debug from 'debug';
 
 import DataSource from "./DataSource";
-import {Config, Post, Tag} from "./model";
+import {Config, IPost, Tag} from "./model";
 const debug = Debug("/scripts/data/FilesSource");
 
 export default class FilesSource extends DataSource {
@@ -15,7 +15,7 @@ export default class FilesSource extends DataSource {
     private readonly dataDirectoryPath: string;
     private readonly separator: string;
 
-    private posts: Post[] = [];
+    private posts: IPost[] = [];
     private tags: Tag[] = [];
 
     constructor(config: Config,
@@ -70,7 +70,7 @@ export default class FilesSource extends DataSource {
         return false;
     }
 
-    private parse(): {posts: Post[], tags: Tag[]} {
+    private parse(): {posts: IPost[], tags: Tag[]} {
         const files = this.getSourcePostPaths();
 
         const posts = [];
@@ -79,7 +79,7 @@ export default class FilesSource extends DataSource {
             const content = fs.readFileSync(filePath).toString();
             const parts = content.split(this.separator);
 
-            const meta = JSON.parse(parts.shift()) as Post;
+            const meta = JSON.parse(parts.shift()) as IPost;
             meta.publishedAt = new Date(meta.publishedAt);
 
             if (typeof meta.tags === "string") {
@@ -143,11 +143,11 @@ export default class FilesSource extends DataSource {
         });
     }
 
-    public getPosts(): Post[] {
+    public getPosts(): IPost[] {
         return this.posts;
     }
 
-    public getPostsByTag(tag: Tag): Post[] {
+    public getPostsByTag(tag: Tag): IPost[] {
         return this.posts.filter(p => p.tags.includes(tag));
     }
 

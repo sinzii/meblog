@@ -1,4 +1,4 @@
-import {Config, Post, Tag} from "./model";
+import {Config, IPost, Tag} from "./model";
 import ConfigHolder from "./ConfigHolder";
 
 export default abstract class DataSource extends ConfigHolder {
@@ -6,7 +6,7 @@ export default abstract class DataSource extends ConfigHolder {
         super(config);
     }
 
-    public abstract getPosts(): Post[];
+    public abstract getPosts(): IPost[];
     public abstract getTags(): Tag[];
-    public abstract getPostsByTag(tag: Tag): Post[];
+    public abstract getPostsByTag(tag: Tag): IPost[];
 }
