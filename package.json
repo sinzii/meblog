@@ -7,21 +7,27 @@
     "dev": "npx gulp -f gulpfile.ts --series dev serve",
     "build": "npx gulp -f gulpfile.ts --series prod build",
     "clean": "npx gulp -f gulpfile.ts --series dev clean prod clean",
-    "sample": "npx ts-node ./src/core/sample_generator.ts"
+    "sample": "npx ts-node ./src/core/sample_generator.ts",
+    "test": "npx mocha --require ts-node/register \"./**/*.test.@(js|ts)\""
   },
   "author": "@sinzii",
   "license": "MIT",
   "devDependencies": {
+    "@types/chai": "^4.2.18",
     "@types/debug": "^4.1.5",
+    "@types/faker": "^5.5.5",
     "@types/gulp": "^4.0.8",
+    "@types/lodash": "^4.14.170",
+    "@types/mocha": "^8.2.2",
+    "@types/moment": "^2.13.0",
     "browser-sync": "^2.26.14",
+    "chai": "*",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-sass": "^4.1.0",
+    "mocha": "^8.4.0",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4",
-    "@types/faker": "^5.5.5",
-    "@types/moment": "^2.13.0"
+    "typescript": "^4.2.4"
   },
   "dependencies": {
     "debug": "^4.3.1",
