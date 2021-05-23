@@ -1,6 +1,6 @@
 {
   "baseUrl": "",
-  "siteName": "MyBlog",
+  "siteName": "MyBlog Template",
   "devMode": true,
   "dateTimeFormat": "DD/MM/YYYY - HH:mm"
 }
