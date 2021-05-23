@@ -7,10 +7,10 @@ import scss from 'gulp-sass';
 import {Config} from "./src/core/model";
 import FilesSource from "./src/core/FilesSource";
 import TemplateCompiler from "./src/core/TemplateCompiler";
-const browserSync = BS.create();
-
 import configJson from './config.json';
 import SampleGenerator from './src/core/SampleGenerator';
+
+const browserSync = BS.create();
 
 const config = Object.assign(configJson, {devMode: true}) as Config;
 
@@ -69,6 +69,7 @@ class SiteGenerator {
         gulp.watch('./src/scss/**/*.scss', gulp.series('generateCss'));
         gulp.watch('./src/js/**/*.js', gulp.series('generateJs'));
         gulp.watch('./src/templates/**/*.pug', gulp.series('generatePages'));
+        gulp.watch(this.postsDirPath + '/*.md', gulp.series('generatePages'));
         done();
     }
 
