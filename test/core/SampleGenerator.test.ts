@@ -3,31 +3,15 @@ import {assert} from 'chai';
 import * as path from 'path';
 import * as del from 'del';
 import glob from 'glob';
-import {Post} from '../../src/core/Post';
+import {assertPost} from './helper';
 
 const generator = new SampleGenerator();
 
 describe('SampleGenerator', function () {
-    const postProperties = [
-        'title',
-        'slug',
-        'publishedAt',
-        'tags',
-        'excerpt',
-        'body'
-    ]
-
-    const checkPost = post => {
-        assert.instanceOf(post, Post);
-        postProperties.forEach(prop => {
-            assert.property(post, prop);
-        });
-    }
-
     it('should generate a post', function () {
         const post = generator.post();
 
-        checkPost(post);
+        assertPost(post);
     });
 
     it('should generate posts', function () {
@@ -35,7 +19,7 @@ describe('SampleGenerator', function () {
         const posts = generator.posts(numberOfPost);
 
         assert.equal(posts.length, numberOfPost);
-        posts.forEach(checkPost);
+        posts.forEach(assertPost);
     });
 
     it('should generate a markdown post content', function () {

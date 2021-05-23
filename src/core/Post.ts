@@ -1,4 +1,5 @@
 import {IPost, Tag} from "./model";
+import * as faker from 'faker';
 
 export class Post {
     title: string;
@@ -23,6 +24,10 @@ export class Post {
 
         if (typeof post.tags === 'string') {
             post.tags = post.tags.split(',').map(t => t.trim());
+        }
+
+        if (!post.slug) {
+            post.slug = faker.helpers.slugify(post.title);
         }
 
         Object.assign(this, post);

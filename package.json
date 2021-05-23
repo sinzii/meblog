@@ -12,7 +12,7 @@
     "prod:clean:posts": "npx gulp -f gulpfile.ts --series prod cleanPosts",
     "dev:sample": "npx gulp -f gulpfile.ts --series dev generateSamplePosts",
     "prod:sample": "npx gulp -f gulpfile.ts --series prod generateSamplePosts",
-    "test": "npx mocha --require ts-node/register \"./**/*.test.@(js|ts)\""
+    "test": "npx mocha --require ts-node/register \"./test/**/*.test.@(js|ts)\""
   },
   "author": "@sinzii",
   "license": "MIT",
@@ -24,6 +24,7 @@
     "@types/lodash": "^4.14.170",
     "@types/mocha": "^8.2.2",
     "@types/moment": "^2.13.0",
+    "@types/sinon": "^10.0.0",
     "browser-sync": "^2.26.14",
     "chai": "*",
     "del": "^6.0.0",
@@ -31,6 +32,7 @@
     "gulp-sass": "^4.1.0",
     "minimist": "^1.2.5",
     "mocha": "^8.4.0",
+    "sinon": "^10.0.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },

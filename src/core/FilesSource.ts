@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as glob from 'glob';
-import * as faker from 'faker';
 import marked from 'marked';
-import moment from 'moment';
 import Debug from 'debug';
 
 import DataSource from "./DataSource";
 import {Config, IPost, Tag} from "./model";
+import {Post} from './Post';
+
 const debug = Debug("/scripts/data/FilesSource");
 
 export default class FilesSource extends DataSource {
@@ -15,7 +15,7 @@ export default class FilesSource extends DataSource {
     private readonly dataDirectoryPath: string;
     private readonly separator: string;
 
-    private posts: IPost[] = [];
+    private posts: Post[] = [];
     private tags: Tag[] = [];
 
     constructor(config: Config,
@@ -34,7 +34,6 @@ export default class FilesSource extends DataSource {
 
         this.postsDirectoryPath = postsDirectoryPath;
         this.dataDirectoryPath = path.resolve(this.postsDirectoryPath, '../data');
-        // fs.mkdirSync(this.dataDirectoryPath);
         this.separator = separator;
     }
 
@@ -70,37 +69,62 @@ export default class FilesSource extends DataSource {
         return false;
     }
 
-    private parse(): {posts: IPost[], tags: Tag[]} {
+    private parseMarkdownPost(content: string): Post {
+        const post: any = {};
+
+        let separatorCounter = 0;
+        const metaLines: string[] = [];
+        const excerptLines: string[] = [];
+
+        while (true) {
+            const index = content.indexOf('\n');
+            if (index < 0) {
+                break;
+            }
+
+            const line = content.substring(0, index).trim();
+
+            content = content.substring(index + 1);
+
+            if (line === this.separator) {
+                separatorCounter += 1;
+
+                if (separatorCounter === 3) {
+                    post.body = marked(content);
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
+            if (separatorCounter <= 1) {
+                metaLines.push(line);
+            } else if (separatorCounter === 2) {
+                excerptLines.push(line);
+            }
+        }
+
+        metaLines.forEach(line => {
+            const colonIndex = line.indexOf(':');
+            const metaName = line.substring(0, colonIndex).trim();
+            const metaValue = line.substring(colonIndex + 1).trim();
+
+            post[metaName] = metaValue;
+        });
+
+        post.excerpt = excerptLines.join('\n').trim();
+
+        return new Post(post);
+    }
+
+    private parse(): { posts: Post[], tags: Tag[] } {
         const files = this.getSourcePostPaths();
 
-        const posts = [];
-        const tags = [];
-        for (const filePath of files) {
-            const content = fs.readFileSync(filePath).toString();
-            const parts = content.split(this.separator);
+        const posts: Post[] = files
+            .map(file => fs.readFileSync(file).toString())
+            .map(this.parseMarkdownPost.bind(this));
 
-            const meta = JSON.parse(parts.shift()) as IPost;
-            meta.publishedAt = new Date(meta.publishedAt);
-
-            if (typeof meta.tags === "string") {
-                meta.tags = meta.tags.split(",").map(t => t.trim());
-            }
-
-            tags.push(...meta.tags);
-
-            if (!meta.slug) {
-                meta.slug = faker.helpers.slugify(meta.title).toLowerCase();
-            }
-
-            const excerpt = parts.shift().trim();
-            const body = parts.join(this.separator).trim();
-
-            posts.push({
-                ...meta,
-                excerpt,
-                body: marked(body)
-            });
-        }
+        const tags = posts.flatMap(p => p.tags);
 
         // sorting the posts, newer post will appear first
         posts.sort((p1, p2) => p2.publishedAt.getTime() - p1.publishedAt.getTime());
@@ -111,7 +135,7 @@ export default class FilesSource extends DataSource {
         };
     }
 
-    private parsePosts(force=false): void {
+    private parsePosts(force = false): void {
         let shouldParse = false;
         if (force || this.hasAnyChanges()) {
             shouldParse = true;
@@ -128,26 +152,30 @@ export default class FilesSource extends DataSource {
             fs.mkdirSync(this.dataDirectoryPath);
         }
 
-        fs.writeFileSync(this.postsJsonPath, JSON.stringify(posts, null, jsonPrettySpace));
-        fs.writeFileSync(this.tagsJsonPath, JSON.stringify(tags, null, jsonPrettySpace));
+        fs.writeFileSync(
+            this.postsJsonPath,
+            JSON.stringify(posts, null, jsonPrettySpace)
+        );
+
+        fs.writeFileSync(
+            this.tagsJsonPath,
+            JSON.stringify(tags, null, jsonPrettySpace)
+        );
     }
 
-    public loadData(force=false): void {
+    public loadData(force = false): void {
         this.parsePosts(force);
 
-        this.posts = require(this.postsJsonPath);
-        this.tags = require(this.tagsJsonPath);
-
-        this.posts.forEach(p => {
-            p.publishedAt = moment(p.publishedAt).format(this.config.dateTimeFormat);
-        });
+        const jsonPosts = require(this.postsJsonPath) as IPost[];
+        this.posts = jsonPosts.map(p => new Post(p));
+        this.tags = require(this.tagsJsonPath) as Tag[];
     }
 
-    public getPosts(): IPost[] {
+    public getPosts(): Post[] {
         return this.posts;
     }
 
-    public getPostsByTag(tag: Tag): IPost[] {
+    public getPostsByTag(tag: Tag): Post[] {
         return this.posts.filter(p => p.tags.includes(tag));
     }
 
