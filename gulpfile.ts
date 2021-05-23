@@ -37,7 +37,7 @@ class SiteGenerator {
 
     generatePages() {
         const dataSource = new FilesSource(config, this.postsDirPath);
-        dataSource.loadData();
+        dataSource.loadData(config.devMode);
 
         const compiler = new TemplateCompiler(dataSource)
         return gulp.src('./src/templates/pages/**/*.pug')
