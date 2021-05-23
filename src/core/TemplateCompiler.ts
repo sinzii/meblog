@@ -5,6 +5,7 @@ import pug from 'pug';
 import through from 'through2';
 import ConfigHolder from "./ConfigHolder";
 import DataSource from "./DataSource";
+import moment from 'moment';
 
 export default class TemplateCompiler extends ConfigHolder {
     private readonly dataSource: DataSource;
@@ -21,9 +22,14 @@ export default class TemplateCompiler extends ConfigHolder {
             filename: file.path
         });
 
+        const config = this.config;
+
         const compiled = template({
-            ..._.pick(this.config, ['baseUrl', 'siteName']),
-            ...data
+            ..._.pick(config, ['baseUrl', 'siteName']),
+            ...data,
+            formatDateTime(date: Date) {
+                return moment(date).format(config.dateTimeFormat)
+            }
         });
 
         return Buffer.from(compiled);
