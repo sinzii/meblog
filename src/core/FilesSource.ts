@@ -38,11 +38,17 @@ export default class FilesSource extends DataSource {
     }
 
     get postsJsonPath(): string {
-        return path.join(this.dataDirectoryPath, 'posts.json');
+        return path.join(
+            this.dataDirectoryPath,
+            this.config.devMode ? 'posts-dev.json' : 'posts.json'
+        );
     }
 
     get tagsJsonPath(): string {
-        return path.join(this.dataDirectoryPath, 'tags.json');
+        return path.join(
+            this.dataDirectoryPath,
+            this.config.devMode ? 'tags-dev.json' : 'tags.json'
+        );
     }
 
     private getSourcePostPaths(): string[] {
@@ -127,7 +133,10 @@ export default class FilesSource extends DataSource {
         const tags = posts.flatMap(p => p.tags);
 
         // sorting the posts, newer post will appear first
-        posts.sort((p1, p2) => p2.publishedAt.getTime() - p1.publishedAt.getTime());
+        posts.sort(
+            (p1, p2) =>
+                p2.publishedAt.getTime() - p1.publishedAt.getTime()
+        );
 
         return {
             posts: posts,
@@ -165,6 +174,9 @@ export default class FilesSource extends DataSource {
 
     public loadData(force = false): void {
         this.parsePosts(force);
+
+        delete require.cache[this.postsJsonPath];
+        delete require.cache[this.tagsJsonPath];
 
         const jsonPosts = require(this.postsJsonPath) as IPost[];
         this.posts = jsonPosts.map(p => new Post(p));
