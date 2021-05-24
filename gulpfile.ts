@@ -75,6 +75,10 @@ class SiteGenerator {
         gulp.watch('./src/js/**/*.js', gulp.series('generateJs'));
         gulp.watch('./src/templates/**/*.pug', gulp.series('generatePages'));
         gulp.watch(this.postsDirPath + '/*.md', gulp.series('generatePages'));
+        gulp.watch('./assets/**/*', gulp.series('copyAssets', (done) => {
+            browserSync.reload();
+            done();
+        }));
         done();
     }
 
