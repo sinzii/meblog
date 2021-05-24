@@ -2,5 +2,6 @@
   "baseUrl": "",
   "siteName": "MyBlog Template",
   "devMode": true,
-  "dateTimeFormat": "DD/MM/YYYY - HH:mm"
+  "dateTimeFormat": "DD/MM/YYYY - HH:mm",
+  "dateFormat": "DD/MM/YYYY"
 }

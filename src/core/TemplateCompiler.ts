@@ -61,13 +61,20 @@ export default class TemplateCompiler extends ConfigHolder {
                     this.push(new File({
                         base: file.base,
                         path: path.join(file.base, `tags/${tag}.html`),
-                        contents: compilePugTemplate(file, {tag, posts: dataSource.getPostsByTag(tag)})
+                        contents: compilePugTemplate(file, {
+                            tag,
+                            posts: dataSource.getPostsByTag(tag)
+                        })
                     }));
                 }
                 cb();
             } else {
                 file.path = file.path.replace('.pug', '.html');
-                file.contents = compilePugTemplate(file, {posts: dataSource.getPosts()});
+                file.contents = compilePugTemplate(file, {
+                        posts: dataSource.getPosts(),
+                        latestPosts: dataSource.getPosts().slice(0, 5)
+                    }
+                );
                 cb(null, file);
             }
         });

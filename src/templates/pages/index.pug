@@ -4,6 +4,38 @@ block prepend head
     - var title = siteName
 
 block content
-    each post in posts
-        +post-summary(post)
+    div.center-on-breakpoint
+        div.avatar
+            img.avatar__image(src=`${baseUrl}/images/avatar.jpg` alt=siteName)
+        h2 Thang X. Vu
+            | &nbsp;(
+            a(href='https://github.com/sinzii' target='_blank') @sinzii
+            | )
+        p A software developer with a curious mind.
+        p I'm currently interested in&nbsp;
+            | <strong>
+            a(href=`${baseUrl}/tags/javascript.html`) #javascript
+            | </strong>,&nbsp;
+            | <strong>
+            a(href=`${baseUrl}/tags/nodejs.html`) #nodejs
+            | </strong> and&nbsp;
+            | <strong>
+            a(href=`${baseUrl}/tags/frontend.html`) #frontend
+            | </strong>-development.
+
+
+    h3 Latest writings
+    ul.listing
+        each post in latestPosts
+            li.listing__item
+                span.meta-color=`${formatDate(post.publishedAt)} - `
+                a(href=`${baseUrl}/posts/${post.slug}.html`)=post.title
+
+    h3 Side Projects
+    ul.listing
+        li.listing__item
+            a(href='https://github.com/sinzii/sinzii.github.io' target='_blank') Static site generator
+        li.listing__item
+            a(href='https://github.com/sinzii/frameworkless' target='_blank') Frameworkless NodeJs application
+
 

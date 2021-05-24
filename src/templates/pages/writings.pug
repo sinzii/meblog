@@ -1,10 +1,9 @@
 extends ../layouts/main
 
 block prepend head
-    - var title = `#${tag} - ${siteName}`
+    - var title = 'Writings - ' + siteName
 
 block content
-    h1.mt-0=`#${tag}`
     each post in posts
         +post-summary(post)
 

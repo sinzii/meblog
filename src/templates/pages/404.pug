@@ -1,0 +1,9 @@
+extends ../layouts/main
+
+block prepend head
+    - var title = `404 Not Found - ${siteName}`
+
+block content
+    .center-on-breakpoint
+        img(src=`${baseUrl}/images/404.svg`)
+        h1 Oops!! There's nothing here.

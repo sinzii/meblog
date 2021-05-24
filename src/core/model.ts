@@ -14,4 +14,5 @@ export interface Config {
     siteName: string,
     devMode: boolean,
     dateTimeFormat: string,
+    dateFormat: string,
 }
