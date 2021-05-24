@@ -23,12 +23,17 @@ export default class TemplateCompiler extends ConfigHolder {
         });
 
         const config = this.config;
+        const templateName = file.basename.replace(file.extname, '');
 
         const compiled = template({
             ..._.pick(config, ['baseUrl', 'siteName']),
+            templateName,
             ...data,
             formatDateTime(date: Date) {
                 return moment(date).format(config.dateTimeFormat)
+            },
+            formatDate(date: Date) {
+                return moment(date).format(config.dateFormat)
             }
         });
 

@@ -30,7 +30,7 @@ html(lang='en')
     body
         div.myblog.main-content
             include ../includes/sidebar
-            main.page-content
+            main.page-content(class=`page-${templateName}`)
                 block content
             include ../includes/right-sidebar
         script(src=`${baseUrl}/index.js`)
