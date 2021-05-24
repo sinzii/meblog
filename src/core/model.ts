@@ -11,6 +11,7 @@ export interface IPost {
 
 export interface Config {
     baseUrl: string,
+    baseContext: string,
     siteName: string,
     siteDescription: string,
     devMode: boolean,

@@ -6,7 +6,7 @@ block prepend head
 block append head
     - var description = 'Where my thoughts wander...';
     meta(property='og:description' content=description)
-    meta(property='og:url' content=`${baseUrl}/writings.html`)
+    meta(property='og:url' content=rootUrl('/writings.html'))
     meta(property='description' content=description)
 
 block content

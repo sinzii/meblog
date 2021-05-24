@@ -3,11 +3,11 @@ mixin post-info(post)
         span.post-info__meta.post-info__published_at=formatDateTime(post.publishedAt)
         span.post-info__meta.post-info__tags
             each tag in post.tags
-                a.post-info__tag(href=`${baseUrl}/tags/${tag}.html`)='#' + tag
+                a.post-info__tag(href=url(`/tags/${tag}.html`))='#' + tag
 
 mixin post-summary(post)
     article.post-summary
         h3.post-summary__title
-            a(href=`${baseUrl}/posts/${post.slug}.html`)=post.title
+            a(href=url(`/posts/${post.slug}.html`))=post.title
         div.post-summary__excerpt=post.excerpt
         +post-info(post)

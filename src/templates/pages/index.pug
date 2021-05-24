@@ -2,13 +2,13 @@ extends ../layouts/main
 
 block append head
     meta(property='og:description' content=siteDescription)
-    meta(property='og:url' content=`${baseUrl}/`)
+    meta(property='og:url' content=rootUrl('/'))
     meta(property='description' content=siteDescription)
 
 block content
     div.center-on-breakpoint
         div.avatar
-            img.avatar__image(src=`${baseUrl}/images/avatar.jpg` alt=siteName)
+            img.avatar__image(src=url('/images/avatar.jpg') alt=siteName)
         h2 Thang X. Vu
             | &nbsp;(
             a(href='https://github.com/sinzii' target='_blank') @sinzii
@@ -16,13 +16,13 @@ block content
         p A software developer with a curious mind.
         p I'm currently interested in&nbsp;
             | <strong>
-            a(href=`${baseUrl}/tags/javascript.html`) #javascript
+            a(href=url('/tags/javascript.html')) #javascript
             | </strong>,&nbsp;
             | <strong>
-            a(href=`${baseUrl}/tags/nodejs.html`) #nodejs
+            a(href=url('/tags/nodejs.html')) #nodejs
             | </strong> and&nbsp;
             | <strong>
-            a(href=`${baseUrl}/tags/frontend.html`) #frontend
+            a(href=url('/tags/frontend.html')) #frontend
             | </strong>-development.
 
     hr.meta-color
@@ -32,7 +32,7 @@ block content
         each post in latestPosts
             li.listing__item
                 span.meta-color=`${formatDate(post.publishedAt)} - `
-                a(href=`${baseUrl}/posts/${post.slug}.html`)=post.title
+                a(href=url(`/posts/${post.slug}.html`))=post.title
 
     h3 Side Projects
     ul.listing

@@ -11,6 +11,7 @@ import configJson from './config.json';
 import SampleGenerator from './src/core/SampleGenerator';
 
 const browserSync = BS.create();
+const DEV_PORT = 3000;
 
 const config = Object.assign(configJson, {devMode: true}) as Config;
 
@@ -68,7 +69,8 @@ class SiteGenerator {
         browserSync.init({
             server: {
                 baseDir: this.outputDirectory
-            }
+            },
+            port: DEV_PORT
         });
 
         gulp.watch('./src/scss/**/*.scss', gulp.series('generateCss'));
@@ -105,7 +107,8 @@ class SiteGenerator {
 
     onDev(done) {
         config.devMode = true;
-        config.baseUrl = '';
+        config.baseUrl = `http://localhost:${DEV_PORT}`;
+        config.baseContext = '';
 
         done();
     }

@@ -6,7 +6,7 @@ block prepend head
 block append head
     - var description = `Writings tagged as #${tag}`
     meta(property='og:description' content=description)
-    meta(property='og:url' content=`${baseUrl}/tags/${tag}.html`)
+    meta(property='og:url' content=rootUrl(`/tags/${tag}.html`))
     meta(property='description' content=description)
 
 block content

@@ -6,10 +6,10 @@ block prepend head
 block append head
     - var description = "Oops!! There's nothing here.";
     meta(property='og:description' content=description)
-    meta(property='og:url' content=`${baseUrl}/404.html`)
+    meta(property='og:url' content=rootUrl('/404.html'))
     meta(property='description' content=description)
 
 block content
     .center-on-breakpoint
-        img(src=`${baseUrl}/images/404.svg`)
+        img(src=url('/images/404.svg'))
         h1=description

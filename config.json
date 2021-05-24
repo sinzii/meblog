@@ -1,5 +1,6 @@
 {
   "baseUrl": "",
+  "baseContext": "",
   "siteName": "MyBlog Template",
   "siteDescription": "A DIY blog engine",
   "devMode": true,

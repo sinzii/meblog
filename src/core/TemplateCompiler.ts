@@ -26,7 +26,10 @@ export default class TemplateCompiler extends ConfigHolder {
         const templateName = file.basename.replace(file.extname, '');
 
         const compiled = template({
-            ..._.pick(config, ['baseUrl', 'siteName', 'siteDescription']),
+            ..._.pick(config, [
+                'baseUrl', 'baseContext',
+                'siteName', 'siteDescription'
+            ]),
             templateName,
             ...data,
             formatDateTime(date: Date) {
@@ -34,6 +37,24 @@ export default class TemplateCompiler extends ConfigHolder {
             },
             formatDate(date: Date) {
                 return moment(date).format(config.dateFormat)
+            },
+            rootUrl(path) {
+                const {baseUrl = '', baseContext = ''} = config;
+                let url = path;
+
+                if (baseContext) {
+                    url = `/${baseContext}${path}`
+                }
+
+                if (baseUrl) {
+                    url = baseUrl + url;
+                }
+
+                return url;
+            },
+            url(path: string) {
+                const {baseContext = ''} = config;
+                return `${baseContext}${path}`;
             }
         });
 

@@ -5,7 +5,7 @@ block prepend head
 
 block append head
     meta(property='og:description' content=post.excerpt)
-    meta(property='og:url' content=`${baseUrl}/posts/${post.slug}.html`)
+    meta(property='og:url' content=rootUrl(`/posts/${post.slug}.html`))
     meta(property='description' content=post.excerpt)
     meta(property='keywords' content=post.tags.join(','))
 
