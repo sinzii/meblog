@@ -8,10 +8,11 @@ doctype html
 html(lang='en')
     head
         block head
+            - var displayTitle = title + (title ? ' - ' : '') + siteName
             meta(charset='UTF-8')
             meta(name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0')
             meta(http-equiv='X-UA-Compatible' content='ie=edge')
-            title=title + (title ? ' - ' : '') + siteName
+            title=displayTitle
             link(rel='shortcut icon' href=url('/favicon.ico'))
             link(rel='apple-touch-icon' sizes='57x57' href=url('/images/apple-icon-57x57.png'))
             link(rel='apple-touch-icon' sizes='60x60' href=url('/images/apple-icon-60x60.png'))
@@ -33,7 +34,7 @@ html(lang='en')
             link(rel='stylesheet' href=url('/main.css'))
 
             meta(property='og:site_name' content=siteName)
-            meta(property='og:title' content=title || siteName)
+            meta(property='og:title' content=displayTitle)
             meta(property='og:image' content=sharingImage)
             meta(property='og:type' content=sharingOgType)
     body

@@ -1,7 +1,7 @@
 extends ../layouts/main
 
 block prepend head
-    - var sharingImage = rootUrl('/images/avatar.jpg');
+    - var sharingImage = rootUrl('/images/avatar_scarlet.png');
 
 block append head
     meta(property='og:description' content=siteDescription)
@@ -11,7 +11,7 @@ block append head
 block content
     div.center-on-breakpoint
         div.avatar
-            img.avatar__image(src=url('/images/avatar.jpg') alt=siteName)
+            img.avatar__image(src=url('/images/avatar_scarlet.png') alt=siteName)
         h2 Thang X. Vu
             | &nbsp;(
             a(href='https://github.com/sinzii' target='_blank') @sinzii
