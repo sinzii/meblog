@@ -53,6 +53,11 @@ class SiteGenerator {
             .pipe(browserSync.stream());
     }
 
+    copyAssets() {
+        return gulp.src('./assets/**/*')
+            .pipe(gulp.dest(this.outputDirectory));
+    }
+
     generateJs() {
         return gulp.src('./src/js/*.js')
             .pipe(gulp.dest(this.outputDirectory))
@@ -106,11 +111,12 @@ class SiteGenerator {
         gulp.task('dev', this.onDev.bind(this));
         gulp.task('clean', this.clean.bind(this));
         gulp.task('cleanPosts', this.cleanPosts.bind(this));
+        gulp.task('copyAssets', this.copyAssets.bind(this));
         gulp.task('generatePages', this.generatePages.bind(this));
         gulp.task('generateCss', this.generateCss.bind(this));
         gulp.task('generateJs', this.generateJs.bind(this));
         gulp.task('generateSamplePosts', this.generateSamplePosts.bind(this));
-        gulp.task('build', gulp.series('clean', 'generatePages', 'generateCss', 'generateJs'));
+        gulp.task('build', gulp.series('clean', 'copyAssets', 'generatePages', 'generateCss', 'generateJs'));
         gulp.task('serve', gulp.series('build', this.dev.bind(this)));
     }
 }
