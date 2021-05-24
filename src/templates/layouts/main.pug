@@ -37,6 +37,15 @@ html(lang='en')
             meta(property='og:title' content=displayTitle)
             meta(property='og:image' content=sharingImage)
             meta(property='og:type' content=sharingOgType)
+
+            script(async='', src='https://www.googletagmanager.com/gtag/js?id=G-PG94EHM1B9')
+            script.
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+                gtag('js', new Date());
+                gtag('config', 'G-PG94EHM1B9');
     body
         div.myblog.main-content
             include ../includes/sidebar
