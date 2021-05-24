@@ -9,7 +9,7 @@ body {
 }
 
 .page-content {
-  padding: 50px;
+  padding: 30px 50px;
 
   @media (max-width: $breakpoint) {
     padding: 35px;
@@ -50,4 +50,5 @@ hr {
   height: 1px;
   background-color: var(--meta-color);
   opacity: 0.4;
+  margin: 30px 0;
 }

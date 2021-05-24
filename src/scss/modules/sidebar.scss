@@ -1,4 +1,5 @@
 .main-sidebar {
+  padding: 30px;
   display: flex;
   flex-direction: column;
   &--top {
@@ -6,8 +7,8 @@
   }
 
   &--header {
-    margin: 20px;
     display: flow-root;
+    margin-bottom: 20px;
 
     .logo {
       margin: 30px auto 20px auto;
@@ -37,13 +38,13 @@
   }
 
   &-footer {
-    margin: 20px 10px;
     text-align: center;
     font-family: var(--serif-font);
     font-size: 14px;
   }
 
   @media (max-width: $breakpoint) {
+    padding: 20px 20px 0 20px;
     &--menu {
       margin: 10px 20px;
 
