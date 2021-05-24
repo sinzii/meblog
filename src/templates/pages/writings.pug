@@ -1,7 +1,13 @@
 extends ../layouts/main
 
 block prepend head
-    - var title = 'Writings - ' + siteName
+    - var title = 'Writings';
+
+block append head
+    - var description = 'Where my thoughts wander...';
+    meta(property='og:description' content=description)
+    meta(property='og:url' content=`${baseUrl}/writings.html`)
+    meta(property='description' content=description)
 
 block content
     each post in posts

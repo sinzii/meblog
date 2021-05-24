@@ -26,7 +26,7 @@ export default class TemplateCompiler extends ConfigHolder {
         const templateName = file.basename.replace(file.extname, '');
 
         const compiled = template({
-            ..._.pick(config, ['baseUrl', 'siteName']),
+            ..._.pick(config, ['baseUrl', 'siteName', 'siteDescription']),
             templateName,
             ...data,
             formatDateTime(date: Date) {

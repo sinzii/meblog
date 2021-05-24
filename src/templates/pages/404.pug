@@ -1,9 +1,15 @@
 extends ../layouts/main
 
 block prepend head
-    - var title = `404 Not Found - ${siteName}`
+    - var title = '404 Not Found'
+
+block append head
+    - var description = "Oops!! There's nothing here.";
+    meta(property='og:description' content=description)
+    meta(property='og:url' content=`${baseUrl}/404.html`)
+    meta(property='description' content=description)
 
 block content
     .center-on-breakpoint
         img(src=`${baseUrl}/images/404.svg`)
-        h1 Oops!! There's nothing here.
+        h1=description

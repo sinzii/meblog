@@ -12,6 +12,7 @@ export interface IPost {
 export interface Config {
     baseUrl: string,
     siteName: string,
+    siteDescription: string,
     devMode: boolean,
     dateTimeFormat: string,
     dateFormat: string,
