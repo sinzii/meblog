@@ -1,5 +1,8 @@
 extends ../layouts/main
 
+block prepend head
+    - var sharingImage = rootUrl('/images/avatar.jpg');
+
 block append head
     meta(property='og:description' content=siteDescription)
     meta(property='og:url' content=rootUrl('/'))

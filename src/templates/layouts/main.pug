@@ -1,6 +1,8 @@
 include ../mixins/index
 
 - var title = ''
+- var sharingImage = rootUrl('/images/default_image.jpg');
+- var sharingOgType = 'website';
 
 doctype html
 html(lang='en')
@@ -32,6 +34,8 @@ html(lang='en')
 
             meta(property='og:site_name' content=siteName)
             meta(property='og:title' content=title || siteName)
+            meta(property='og:image' content=sharingImage)
+            meta(property='og:type' content=sharingOgType)
     body
         div.myblog.main-content
             include ../includes/sidebar
