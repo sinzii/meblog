@@ -94,7 +94,6 @@ export default class FilesSource extends DataSource {
 
         let separatorCounter = 0;
         const metaLines: string[] = [];
-        const excerptLines: string[] = [];
 
         while (true) {
             const index = content.indexOf('\n');
@@ -109,7 +108,7 @@ export default class FilesSource extends DataSource {
             if (line === this.separator) {
                 separatorCounter += 1;
 
-                if (separatorCounter === 3) {
+                if (separatorCounter === 2) {
                     post.body = marked(content);
                     break;
                 } else {
@@ -119,8 +118,6 @@ export default class FilesSource extends DataSource {
 
             if (separatorCounter <= 1) {
                 metaLines.push(line);
-            } else if (separatorCounter === 2) {
-                excerptLines.push(line);
             }
         }
 
@@ -131,8 +128,6 @@ export default class FilesSource extends DataSource {
 
             post[metaName] = metaValue;
         });
-
-        post.excerpt = excerptLines.join('\n').trim();
 
         return new Post(post);
     }

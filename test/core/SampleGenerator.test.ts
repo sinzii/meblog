@@ -32,8 +32,9 @@ describe('SampleGenerator', function () {
         assert.isTrue(lines[2].startsWith('slug: '));
         assert.isTrue(lines[3].startsWith('publishedAt: '));
         assert.isTrue(lines[4].startsWith('tags: '));
-        assert.isTrue(lines[5] === '---');
-        assert.typeOf(lines[6], 'string');
+        assert.isTrue(lines[5].startsWith('excerpt: '));
+        assert.isTrue(lines[6] === '---');
+        assert.typeOf(lines[7], 'string');
     });
 
     it('should generate markdown post and save', function () {

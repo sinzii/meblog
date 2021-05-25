@@ -3,8 +3,7 @@ title: My own journey to the west
 slug: my-own-journey-to-the-west
 publishedAt: 2021-05-15T18:04:00+07:00
 tags: life
----
-Some thoughts about the growing journey 
+excerpt: Some thoughts about the growing journey 
 ---
 This is my first post while the blog is still in development. 
 Usually, we only start blogging after the site is officially launched.

@@ -90,11 +90,10 @@ export default class SampleGenerator {
         const meta = _.pick(post, ['title', 'slug']);
         meta.publishedAt = post.publishedAt.toISOString();
         meta.tags = post.tags.join(", ");
+        meta.excerpt = post.excerpt;
 
         return `---
 ${Object.keys(meta).map(prop => `${prop}: ${meta[prop]}`).join('\n')}
----
-${post.excerpt}
 ---
 ${post.body}
 `;
