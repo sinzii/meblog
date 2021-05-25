@@ -44,7 +44,7 @@ But there are 2 properties that you need understand why do we have it.
 1. Put all your posts in folder `posts`, you can arrange posts in sub folders if you want.
 2. Run `npm run prod:build`: Your site will be generated into folder `docs`.
 3. Commit the files & push your commit to Github.
-4. Enable [Github Pages](https://github.com/sinzii/meblog/settings/pages), make sure to choose `/docs` as the source folder.
+4. Enable [Github Pages](https://guides.github.com/features/pages/), make sure to choose `/docs` as the source folder.
 5. Enjoy the result! 🍺
 
 ## License
