@@ -36,7 +36,7 @@ If you don't provide a slug, the engine will automatically slugify the post titl
 
 ## Configuration
 Put all of the configuration in `config.json` file, and all the data in this file will be available to use in the pug template.
-But there are 2 properties that you need understand to why do we have it.
+But there are 2 properties that you need understand why do we have it.
 - `baseUrl`: This will be the host url that you're about to deploy to, eg: `https://sinzii.me` or `https://yourname.github.io`. It's not required for the site to work properly, but if you care about sharing your posts on Facebook. This property will be used to calculate the url in meta tags for the purpose of SEO or sharing your posts on social media.
 - `baseContext`: If you want to deploy the site on a sub directory like `https:/sinzii.me/blog`. Then set it's value as `blog`.
 
