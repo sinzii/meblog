@@ -1,7 +1,7 @@
 {
   "baseUrl": "",
   "baseContext": "",
-  "siteName": "MyBlog Template",
+  "siteName": "meblog",
   "siteDescription": "A DIY blog engine",
   "devMode": true,
   "dateTimeFormat": "DD/MM/YYYY - HH:mm",
