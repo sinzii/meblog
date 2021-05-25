@@ -1,5 +1,4 @@
 import File from 'vinyl';
-import * as _ from 'lodash';
 import * as path from 'path';
 import pug from 'pug';
 import through from 'through2';
@@ -28,10 +27,7 @@ export default class TemplateCompiler extends ConfigHolder {
         const templateName = file.basename.replace(file.extname, '');
 
         const compiled = template({
-            ..._.pick(config, [
-                'baseUrl', 'baseContext',
-                'siteName', 'siteDescription'
-            ]),
+            ...config,
             templateName,
             ...data,
             formatDateTime(date: Date) {
