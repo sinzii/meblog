@@ -6,6 +6,8 @@ import through from 'through2';
 import ConfigHolder from "./ConfigHolder";
 import DataSource from "./DataSource";
 import moment from 'moment';
+import logger from 'gulplog';
+
 
 export default class TemplateCompiler extends ConfigHolder {
     private readonly dataSource: DataSource;
@@ -66,7 +68,7 @@ export default class TemplateCompiler extends ConfigHolder {
         const dataSource = this.dataSource;
 
         return through.obj(function (file, enc, cb) {
-            console.log('compiling', file.path);
+            logger.info('Compiling template', file.basename);
 
             if (file.path.endsWith('post.pug')) {
                 for (const post of dataSource.getPosts()) {

@@ -2,13 +2,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as glob from 'glob';
 import marked from 'marked';
-import Debug from 'debug';
+import logger from 'gulplog';
 
 import DataSource from "./DataSource";
 import {Config, IPost, Tag} from "./model";
 import {Post} from './Post';
-
-const debug = Debug("/scripts/data/FilesSource");
 
 marked.setOptions({
     langPrefix: 'hljs language-',
@@ -71,9 +69,9 @@ export default class FilesSource extends DataSource {
         return glob.sync(`${this.postsDirectoryPath}/**/*.md`);
     }
 
-    hasAnyChanges(): boolean {
+    private hasAnyChanges(): boolean {
         if (!fs.existsSync(this.postsJsonPath)) {
-            debug("data/posts.json is not existed");
+            logger.info("data/posts.json is not existed");
             return true;
         }
         const postsJsonLastModifiedAt = fs.statSync(this.postsJsonPath).mtimeMs;
@@ -83,7 +81,7 @@ export default class FilesSource extends DataSource {
             const lastModifiedAt = fs.statSync(filePath).mtimeMs;
 
             if (lastModifiedAt > postsJsonLastModifiedAt) {
-                debug("New post change at file:", filePath);
+                logger.info("New post change at file:", filePath);
                 return true;
             }
         }
