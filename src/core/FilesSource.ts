@@ -68,7 +68,7 @@ export default class FilesSource extends DataSource {
     }
 
     private getSourcePostPaths(): string[] {
-        return glob.sync(`${this.postsDirectoryPath}/*.md`);
+        return glob.sync(`${this.postsDirectoryPath}/**/*.md`);
     }
 
     hasAnyChanges(): boolean {
