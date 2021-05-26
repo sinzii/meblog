@@ -118,7 +118,7 @@ ${post.body}
             const filePath = path.join(dirPath, post.publishedMonth, post.sampleFileName);
             const monthPath = path.dirname(filePath);
             if (!fs.existsSync(monthPath)) {
-                fs.mkdirSync(monthPath);
+                fs.mkdirSync(monthPath, {recursive: true});
             }
 
             fs.writeFileSync(filePath, post.markdown);
