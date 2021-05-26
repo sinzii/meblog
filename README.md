@@ -35,7 +35,7 @@ Post body goes here
 If you don't provide a slug, the engine will automatically slugify the post title for one.
 
 ## Preview your post while editing
-Run the command `npm run prod:serve` and start editing your post to see the magic ✍️✍️✍️
+Run the command `npm run prod:serve` and start editing your post and hit the save button to see the magic ✍️✍️✍️
 
 ![Preview while editing](/documents/images/PreviewOnEdit.gif)
 
