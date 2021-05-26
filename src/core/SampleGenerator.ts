@@ -1,4 +1,6 @@
-import {Post} from "./Post";
+import {Post} from './Post';
+import moment from 'moment';
+import logger from 'gulplog';
 
 const fs = require('fs');
 const path = require('path');
@@ -88,6 +90,20 @@ export default class SampleGenerator {
         return post;
     }
 
+    public emptyPost(): Post {
+        const post = new Post();
+        post.title = '';
+        post.slug = '';
+        post.publishedAt = new Date();
+        post.tags = [];
+        post.body = '';
+        post.excerpt = '';
+
+        post.markdown = this.toMarkdown(post);
+
+        return post;
+    }
+
     private toMarkdown(post: Post): string {
         const meta = _.pick(post, ['title', 'slug']);
         meta.publishedAt = post.publishedAt.toISOString();
@@ -106,7 +122,7 @@ ${post.body}
     }
 
     public generateMarkdownPostsAndSave(numberOfPost = 10,
-                                        dirPath: string = ''): void {
+                                        dirPath: string): void {
         if (fs.existsSync(dirPath)) {
             del.sync(path.join(dirPath, './*'));
         } else {
@@ -123,5 +139,33 @@ ${post.body}
 
             fs.writeFileSync(filePath, post.markdown);
         });
+    }
+
+    public generateEmptyMarkdownPostAndSave(dirPath: string): void {
+        const post = this.emptyPost();
+
+        const publishedDate = moment(post.publishedAt).format('DD[-at-]HHmm');
+        let _try = 0;
+        const pickASampleName = (): string => {
+            const suffix = _try > 0 ? `-${_try}` : '';
+            const tryName = `${publishedDate}${suffix}.md`;
+            const filePath = path.join(dirPath, post.publishedMonth, tryName);
+
+            if (fs.existsSync(filePath)) {
+                _try += 1;
+                return pickASampleName();
+            }
+
+            return filePath
+        }
+
+        const filePath = pickASampleName();
+        const monthPath = path.dirname(filePath);
+        if (!fs.existsSync(monthPath)) {
+            fs.mkdirSync(monthPath, {recursive: true});
+        }
+
+        fs.writeFileSync(filePath, post.markdown);
+        logger.info('A new empty has been generated successfully at:', filePath);
     }
 }

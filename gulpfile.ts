@@ -23,6 +23,11 @@ class SiteGenerator {
     }
 
     get postsDirPath() {
+        const outDir = argv['outDir'];
+        if (outDir) {
+            return path.resolve(__dirname, outDir);
+        }
+
         return path.join(__dirname, config.devMode ? 'posts-dev' : 'posts');
     }
 
@@ -85,16 +90,9 @@ class SiteGenerator {
     }
 
     generateSamplePosts(done) {
-        const numberOfPosts = Number(argv['numberOfPosts']) || 10;
-
-        let outDirPath = this.postsDirPath;
-        const outDir = argv['outDir'];
-        if (outDir) {
-            outDirPath = path.resolve(__dirname, outDir);
-        }
-
         const generator = new SampleGenerator();
-        generator.generateMarkdownPostsAndSave(numberOfPosts, outDirPath);
+        const numberOfPosts = Number(argv['numberOfPosts']) || 10;
+        generator.generateMarkdownPostsAndSave(numberOfPosts, this.postsDirPath);
 
         done();
     }
@@ -113,6 +111,12 @@ class SiteGenerator {
         done();
     }
 
+    newPost(done) {
+        const generator = new SampleGenerator();
+        generator.generateEmptyMarkdownPostAndSave(this.postsDirPath);
+        done();
+    }
+
     initTasks() {
         gulp.task('prod', this.onProd.bind(this));
         gulp.task('dev', this.onDev.bind(this));
@@ -123,6 +127,7 @@ class SiteGenerator {
         gulp.task('generateCss', this.generateCss.bind(this));
         gulp.task('generateJs', this.generateJs.bind(this));
         gulp.task('generateSamplePosts', this.generateSamplePosts.bind(this));
+        gulp.task('newPost', this.newPost.bind(this));
         gulp.task('build', gulp.series('clean', 'copyAssets', 'generatePages', 'generateCss', 'generateJs'));
         gulp.task('serve', gulp.series('build', this.dev.bind(this)));
     }

@@ -11,6 +11,8 @@
     "prod:clean:posts": "npx gulp -f gulpfile.ts --series prod cleanPosts",
     "dev:sample": "npx gulp -f gulpfile.ts --series dev generateSamplePosts",
     "prod:sample": "npx gulp -f gulpfile.ts --series prod generateSamplePosts",
+    "dev:newPost": "npx gulp -f gulpfile.ts --series dev newPost",
+    "prod:newPost": "npx gulp -f gulpfile.ts --series prod newPost",
     "test": "npx mocha --require ts-node/register \"./test/**/*.test.@(js|ts)\""
   },
   "author": "@sinzii",
