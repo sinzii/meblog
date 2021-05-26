@@ -1,4 +1,4 @@
-import {Config} from './src/core/model';
+import {Config, PostUrlStyle} from './src/core/model';
 
 export default {
     baseUrl: '',
@@ -7,4 +7,5 @@ export default {
     siteDescription: 'A DIY blog engine',
     dateTimeFormat: 'DD/MM/YYYY - HH:mm',
     dateFormat: 'DD/MM/YYYY',
+    postUrlStyle: PostUrlStyle.YEAR_MONTH_SLUG
 } as Config

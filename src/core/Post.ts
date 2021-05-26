@@ -36,7 +36,11 @@ export class Post {
     }
 
     get publishedMonth(): string {
-        return moment(this.publishedAt).format('YYYY-MM');
+        return moment(this.publishedAt).format('YYYY/MM');
+    }
+
+    get publishedYear(): string {
+        return moment(this.publishedAt).format('YYYY');
     }
 
     get sampleFileName(): string {

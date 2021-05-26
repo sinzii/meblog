@@ -17,4 +17,14 @@ export interface Config {
     devMode: boolean,
     dateTimeFormat: string,
     dateFormat: string,
+    postUrlStyle: PostUrlStyle
+}
+
+export enum PostUrlStyle {
+    POST_SLUG, // ../posts/hello-world.html
+    POSTS_YEAR_MONTH_SLUG, // ../posts/2021/05/hello-world.html
+    POSTS_YEAR_SLUG, // ../posts/2021/hello-world.html
+    YEAR_MONTH_SLUG, // ../2021/05/hello-world.html
+    YEAR_SLUG, // ../2021/hello-world.html
+    SLUG, // ../hello-world.html
 }

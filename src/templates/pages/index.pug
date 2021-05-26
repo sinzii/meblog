@@ -35,7 +35,7 @@ block content
         each post in latestPosts
             li.listing__item
                 span.meta-color=`${formatDate(post.publishedAt)} - `
-                a(href=url(`/posts/${post.slug}.html`))=post.title
+                a(href=postUrl(post))=post.title
 
     h3 Side Projects
     ul.listing
