@@ -34,6 +34,11 @@ Post body goes here
 ```
 If you don't provide a slug, the engine will automatically slugify the post title for one.
 
+## Preview your post while editing
+Run the command `npm run prod:serve` and start editing your post to see the magic ✍️✍️✍️
+
+![Preview while editing](/documents/images/PreviewOnEdit.gif)
+
 ## Configuration
 Put all configurations in `config.ts` file, then all the data in this file will be available to use in the `pug` templates.
 But there are some configurations that you need understand why do we have it.
