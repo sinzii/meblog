@@ -37,7 +37,7 @@ If you don't provide a slug, the engine will automatically slugify the post titl
 ## Preview your post while editing
 Run the command `npm run prod:serve` and start editing your post and hit the save button to see the magic ✍️✍️✍️
 
-![Preview while editing](/documents/images/PreviewOnEdit.gif)
+![Preview while editing](/documents/images/PreviewOnEditing.gif)
 
 ## Configuration
 Put all configurations in `config.ts` file, then all the data in this file will be available to use in the `pug` templates.
