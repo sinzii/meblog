@@ -138,9 +138,10 @@ export default class FilesSource extends DataSource {
 
         const posts: Post[] = files
             .map(file => fs.readFileSync(file).toString())
-            .map(this.parseMarkdownPost.bind(this));
+            .map(content => this.parseMarkdownPost(content))
+            .filter(p => p.title && p.publishedAt);
 
-        const tags = posts.flatMap(p => p.tags);
+        const tags = posts.flatMap(p => p.tags).filter(t => t);
 
         // sorting the posts, newer post will appear first
         posts.sort(

@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import * as path from 'path';
 import * as del from 'del';
 import glob from 'glob';
-import {assertPost} from './helper';
+import {assertPost, assertPostProperties} from './helper';
 
 const generator = new SampleGenerator();
 
@@ -39,7 +39,7 @@ describe('SampleGenerator', function () {
 
     it('should generate en empty post', function () {
         const post = generator.emptyPost();
-        assertPost(post);
+        assertPostProperties(post);
         const {markdown} = post;
         assert.typeOf(markdown, 'string');
 
