@@ -54,7 +54,7 @@ export default class TemplateCompiler extends ConfigHolder {
         return Buffer.from(compiled);
     }
 
-    private rootUrl(path): string {
+    public rootUrl(path): string {
         const {baseUrl = '', baseContext = ''} = this.config;
         let url = path;
 
@@ -69,12 +69,12 @@ export default class TemplateCompiler extends ConfigHolder {
         return url;
     }
 
-    private url(path: string): string {
+    public url(path: string): string {
         const {baseContext = ''} = this.config;
         return `${baseContext}${path}`;
     }
 
-    private postPartialPath(post: Post): string {
+    public postPartialPath(post: Post): string {
         const {postUrlStyle} = this.config;
         const defaultPostsDir = 'posts';
 
@@ -93,6 +93,27 @@ export default class TemplateCompiler extends ConfigHolder {
             default:
                 return `/${defaultPostsDir}/${post.slug}.html`
         }
+    }
+
+    public pugPosts(posts: Post[]) {
+        const compilePugTemplate = this.compilePugTemplate.bind(this);
+        const postPartialPath = this.postPartialPath.bind(this);
+
+        return through.obj(function (file, enc, cb) {
+            logger.info('Compiling template', file.basename);
+
+            if (file.path.endsWith('post.pug')) {
+                for (const post of posts) {
+                    this.push(new File({
+                        base: file.base,
+                        path: path.join(file.base, postPartialPath(post)),
+                        contents: compilePugTemplate(file, {post})
+                    }));
+                }
+            }
+
+            cb();
+        });
     }
 
     public pug() {

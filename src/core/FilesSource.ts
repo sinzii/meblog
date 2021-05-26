@@ -182,6 +182,13 @@ export default class FilesSource extends DataSource {
         );
     }
 
+    public parsePostsFromPaths(filePaths: string[]): Post[] {
+        return filePaths
+            .filter(file => fs.existsSync(file))
+            .map(file => fs.readFileSync(file).toString())
+            .map(this.parseMarkdownPost.bind(this));
+    }
+
     public loadData(force = false): void {
         this.parsePosts(force);
 

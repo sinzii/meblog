@@ -3,11 +3,13 @@ import * as path from 'path';
 import * as del from 'del';
 import BS from 'browser-sync';
 import scss from 'gulp-sass';
+import logger from 'gulplog';
 
 import FilesSource from "./src/core/FilesSource";
 import TemplateCompiler from "./src/core/TemplateCompiler";
 import config from './config';
 import SampleGenerator from './src/core/SampleGenerator';
+import DataSource from './src/core/DataSource';
 
 const browserSync = BS.create();
 const DEV_PORT = 3000;
@@ -18,6 +20,19 @@ config.devMode = true;
 const argv = require('minimist')(process.argv.slice(2));
 
 class SiteGenerator {
+    private dataSource: DataSource;
+    private compiler: TemplateCompiler;
+    private generator: SampleGenerator;
+
+    constructor() {
+        this.generator = new SampleGenerator();
+    }
+
+    private initCompiler() {
+        this.dataSource = new FilesSource(config, this.postsDirPath);
+        this.compiler = new TemplateCompiler(this.dataSource);
+    }
+
     get outputDirectory() {
         return config.devMode ? './dev' : './docs';
     }
@@ -36,18 +51,25 @@ class SiteGenerator {
         done();
     }
 
+    cleanCache(done) {
+        del.sync(['./data']);
+        done();
+    }
+
     cleanPosts(done) {
         del.sync(`${this.postsDirPath}/*`);
         done();
     }
 
     generatePages() {
-        const dataSource = new FilesSource(config, this.postsDirPath);
-        dataSource.loadData(config.devMode);
+        this.initCompiler();
 
-        const compiler = new TemplateCompiler(dataSource)
+        if (this.dataSource instanceof FilesSource) {
+            this.dataSource.loadData(config.devMode);
+        }
+
         return gulp.src('./src/templates/pages/**/*.pug')
-            .pipe(compiler.pug())
+            .pipe(this.compiler.pug())
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(browserSync.stream());
     }
@@ -81,12 +103,40 @@ class SiteGenerator {
         gulp.watch('./src/scss/**/*.scss', gulp.series('generateCss'));
         gulp.watch('./src/js/**/*.js', gulp.series('generateJs'));
         gulp.watch('./src/templates/**/*.pug', gulp.series('generatePages'));
-        gulp.watch(this.postsDirPath + '/**/*.md', gulp.series('generatePages'));
         gulp.watch('./assets/**/*', gulp.series('copyAssets', (done) => {
             browserSync.reload();
             done();
         }));
+
+        this.initCompiler();
+        const watcher = gulp.watch(this.postsDirPath + '/**/*.md');
+        watcher
+            .on('change', this.onUpdateMarkdownPost.bind(this))
+            .on('add', this.onUpdateMarkdownPost.bind(this));
+
         done();
+    }
+
+    private onUpdateMarkdownPost(path: string): void {
+        if (!(this.dataSource instanceof FilesSource)) {
+            logger.info("Not support compile posts from local files");
+            return;
+        }
+
+        const posts = this.dataSource.parsePostsFromPaths([path]);
+
+        gulp.src('./src/templates/pages/post.pug')
+            .pipe(this.compiler.pugPosts(posts))
+            .pipe(gulp.dest(this.outputDirectory))
+            .pipe(browserSync.stream());
+
+        const postUrls = posts.map(p =>
+            this.compiler.rootUrl(
+                this.compiler.postPartialPath(p)
+            )
+        );
+
+        logger.info(`[POST UPDATED] ${postUrls.join(', ')}`);
     }
 
     generateSamplePosts(done) {
@@ -122,6 +172,7 @@ class SiteGenerator {
         gulp.task('dev', this.onDev.bind(this));
         gulp.task('clean', this.clean.bind(this));
         gulp.task('cleanPosts', this.cleanPosts.bind(this));
+        gulp.task('cleanCache', this.cleanCache.bind(this));
         gulp.task('copyAssets', this.copyAssets.bind(this));
         gulp.task('generatePages', this.generatePages.bind(this));
         gulp.task('generateCss', this.generateCss.bind(this));
