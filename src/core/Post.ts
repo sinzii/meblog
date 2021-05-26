@@ -1,5 +1,6 @@
 import {IPost, Tag} from "./model";
 import * as faker from 'faker';
+import moment from 'moment';
 
 export class Post {
     title: string;
@@ -8,6 +9,7 @@ export class Post {
     tags: Tag[];
     excerpt: string;
     body: string;
+    markdown: string;
 
     constructor(post?: IPost) {
         this.copyInto(post);
@@ -31,5 +33,15 @@ export class Post {
         }
 
         Object.assign(this, post);
+    }
+
+    get publishedMonth(): string {
+        return moment(this.publishedAt).format('YYYY-MM');
+    }
+
+    get sampleFileName(): string {
+        const publishedDate = moment(this.publishedAt).format('DD');
+
+        return `${publishedDate}-${this.slug}.md`;
     }
 }

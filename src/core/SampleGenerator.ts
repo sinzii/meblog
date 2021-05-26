@@ -83,10 +83,12 @@ export default class SampleGenerator {
             faker.datatype.number({min: 20, max: 35})
         );
 
+        post.markdown = this.toMarkdown(post);
+
         return post;
     }
 
-    private toMarkdownPost(post: Post): string {
+    private toMarkdown(post: Post): string {
         const meta = _.pick(post, ['title', 'slug']);
         meta.publishedAt = post.publishedAt.toISOString();
         meta.tags = post.tags.join(", ");
@@ -99,16 +101,8 @@ ${post.body}
 `;
     }
 
-    public markdownPost(): string {
-        return this.toMarkdownPost(this.post());
-    }
-
     public posts(numberOfPost = 10): Post[] {
         return [...Array(numberOfPost)].map(() => this.post());
-    }
-
-    public markdownPosts(numberOfPost = 10): string[] {
-        return this.posts(numberOfPost).map(this.toMarkdownPost);
     }
 
     public generateMarkdownPostsAndSave(numberOfPost = 10,
@@ -119,10 +113,15 @@ ${post.body}
             fs.mkdirSync(dirPath);
         }
 
-        const posts = this.markdownPosts(numberOfPost);
-        posts.forEach((content, index) => {
-            const filePath = path.join(dirPath, `${index + 1}.md`);
-            fs.writeFileSync(filePath, content);
+        const posts = this.posts(numberOfPost);
+        posts.forEach((post) => {
+            const filePath = path.join(dirPath, post.publishedMonth, post.sampleFileName);
+            const monthPath = path.dirname(filePath);
+            if (!fs.existsSync(monthPath)) {
+                fs.mkdirSync(monthPath);
+            }
+
+            fs.writeFileSync(filePath, post.markdown);
         });
     }
 }

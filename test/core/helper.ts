@@ -7,7 +7,8 @@ const postProperties = [
     'publishedAt',
     'tags',
     'excerpt',
-    'body'
+    'body',
+    'markdown'
 ]
 
 export const assertPost = post => {

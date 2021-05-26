@@ -23,10 +23,10 @@ describe('SampleGenerator', function () {
     });
 
     it('should generate a markdown post content', function () {
-        const content = generator.markdownPost();
-        assert.typeOf(content, 'string');
+        const {markdown} = generator.post();
+        assert.typeOf(markdown, 'string');
 
-        const lines = content.split('\n');
+        const lines = markdown.split('\n');
         assert.isTrue(lines[0] === '---');
         assert.isTrue(lines[1].startsWith('title: '));
         assert.isTrue(lines[2].startsWith('slug: '));
@@ -42,7 +42,7 @@ describe('SampleGenerator', function () {
         const dirPath = path.join(__dirname, '../post-dev');
         generator.generateMarkdownPostsAndSave(numberOfFiles, dirPath);
 
-        const files = glob.sync(dirPath + '/*.md');
+        const files = glob.sync(dirPath + '/**/*.md');
         assert.equal(files.length, numberOfFiles);
 
         del.sync(dirPath);

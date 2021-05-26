@@ -91,6 +91,7 @@ export default class FilesSource extends DataSource {
 
     private parseMarkdownPost(content: string): Post {
         const post: any = {};
+        post.markdown = content;
 
         let separatorCounter = 0;
         const metaLines: string[] = [];

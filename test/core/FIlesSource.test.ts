@@ -68,7 +68,7 @@ describe('FilesSource', function () {
     });
 
     it('should reload data on post changing', function () {
-        const posts = glob.sync(postsDir + '/*.md');
+        const posts = glob.sync(postsDir + '/**/*.md');
         const firstFile = posts[0];
 
         // change the modified time of the file
