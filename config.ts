@@ -7,5 +7,5 @@ export default {
     siteDescription: 'A DIY blog engine',
     dateTimeFormat: 'DD/MM/YYYY - HH:mm',
     dateFormat: 'DD/MM/YYYY',
-    postUrlStyle: PostUrlStyle.YEAR_MONTH_SLUG
+    postUrlStyle: PostUrlStyle.POST_SLUG
 } as Config
