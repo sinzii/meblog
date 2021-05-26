@@ -4,16 +4,16 @@ import * as del from 'del';
 import BS from 'browser-sync';
 import scss from 'gulp-sass';
 
-import {Config} from "./src/core/model";
 import FilesSource from "./src/core/FilesSource";
 import TemplateCompiler from "./src/core/TemplateCompiler";
-import configJson from './config.json';
+import config from './config';
 import SampleGenerator from './src/core/SampleGenerator';
 
 const browserSync = BS.create();
 const DEV_PORT = 3000;
 
-const config = Object.assign(configJson, {devMode: true}) as Config;
+// be default dev mode is on
+config.devMode = true;
 
 const argv = require('minimist')(process.argv.slice(2));
 
