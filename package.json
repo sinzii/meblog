@@ -4,7 +4,9 @@
   "description": "A DIY blog engine",
   "scripts": {
     "dev:serve": "npx gulp -f gulpfile.ts --series dev serve",
-    "prod:build": "npx gulp -f gulpfile.ts --series prod build",
+    "prod:serve": "npx gulp -f gulpfile.ts --series dev prod serve",
+    "prod:build": "npx gulp -f gulpfile.ts --series cleanCache prod build",
+    "clean:cache": "npx gulp -f gulpfile.ts --series cleanCache",
     "dev:clean:build": "npx gulp -f gulpfile.ts --series dev clean",
     "prod:clean:build": "npx gulp -f gulpfile.ts --series prod clean",
     "dev:clean:posts": "npx gulp -f gulpfile.ts --series dev cleanPosts",
