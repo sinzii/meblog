@@ -1,6 +1,8 @@
 import * as gulp from 'gulp';
 import * as path from 'path';
 import * as del from 'del';
+import cleanCss from 'gulp-clean-css';
+import autoprefixer from 'gulp-autoprefixer'
 import BS from 'browser-sync';
 import scss from 'gulp-sass';
 import logger from 'gulplog';
@@ -93,8 +95,17 @@ class SiteGenerator {
     }
 
     generateCss() {
-        return gulp.src('./src/scss/main.scss')
-            .pipe(scss())
+        let stream =
+            gulp.src('./src/scss/main.scss')
+                .pipe(scss());
+
+        if (!config.devMode) {
+            stream = stream
+                .pipe(autoprefixer())
+                .pipe(cleanCss());
+        }
+
+        return stream
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(browserSync.stream());
     }
