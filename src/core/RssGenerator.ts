@@ -46,7 +46,7 @@ export default class RssGenerator extends ConfigHolder {
         return '<item>' +
     `<title>${post.title}</title>` +
     `<link>${postUrl}</link>` +
-    `<description><![CDATA["${post.excerpt}"]]></description>` +
+    `<description><![CDATA[${post.excerpt}]]></description>` +
     `<guid>${postUrl}</guid>` +
     `<pubDate>${this.formatRFC822DateTime(post.publishedAt)}</pubDate>` +
             this.getItemCategories(post) +
