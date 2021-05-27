@@ -10,6 +10,8 @@ block append head
     meta(property='description' content=description)
 
 block content
+    +header
+    +personal-board-small
     each post in posts
         +post-summary(post)
 

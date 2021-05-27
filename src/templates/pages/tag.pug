@@ -10,7 +10,11 @@ block append head
     meta(property='description' content=description)
 
 block content
-    h1.mt-0=`#${tag}`
+    +header
+    +personal-board-small
+    h1.mt-0
+        span Tagged as&nbsp;
+        span.p-color=`#${tag}`
     each post in posts
         +post-summary(post)
 

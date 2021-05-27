@@ -2,36 +2,14 @@
   display: flex;
 }
 
-.main-sidebar {
-  background-color: #eee;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 350px;
-}
-
 .page-content {
   width: 800px;
-  margin-left: 350px;
+  min-width: 300px;
 }
 
-.right-sidebar {
+.left-sidebar, .right-sidebar {
   flex: 1 0 auto;
 }
 
 @media (max-width: $breakpoint) {
-  .main-content {
-    flex-direction: column;
-  }
-
-  .main-sidebar {
-    position: static;
-    width: auto;
-  }
-
-  .page-content {
-    width: auto;
-    margin-left: 0;
-  }
 }

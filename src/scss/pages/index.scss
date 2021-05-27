@@ -1,18 +1,3 @@
 .page-index {
-  .avatar {
-    width: 250px;
-    height: 250px;
-    display: inline-block;
 
-    &__image {
-      border-radius: 100%;
-    }
-  }
-
-  @media (max-width: $breakpoint-mobile) {
-    .avatar {
-      width: 150px;
-      height: 150px;
-    }
-  }
 }

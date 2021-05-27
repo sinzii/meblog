@@ -9,10 +9,10 @@ body {
 }
 
 .page-content {
-  padding: 30px 50px;
+  margin: 0 50px 30px 50px;
 
   @media (max-width: $breakpoint) {
-    padding: 35px;
+    margin: 0 35px 30px 35px;
   }
 }
 

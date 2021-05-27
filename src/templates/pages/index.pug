@@ -9,27 +9,8 @@ block append head
     meta(property='description' content=siteDescription)
 
 block content
-    div.center-on-breakpoint
-        div.avatar
-            img.avatar__image(src=url('/images/avatar_scarlet.png') alt=siteName)
-        h2 Thang X. Vu
-            | &nbsp;(
-            a(href='https://github.com/sinzii' target='_blank') @sinzii
-            | )
-        p A software developer with a curious mind.
-        p I'm currently interested in&nbsp;
-            | <strong>
-            a(href=url('/tags/javascript.html')) #javascript
-            | </strong>,&nbsp;
-            | <strong>
-            a(href=url('/tags/nodejs.html')) #nodejs
-            | </strong> and&nbsp;
-            | <strong>
-            a(href=url('/tags/frontend.html')) #frontend
-            | </strong>-development.
-
-    hr.meta-color
-
+    +header
+    +personal-board
     h3 Latest writings
     ul.listing
         each post in latestPosts
@@ -40,8 +21,8 @@ block content
     h3 Side Projects
     ul.listing
         li.listing__item
-            a(href='https://github.com/sinzii/sinzii.github.io' target='_blank') Static site generator
+            a(href='https://github.com/sinzii/meblog' target='_blank') <strong>meblog</strong> - Static site generator
         li.listing__item
-            a(href='https://github.com/sinzii/frameworkless' target='_blank') Frameworkless NodeJS application
+            a(href='https://github.com/sinzii/frameworkless' target='_blank') <strong>frameworkless</strong> - A frameworkless NodeJS application
 
 

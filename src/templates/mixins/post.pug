@@ -7,7 +7,7 @@ mixin post-info(post)
 
 mixin post-summary(post)
     article.post-summary
+        +post-info(post)
         h3.post-summary__title
             a(href=postUrl(post))=post.title
         div.post-summary__excerpt=post.excerpt
-        +post-info(post)

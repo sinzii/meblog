@@ -48,8 +48,8 @@ html(lang='en')
                 gtag('config', 'G-PG94EHM1B9');
     body
         div.myblog.main-content
-            include ../includes/sidebar
+            +left-sidebar
             main.page-content(class=`page-${templateName}`)
                 block content
-            include ../includes/right-sidebar
+            +right-sidebar
         script(src=url('/index.js'))

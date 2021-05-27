@@ -10,6 +10,7 @@ block append head
     meta(property='description' content=description)
 
 block content
-    .center-on-breakpoint
+    +header
+    .notfound
         img(src=url('/images/404.svg'))
         h1=description
