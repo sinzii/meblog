@@ -45,22 +45,6 @@
     filter: none;
   }
 
-  pre > code {
-    display: block;
-    overflow-x: auto;
-    padding: 1em;
-    color: var(--code-color);
-    background: var(--code-bgc);
-    line-height: 1.5;
-  }
-
-  code {
-    background: var(--code-bgc);
-    padding: 3px 5px;
-    border-radius: 5px;
-    color: var(--primray-color);
-  }
-
   table {
     border-spacing: 0;
     border: 1px solid var(--border-color);
@@ -81,4 +65,20 @@
       }
     }
   }
+}
+
+pre > code {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  color: var(--code-color);
+  background: var(--code-bgc);
+  line-height: 1.5;
+}
+
+code {
+  background: var(--code-bgc);
+  padding: 3px 5px;
+  border-radius: 5px;
+  color: var(--primray-color);
 }

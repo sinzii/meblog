@@ -1,8 +1,5 @@
 extends ../layouts/main
 
-block prepend head
-    - var sharingImage = rootUrl('/images/avatar_scarlet.png');
-
 block append head
     meta(property='og:description' content=siteDescription)
     meta(property='og:url' content=rootUrl('/'))
@@ -11,6 +8,14 @@ block append head
 block content
     +header
     +personal-board
+    h3 Have a quick taste
+    pre
+        code
+            | git clone https://github.com/sinzii/meblog.git
+            | npm install
+            | npm run dev:sample -- --numberOfPosts=50
+            | npm run dev:serve
+
     h3 Latest writings
     ul.listing
         each post in latestPosts
@@ -18,11 +23,10 @@ block content
                 span.meta-color=`${formatDate(post.publishedAt)} - `
                 a(href=postUrl(post))=post.title
 
-    h3 Side Projects
+    h3 Websites built with&nbsp;
+        span.p-color meblog
     ul.listing
         li.listing__item
-            a(href='https://github.com/sinzii/meblog' target='_blank') <strong>meblog</strong> - Static site generator
-        li.listing__item
-            a(href='https://github.com/sinzii/frameworkless' target='_blank') <strong>frameworkless</strong> - A frameworkless NodeJS application
+            a(href='https://sinzii.me' target='_blank') https://sinzii.me - Thang X. Vu (@sinzii)
 
 
