@@ -14,10 +14,11 @@ export interface Config {
     baseContext: string,
     siteName: string,
     siteDescription: string,
-    devMode: boolean,
+    devMode?: boolean,
     dateTimeFormat: string,
     dateFormat: string,
-    postUrlStyle: PostUrlStyle
+    postUrlStyle: PostUrlStyle,
+    [otherOption: string]: any
 }
 
 export enum PostUrlStyle {
