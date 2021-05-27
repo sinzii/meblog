@@ -65,6 +65,7 @@ export default class TemplateCompiler extends ConfigHolder {
     }
 
     public pug() {
+        const config = this.config;
         const compilePugTemplate = this.compilePugTemplate.bind(this);
         const dataSource = this.dataSource;
         const postPartialPath = this.postPartialPath.bind(this);
@@ -94,10 +95,11 @@ export default class TemplateCompiler extends ConfigHolder {
                 }
                 cb();
             } else {
+                const latestPosts = config.latestPosts || 5;
                 file.path = file.path.replace('.pug', '.html');
                 file.contents = compilePugTemplate(file, {
                         posts: dataSource.getPosts(),
-                        latestPosts: dataSource.getPosts().slice(0, 5)
+                        latestPosts: dataSource.getPosts().slice(0, latestPosts)
                     }
                 );
                 cb(null, file);
