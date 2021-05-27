@@ -4,10 +4,8 @@ import pug from 'pug';
 import through from 'through2';
 import ConfigHolder from "./ConfigHolder";
 import DataSource from "./DataSource";
-import moment from 'moment';
 import logger from 'gulplog';
 import {Post} from './Post';
-import {PostUrlStyle} from './model';
 
 
 export default class TemplateCompiler extends ConfigHolder {
@@ -27,73 +25,23 @@ export default class TemplateCompiler extends ConfigHolder {
 
         const config = this.config;
         const templateName = file.basename.replace(file.extname, '');
-        const postPartialPath = this.postPartialPath.bind(this);
-        const rootUrl = this.rootUrl.bind(this);
-        const url = this.url.bind(this);
 
         const compiled = template({
             ...config,
             templateName,
             ...data,
-            formatDateTime(date: Date) {
-                return moment(date).format(config.dateTimeFormat)
-            },
-            formatDate(date: Date) {
-                return moment(date).format(config.dateFormat)
-            },
-            rootUrl,
-            url,
-            postUrl(post: Post) {
-                return url(postPartialPath(post));
-            },
-            postRootUrl(post: Post) {
-                return rootUrl(postPartialPath(post));
-            }
+            formatDateTime: this.formatDateTime.bind(this),
+            formatDate: this.formatDate.bind(this),
+            rootUrl: this.rootUrl.bind(this),
+            url: this.url.bind(this),
+            postUrl: this.postUrl.bind(this),
+            postRootUrl: this.postRootUrl.bind(this)
         });
 
         return Buffer.from(compiled);
     }
 
-    public rootUrl(path): string {
-        const {baseUrl = '', baseContext = ''} = this.config;
-        let url = path;
 
-        if (baseContext) {
-            url = `/${baseContext}${path}`
-        }
-
-        if (baseUrl) {
-            url = baseUrl + url;
-        }
-
-        return url;
-    }
-
-    public url(path: string): string {
-        const {baseContext = ''} = this.config;
-        return `${baseContext}${path}`;
-    }
-
-    public postPartialPath(post: Post): string {
-        const {postUrlStyle} = this.config;
-        const defaultPostsDir = 'posts';
-
-        switch (postUrlStyle) {
-            case PostUrlStyle.POSTS_YEAR_MONTH_SLUG:
-                return `/${defaultPostsDir}/${post.publishedMonth}/${post.slug}.html`;
-            case PostUrlStyle.POSTS_YEAR_SLUG:
-                return `/${defaultPostsDir}/${post.publishedYear}/${post.slug}.html`;
-            case PostUrlStyle.YEAR_MONTH_SLUG:
-                return `/${post.publishedMonth}/${post.slug}.html`;
-            case PostUrlStyle.YEAR_SLUG:
-                return `/${post.publishedYear}/${post.slug}.html`;
-            case PostUrlStyle.SLUG:
-                return `/${post.slug}.html`;
-            case PostUrlStyle.POST_SLUG:
-            default:
-                return `/${defaultPostsDir}/${post.slug}.html`
-        }
-    }
 
     public pugPosts(posts: Post[]) {
         const compilePugTemplate = this.compilePugTemplate.bind(this);
