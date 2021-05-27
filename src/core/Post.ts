@@ -28,8 +28,10 @@ export class Post {
             post.tags = post.tags.split(',').map(t => t.trim());
         }
 
-        if (!post.slug) {
-            post.slug = faker.helpers.slugify(post.title);
+        if (post.slug) {
+            post.slug = faker.helpers.slugify(post.slug).toLowerCase();
+        } else {
+            post.slug = faker.helpers.slugify(post.title).toLowerCase();
         }
 
         Object.assign(this, post);
