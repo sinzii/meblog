@@ -13,5 +13,5 @@ export default {
         nickname: '@meblog',
         github: 'https://github.com/sinzii/meblog'
     },
-    latestPosts: 10
+    latestPosts: 5
 } as Config
