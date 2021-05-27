@@ -79,7 +79,7 @@ class SiteGenerator {
         this.initCompiler();
         this.loadData();
 
-        return gulp.src('./src/templates/pages/**/*.pug')
+        return gulp.src('./theme/templates/pages/**/*.pug')
             .pipe(this.compiler.pug())
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(browserSync.stream());
@@ -96,7 +96,7 @@ class SiteGenerator {
 
     generateCss() {
         let stream =
-            gulp.src('./src/scss/main.scss')
+            gulp.src('./theme/scss/main.scss')
                 .pipe(scss());
 
         if (!config.devMode) {
@@ -116,7 +116,7 @@ class SiteGenerator {
     }
 
     generateJs() {
-        return gulp.src('./src/js/*.js')
+        return gulp.src('./theme/js/*.js')
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(browserSync.stream());
     }
@@ -129,9 +129,9 @@ class SiteGenerator {
             port: DEV_PORT
         });
 
-        gulp.watch('./src/scss/**/*.scss', gulp.series('generateCss'));
-        gulp.watch('./src/js/**/*.js', gulp.series('generateJs'));
-        gulp.watch('./src/templates/**/*.pug', gulp.series('generatePages'));
+        gulp.watch('./theme/scss/**/*.scss', gulp.series('generateCss'));
+        gulp.watch('./theme/js/**/*.js', gulp.series('generateJs'));
+        gulp.watch('./theme/templates/**/*.pug', gulp.series('generatePages'));
         gulp.watch('./assets/**/*', gulp.series('copyAssets', (done) => {
             browserSync.reload();
             done();
@@ -154,7 +154,7 @@ class SiteGenerator {
 
         const posts = this.dataSource.parsePostsFromPaths([path]);
 
-        gulp.src('./src/templates/pages/post.pug')
+        gulp.src('./theme/templates/pages/post.pug')
             .pipe(this.compiler.pugPosts(posts))
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(browserSync.stream());
