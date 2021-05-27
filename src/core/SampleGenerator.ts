@@ -16,7 +16,7 @@ const TAG_POOL = [
 const SAMPLE_MD_FILES = glob.sync(path.join(__dirname, '../sample/**/*.md'));
 const SAMPLE_MD_CACHE = {};
 
-const heading = (min = 3, max = 12) => {
+const heading = (min = 3, max = 8) => {
     const titleLength = faker.datatype.number({min, max});
     return faker.lorem.sentence(titleLength).replace('.', '');
 }
@@ -77,9 +77,7 @@ export default class SampleGenerator {
             faker.datatype.number({min: 1, max: 3})
         );
 
-        post.body = faker.datatype.boolean()
-            ? pickSampleMd()
-            : markdownBody();
+        post.body = pickSampleMd();
 
         post.excerpt = faker.lorem.sentence(
             faker.datatype.number({min: 20, max: 35})
