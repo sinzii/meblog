@@ -10,6 +10,7 @@ import TemplateCompiler from "./src/core/TemplateCompiler";
 import config from './config';
 import SampleGenerator from './src/core/SampleGenerator';
 import DataSource from './src/core/DataSource';
+import RssGenerator from './src/core/RssGenerator';
 
 const browserSync = BS.create();
 const DEV_PORT = 3000;
@@ -28,9 +29,20 @@ class SiteGenerator {
         this.generator = new SampleGenerator();
     }
 
+    /**
+     * We might call init compiler again over times
+     * because of postsDirPath might be changed due
+     * to the changing of environment (dev or prod).
+     */
     private initCompiler() {
         this.dataSource = new FilesSource(config, this.postsDirPath);
         this.compiler = new TemplateCompiler(this.dataSource);
+    }
+
+    private loadData() {
+        if (this.dataSource instanceof FilesSource) {
+            this.dataSource.loadData();
+        }
     }
 
     get outputDirectory() {
@@ -63,15 +75,21 @@ class SiteGenerator {
 
     generatePages() {
         this.initCompiler();
-
-        if (this.dataSource instanceof FilesSource) {
-            this.dataSource.loadData(config.devMode);
-        }
+        this.loadData();
 
         return gulp.src('./src/templates/pages/**/*.pug')
             .pipe(this.compiler.pug())
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(browserSync.stream());
+    }
+
+    generateRssFeed(done) {
+        this.initCompiler();
+        this.loadData();
+
+        const rssGenerator = new RssGenerator(this.dataSource);
+        rssGenerator.generate(this.outputDirectory);
+        done();
     }
 
     generateCss() {
@@ -130,11 +148,7 @@ class SiteGenerator {
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(browserSync.stream());
 
-        const postUrls = posts.map(p =>
-            this.compiler.rootUrl(
-                this.compiler.postPartialPath(p)
-            )
-        );
+        const postUrls = posts.map(p => this.compiler.postRootUrl(p));
 
         logger.info(`[POST UPDATED] ${postUrls.join(', ')}`);
     }
@@ -175,11 +189,16 @@ class SiteGenerator {
         gulp.task('cleanCache', this.cleanCache.bind(this));
         gulp.task('copyAssets', this.copyAssets.bind(this));
         gulp.task('generatePages', this.generatePages.bind(this));
+        gulp.task('generateRssFeed', this.generateRssFeed.bind(this));
         gulp.task('generateCss', this.generateCss.bind(this));
         gulp.task('generateJs', this.generateJs.bind(this));
         gulp.task('generateSamplePosts', this.generateSamplePosts.bind(this));
         gulp.task('newPost', this.newPost.bind(this));
-        gulp.task('build', gulp.series('clean', 'copyAssets', 'generatePages', 'generateCss', 'generateJs'));
+        gulp.task('build', gulp.series(
+            'clean', 'copyAssets',
+            'generatePages', 'generateRssFeed',
+            'generateCss', 'generateJs'
+        ));
         gulp.task('serve', gulp.series('build', this.dev.bind(this)));
     }
 }
