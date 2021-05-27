@@ -9,7 +9,6 @@ import {Config, IPost, Tag} from "./model";
 import {Post} from './Post';
 
 marked.setOptions({
-    langPrefix: 'hljs language-',
     highlight: function(code, lang) {
         const hljs = require('highlight.js');
         const language = hljs.getLanguage(lang) ? lang : 'plaintext';
