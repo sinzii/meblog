@@ -1,5 +1,8 @@
 extends ../layouts/main
 
+block prepend head
+    - var title = siteDescription
+
 block append head
     meta(property='og:description' content=siteDescription)
     meta(property='og:url' content=rootUrl('/'))
