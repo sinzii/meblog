@@ -19,7 +19,7 @@ a {
   text-decoration: none;
 
   &:hover {
-    text-decoration: underline;
+    border-bottom: 1px solid;
   }
 }
 
@@ -49,4 +49,11 @@ hr {
   background-color: var(--meta-color);
   opacity: 0.4;
   margin: 30px 0;
+}
+
+img.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 .05em 0 .1em;
+  vertical-align: -0.1em;
 }
