@@ -1,32 +1,19 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as glob from 'glob';
-import marked from 'marked';
 import logger from 'gulplog';
 
 import DataSource from "./DataSource";
 import {Config, IPost, Tag} from "./model";
 import {Post} from './Post';
-
-marked.setOptions({
-    highlight: function(code, lang) {
-        const hljs = require('highlight.js');
-        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-        return hljs.highlight(code, { language }).value;
-    },
-    pedantic: false,
-    gfm: true,
-    breaks: false,
-    sanitize: false,
-    smartLists: true,
-    smartypants: false,
-    xhtml: false
-});
+import Parser from './markdown/Parser';
+import MarkdownItParser from './markdown/MarkdownItParser';
 
 export default class FilesSource extends DataSource {
     private readonly postsDirectoryPath: string;
     private readonly dataDirectoryPath: string;
     private readonly separator: string;
+    private readonly mdParser: Parser;
 
     private posts: Post[] = [];
     private tags: Tag[] = [];
@@ -48,6 +35,7 @@ export default class FilesSource extends DataSource {
         this.postsDirectoryPath = postsDirectoryPath;
         this.dataDirectoryPath = path.resolve(this.postsDirectoryPath, '../data');
         this.separator = separator;
+        this.mdParser = new MarkdownItParser();
     }
 
     get postsJsonPath(): string {
@@ -109,7 +97,7 @@ export default class FilesSource extends DataSource {
                 separatorCounter += 1;
 
                 if (separatorCounter === 2) {
-                    post.body = marked(content);
+                    post.body = this.mdParser.parse(content);
                     break;
                 } else {
                     continue;
