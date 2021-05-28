@@ -45,7 +45,7 @@ Run the command `npm run prod:serve` and start editing your post and hit the sav
 ## Configuration
 Put all configurations in `config.ts` file, then all the data in this file will be available to use in the `pug` templates.
 But there are some configurations that you need understand why do we have it.
-- `baseUrl`: This will be the host url that you're about to deploy to, eg: `https://sinzii.me` or `https://yourname.github.io`. It's not required for the site to work properly, but if you care about sharing your posts on Facebook. This property will be used to calculate the url in meta tags for the purpose of SEO or sharing your posts on social media.
+- `baseUrl`: This will be the host url that you're about to deploy to, eg: `https://sinzii.me` or `https://yourname.github.io`. It's not required for the site to work properly, but if you care about sharing your posts on Facebook. This property will be used to calculate the url in meta tags for the purpose of SEO or sharing your posts on social media or generate RSS feed.
 - `baseContext`: If you want to deploy the site on a sub directory like `https:/sinzii.me/blog`. Then set it's value as `blog`.
 - `postUrlStyle`: The engine can generate different styles of post url, choose your favorite one.
   - `PostUrlStyle.POST_SLUG`: ../posts/hello-world.html __(default)__
