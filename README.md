@@ -2,7 +2,9 @@
 ![GitHub](https://img.shields.io/github/license/sinzii/meblog)
 
 
-A DIY blog engine that powered my-base-on-the-internet ([https://sinzii.me](https://sinzii.me))
+A DIY blog engine that powered your-base-on-the-internet!
+
+Live demo: [meblog.sinzii.me](https://meblog.sinzii.me)
 
 ## Have a quick taste
 ```ssh
@@ -15,9 +17,10 @@ npm run dev:serve
 
 ## How do I customize the pages & styles
 The project makes use of `pug` for templating, `scss` for styling and `gulpjs` for generating the site and automating the process.
-- `src/templates`: Pug templates.
-- `src/templates/pages`: Add your new page here.
-- `src/scss`: SCSS styling files.
+- `theme/templates`: Pug templates.
+- `theme/templates/pages`: Add your new page here.
+- `theme/scss`: SCSS styling files.
+- `theme/js`: Javascripts
 - `assets`: Put your images, favicon, and other resources here.
 
 ## How do I create new post?
@@ -58,6 +61,9 @@ But there are some configurations that you need understand why do we have it.
 3. Commit the files & push your commit to Github.
 4. Enable [Github Pages](https://guides.github.com/features/pages/), make sure to choose `/docs` as the source folder.
 5. Enjoy the result! 🍺
+
+## Websites built with meblog
+- [sinzii.me](https://sinzii.me) - Thang X. Vu (@sinzii)
 
 ## License
 [MIT](LICENSE)
