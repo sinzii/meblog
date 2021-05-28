@@ -10,6 +10,7 @@ export interface IPost {
 }
 
 export interface Config {
+    rootDir: string,
     baseUrl: string,
     baseContext: string,
     siteName: string,

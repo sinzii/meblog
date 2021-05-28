@@ -1,7 +1,8 @@
 import {Config, PostUrlStyle} from './src/core/model';
 
 export default {
-    baseUrl: '',
+    rootDir: __dirname,
+    baseUrl: 'https://meblog.sinzii.me',
     baseContext: '',
     siteName: 'meblog',
     siteDescription: 'A DIY blog engine',
