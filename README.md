@@ -85,7 +85,7 @@ But there are some configurations that you need understand why do we have it.
 
 ## Deploy your site on Github
 1. Put all your posts in folder `posts`.
-2. Run `meblog build`, your site will be generated into folder `docs`, use option `--outdir` if you want the build will be generated somewhere else.
+2. Run `meblog build`, your site will be generated into folder `docs`, use option `--outdir` if you want the build to be generated somewhere else.
 3. Commit the files & push your commit to Github.
 4. Enable [Github Pages](https://guides.github.com/features/pages/), make sure to choose `/docs` as the source folder.
 5. Enjoy the result! 🍺
