@@ -9,3 +9,4 @@ dev
 package-lock.json
 data
 posts-dev
+lib

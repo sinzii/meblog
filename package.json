@@ -2,24 +2,13 @@
   "name": "meblog",
   "version": "1.0.0",
   "description": "A DIY blog engine",
-  "main": "./bin/meblog.ts",
+  "main": "./lib/cli/index.js",
   "bin": {
-    "meblog": "./bin/meblog.ts"
+    "meblog": "./bin/meblog"
   },
   "scripts": {
-    "dev:serve": "npx gulp -f gulpfile.ts --series cleanCache dev serve",
-    "prod:serve": "npx gulp -f gulpfile.ts --series cleanCache dev prod serve",
-    "dev:build": "npx gulp -f gulpfile.ts --series cleanCache dev build",
-    "prod:build": "npx gulp -f gulpfile.ts --series cleanCache prod build",
-    "clean:cache": "npx gulp -f gulpfile.ts --series cleanCache",
-    "dev:clean:build": "npx gulp -f gulpfile.ts --series dev clean",
-    "prod:clean:build": "npx gulp -f gulpfile.ts --series prod clean",
-    "dev:clean:posts": "npx gulp -f gulpfile.ts --series dev cleanPosts",
-    "prod:clean:posts": "npx gulp -f gulpfile.ts --series prod cleanPosts",
-    "dev:sample": "npx gulp -f gulpfile.ts --series dev generateSamplePosts",
-    "prod:sample": "npx gulp -f gulpfile.ts --series prod generateSamplePosts",
-    "dev:newPost": "npx gulp -f gulpfile.ts --series dev newPost",
-    "prod:newPost": "npx gulp -f gulpfile.ts --series prod newPost",
+    "clean": "rm -rf ./lib",
+    "build": "rm -rf ./lib & tsc",
     "test": "npx mocha --require ts-node/register \"./test/**/*.test.@(js|ts)\""
   },
   "author": "Thang X. Vu <zthangxv@gmail.com>",
@@ -45,7 +34,8 @@
     "mocha": "^8.4.0",
     "sinon": "^10.0.0",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "tslib": "^2.2.0"
   },
   "dependencies": {
     "ansi-colors": "^4.1.1",

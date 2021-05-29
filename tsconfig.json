@@ -1,8 +1,30 @@
 {
   "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "./src",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "target": "ESNext"
-  }
+    "target": "ESNext",
+    "module": "CommonJS",
+    "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "removeComments": true,
+    "noEmitOnError": true,
+    "strict": false,
+    "alwaysStrict": false,
+    "noImplicitAny": false,
+    "declaration": true,
+    "typeRoots": ["node_modules/@types/"]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "__tests__"
+  ]
 }
