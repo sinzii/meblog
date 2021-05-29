@@ -1,6 +1,6 @@
 import {Post} from './Post';
-import moment from 'moment';
 import logger from 'gulplog';
+import ansi from 'ansi-colors';
 
 const fs = require('fs');
 const path = require('path');
@@ -121,6 +121,11 @@ ${post.body}
 
     public generateMarkdownPostsAndSave(numberOfPost = 10,
                                         dirPath: string): void {
+        logger.info(
+            'Number of posts to generate:',
+            ansi.blue(String(numberOfPost))
+        );
+
         if (fs.existsSync(dirPath)) {
             del.sync(path.join(dirPath, './*'));
         } else {
@@ -137,16 +142,18 @@ ${post.body}
 
             fs.writeFileSync(filePath, post.markdown);
         });
+
+        logger.info(ansi.green('Sample posts has been generated successfully'));
     }
 
     public generateEmptyMarkdownPostAndSave(dirPath: string): void {
         const post = this.emptyPost();
 
-        const publishedDate = moment(post.publishedAt).format('DD[-at-]HHmm');
+        const name = 'draft';
         let _try = 0;
         const pickASampleName = (): string => {
             const suffix = _try > 0 ? `-${_try}` : '';
-            const tryName = `${publishedDate}${suffix}.md`;
+            const tryName = `${name}${suffix}.md`;
             const filePath = path.join(dirPath, post.publishedMonth, tryName);
 
             if (fs.existsSync(filePath)) {
@@ -164,6 +171,11 @@ ${post.body}
         }
 
         fs.writeFileSync(filePath, post.markdown);
-        logger.info('A new empty has been generated successfully at:', filePath);
+
+        const postDirName = path.basename(dirPath);
+        logger.info(
+            ansi.green('A new draft has been generated successfully at:'),
+            ansi.blue(`./${postDirName}/${filePath.replace(dirPath, '')}`)
+        );
     }
 }

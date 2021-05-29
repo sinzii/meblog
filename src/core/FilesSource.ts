@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as glob from 'glob';
+import fs from 'fs';
+import path from 'path';
+import glob from 'glob';
 import logger from 'gulplog';
 
 import DataSource from "./DataSource";
@@ -39,17 +39,11 @@ export default class FilesSource extends DataSource {
     }
 
     get postsJsonPath(): string {
-        return path.join(
-            this.dataDirectoryPath,
-            this.config.devMode ? 'posts-dev.json' : 'posts.json'
-        );
+        return path.join(this.dataDirectoryPath, 'posts.json');
     }
 
     get tagsJsonPath(): string {
-        return path.join(
-            this.dataDirectoryPath,
-            this.config.devMode ? 'tags-dev.json' : 'tags.json'
-        );
+        return path.join(this.dataDirectoryPath, 'tags.json');
     }
 
     private getSourcePostPaths(): string[] {

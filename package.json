@@ -1,25 +1,32 @@
 {
   "name": "meblog",
   "version": "1.0.0",
-  "description": "A DIY blog engine",
+  "description": "A simple static site generator",
+  "main": "./lib/cli/index.js",
+  "bin": {
+    "meblog": "./bin/meblog"
+  },
   "scripts": {
-    "dev:serve": "npx gulp -f gulpfile.ts --series cleanCache dev serve",
-    "prod:serve": "npx gulp -f gulpfile.ts --series cleanCache dev prod serve",
-    "dev:build": "npx gulp -f gulpfile.ts --series cleanCache dev build",
-    "prod:build": "npx gulp -f gulpfile.ts --series cleanCache prod build",
-    "clean:cache": "npx gulp -f gulpfile.ts --series cleanCache",
-    "dev:clean:build": "npx gulp -f gulpfile.ts --series dev clean",
-    "prod:clean:build": "npx gulp -f gulpfile.ts --series prod clean",
-    "dev:clean:posts": "npx gulp -f gulpfile.ts --series dev cleanPosts",
-    "prod:clean:posts": "npx gulp -f gulpfile.ts --series prod cleanPosts",
-    "dev:sample": "npx gulp -f gulpfile.ts --series dev generateSamplePosts",
-    "prod:sample": "npx gulp -f gulpfile.ts --series prod generateSamplePosts",
-    "dev:newPost": "npx gulp -f gulpfile.ts --series dev newPost",
-    "prod:newPost": "npx gulp -f gulpfile.ts --series prod newPost",
+    "clean": "rm -rf ./lib",
+    "build": "rm -rf ./lib & tsc && cp -r ./src/sample ./lib",
     "test": "npx mocha --require ts-node/register \"./test/**/*.test.@(js|ts)\""
   },
-  "author": "@sinzii",
+  "author": "Thang X. Vu <zthangxv@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sinzii/meblog.git"
+  },
+  "files": [
+    "/bin",
+    "/lib",
+    "/project-templates"
+  ],
+  "keywords": [
+    "static-site-generator",
+    "blog-engine",
+    "diy"
+  ],
   "devDependencies": {
     "@types/chai": "^4.2.18",
     "@types/debug": "^4.1.5",
@@ -30,17 +37,20 @@
     "@types/markdown-it-emoji": "^2.0.1",
     "@types/mocha": "^8.2.2",
     "@types/moment": "^2.13.0",
-    "@types/sinon": "^10.0.0",
-    "browser-sync": "^2.26.14",
+    "@types/sinon": "^10.0.1",
+    "@types/yargs": "^17.0.0",
     "chai": "*",
     "mocha": "^8.4.0",
     "sinon": "^10.0.0",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.2"
   },
   "dependencies": {
+    "ansi-colors": "^4.1.1",
+    "browser-sync": "^2.26.14",
     "del": "^6.0.0",
     "faker": "^5.5.3",
+    "fancy-log": "^1.3.3",
     "glob": "^7.1.7",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
@@ -61,6 +71,8 @@
     "pug": "^3.0.2",
     "through2": "^4.0.2",
     "twemoji": "^13.1.0",
-    "vinyl": "^2.2.1"
+    "vinyl": "^2.2.1",
+    "yargs": "^17.0.1",
+    "tslib": "^2.2.0"
   }
 }

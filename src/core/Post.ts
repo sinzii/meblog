@@ -1,5 +1,5 @@
 import {IPost, Tag} from "./model";
-import * as faker from 'faker';
+import faker from 'faker';
 import moment from 'moment';
 
 export class Post {

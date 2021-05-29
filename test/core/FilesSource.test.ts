@@ -1,13 +1,13 @@
-import * as path from 'path';
-import * as del from 'del';
-import * as fs from 'fs';
-import * as _ from 'lodash';
+import path from 'path';
+import del from 'del';
+import fs from 'fs';
+import _ from 'lodash';
 import SampleGenerator from '../../src/core/SampleGenerator';
 import FilesSource from '../../src/core/FilesSource';
-import config from '../../config';
+import config from '../config';
 import {assert} from 'chai';
 import {assertPost} from './helper';
-import * as sinon from 'sinon';
+import sinon from 'sinon';
 import {glob} from 'glob';
 
 

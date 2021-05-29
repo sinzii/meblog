@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 import ConfigHolder from './ConfigHolder';
 import DataSource from './DataSource';
 import {Post} from './Post';
@@ -20,7 +20,7 @@ export default class RssGenerator extends ConfigHolder {
         const filePath = path.join(outputDir, './rss.xml');
         const content = this.generateRssContent();
         fs.writeFileSync(filePath, content);
-        logger.info('Rss feed generated at:', filePath);
+        logger.info('Rss feed generated');
     }
 
     private generateRssContent() {

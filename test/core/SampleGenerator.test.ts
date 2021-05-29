@@ -1,7 +1,7 @@
 import SampleGenerator from '../../src/core/SampleGenerator';
 import {assert} from 'chai';
-import * as path from 'path';
-import * as del from 'del';
+import path from 'path';
+import del from 'del';
 import glob from 'glob';
 import {assertPost, assertPostProperties} from './helper';
 
