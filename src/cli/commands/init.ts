@@ -74,8 +74,8 @@ const initProject = args => {
     logger.info(
 `\nNext steps:
     1. ${ansi.green('cd')} ${ansi.blue(`${projectName}`)}
-    2. ${ansi.green('meblog')} ${ansi.blue('gen sample')}: ${ansi.cyan('To generate sample posts')}
-    3. ${ansi.green('meblog')} ${ansi.blue('dev serve')}: ${ansi.cyan('To start development server')}
+    2. ${ansi.green('meblog')} ${ansi.blue('sample')}: ${ansi.cyan('To generate sample posts')}
+    3. ${ansi.green('meblog')} ${ansi.blue('serve')}: ${ansi.cyan('To start development server')}
 `)
 }
 
