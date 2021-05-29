@@ -7,7 +7,7 @@ import ansi from 'ansi-colors';
 
 export const loadConfig = (args: any): Config => {
     const cwd = process.cwd();
-    let configFile = args['file'] || './config.js';
+    let configFile = args['config'] || './config.js';
     const configFilePath = path.resolve(cwd, configFile);
     if (!fs.existsSync(configFilePath)) {
         throw new Error('config.js file is required');
