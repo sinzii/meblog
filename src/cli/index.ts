@@ -2,7 +2,6 @@ import yargs from 'yargs/yargs';
 import {hideBin} from 'yargs/helpers';
 import * as commands from './commands';
 import {initLogger} from './log';
-import {repository, version} from '../../package.json';
 
 export default () => {
     initLogger();
@@ -15,16 +14,15 @@ export default () => {
         .command(commands.serve)
         .command(commands.build)
         .showHelpOnFail(true)
-        .help('help', 'Show help instructions & exist')
+        .help('help', 'Show help instructions')
         .alias('h', 'help')
-        .version('version', 'Show version number & exist', version)
         .alias('v', 'version')
         .option('config', {
             alias: 'c',
             type: 'string',
             description: 'Config file path',
         })
-        .epilog(`More information at: ${repository.url}`)
+        .epilog(`More information at: https://github.com/sinzii/meblog`)
         .strictCommands()
         .demandCommand(1)
         .argv;
