@@ -217,4 +217,13 @@ export default class SiteGenerator extends ConfigHolder {
         ));
         gulp.task('serve', gulp.series('build', this.dev.bind(this)));
     }
+
+    public run(tasks: string[]) {
+        gulp.series(tasks)(function (err) {
+            if (err) {
+                logger.error(err);
+                process.exit(1);
+            }
+        });
+    }
 }
