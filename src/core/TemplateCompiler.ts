@@ -1,5 +1,5 @@
 import File from 'vinyl';
-import * as path from 'path';
+import path from 'path';
 import pug from 'pug';
 import through from 'through2';
 import ConfigHolder from "./ConfigHolder";

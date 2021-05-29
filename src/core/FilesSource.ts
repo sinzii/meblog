@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as glob from 'glob';
+import fs from 'fs';
+import path from 'path';
+import glob from 'glob';
 import logger from 'gulplog';
 
 import DataSource from "./DataSource";

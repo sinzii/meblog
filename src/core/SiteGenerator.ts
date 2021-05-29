@@ -1,6 +1,6 @@
-import * as gulp from 'gulp';
-import * as path from 'path';
-import * as del from 'del';
+import gulp from 'gulp';
+import path from 'path';
+import del from 'del';
 import cleanCss from 'gulp-clean-css';
 import autoprefixer from 'gulp-autoprefixer'
 import BS from 'browser-sync';
