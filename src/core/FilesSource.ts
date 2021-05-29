@@ -39,17 +39,11 @@ export default class FilesSource extends DataSource {
     }
 
     get postsJsonPath(): string {
-        return path.join(
-            this.dataDirectoryPath,
-            this.config.devMode ? 'posts-dev.json' : 'posts.json'
-        );
+        return path.join(this.dataDirectoryPath, 'posts.json');
     }
 
     get tagsJsonPath(): string {
-        return path.join(
-            this.dataDirectoryPath,
-            this.config.devMode ? 'tags-dev.json' : 'tags.json'
-        );
+        return path.join(this.dataDirectoryPath, 'tags.json');
     }
 
     private getSourcePostPaths(): string[] {
