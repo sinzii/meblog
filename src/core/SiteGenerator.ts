@@ -6,6 +6,7 @@ import autoprefixer from 'gulp-autoprefixer'
 import BS from 'browser-sync';
 import scss from 'gulp-sass';
 import logger from 'gulplog';
+import ansi from 'ansi-colors';
 
 import FilesSource from './FilesSource';
 import TemplateCompiler from './TemplateCompiler';
@@ -46,23 +47,29 @@ export default class SiteGenerator extends ConfigHolder {
         }
     }
 
+    get outputRelativeDirectory() {
+        const outDir = this.args['outdir'];
+        if (outDir) {
+            return outDir;
+        }
+
+        return this.config.devMode ? './dev' : './docs';
+    }
+
     get outputDirectory() {
-        return path.join(
+        return path.resolve(
             this.config.rootDir,
-            this.config.devMode ? './dev' : './docs'
+            this.outputRelativeDirectory
         );
     }
 
     get postsDirPath() {
-        const outDir = this.args['outDir'];
-        if (outDir) {
-            return path.resolve(this.config.rootDir, outDir);
-        }
+        return path.join(this.config.rootDir, 'posts');
+    }
 
-        return path.join(
-            this.config.rootDir,
-            this.config.devMode ? 'posts-dev' : 'posts'
-        );
+    logOutputDir(done) {
+        logger.info('Output directory:', ansi.blue(this.outputRelativeDirectory));
+        done();
     }
 
     clean(done) {
@@ -171,7 +178,7 @@ export default class SiteGenerator extends ConfigHolder {
 
     generateSamplePosts(done) {
         const generator = new SampleGenerator();
-        const numberOfPosts = Number(this.args['numberOfPosts']) || 10;
+        const numberOfPosts = Number(this.args['number-of-posts']) || 10;
         generator.generateMarkdownPostsAndSave(numberOfPosts, this.postsDirPath);
 
         done();
@@ -200,6 +207,7 @@ export default class SiteGenerator extends ConfigHolder {
     initTasks() {
         gulp.task('prod', this.onProd.bind(this));
         gulp.task('dev', this.onDev.bind(this));
+        gulp.task('logOutputDir', this.logOutputDir.bind(this));
         gulp.task('clean', this.clean.bind(this));
         gulp.task('cleanPosts', this.cleanPosts.bind(this));
         gulp.task('cleanCache', this.cleanCache.bind(this));
@@ -211,7 +219,7 @@ export default class SiteGenerator extends ConfigHolder {
         gulp.task('generateSamplePosts', this.generateSamplePosts.bind(this));
         gulp.task('newPost', this.newPost.bind(this));
         gulp.task('build', gulp.series(
-            'clean', 'copyAssets',
+            'logOutputDir', 'clean', 'copyAssets',
             'generatePages', 'generateRssFeed',
             'generateCss', 'generateJs'
         ));

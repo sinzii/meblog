@@ -1,6 +1,6 @@
 import {Post} from './Post';
-import moment from 'moment';
 import logger from 'gulplog';
+import ansi from 'ansi-colors';
 
 const fs = require('fs');
 const path = require('path');
@@ -121,6 +121,11 @@ ${post.body}
 
     public generateMarkdownPostsAndSave(numberOfPost = 10,
                                         dirPath: string): void {
+        logger.info(
+            'Number of posts to generate:',
+            ansi.blue(String(numberOfPost))
+        );
+
         if (fs.existsSync(dirPath)) {
             del.sync(path.join(dirPath, './*'));
         } else {
@@ -137,6 +142,8 @@ ${post.body}
 
             fs.writeFileSync(filePath, post.markdown);
         });
+
+        logger.info(ansi.green('Sample posts has been generated successfully'));
     }
 
     public generateEmptyMarkdownPostAndSave(dirPath: string): void {
