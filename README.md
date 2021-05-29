@@ -32,6 +32,7 @@ meblog serve
 - Simple and fast as you always want.
 - Edit the code or posts and see the change immediately with the support of browser-sync.
 - Support [different styles of post url](#configuration).
+- Built-in RSS feed generator.
 - Love using `pug` template? __meblog__ is the right tool for you.
 
 ## Project structure
