@@ -1,35 +1,58 @@
 # :house_with_garden:	 meblog
 ![GitHub](https://img.shields.io/github/license/sinzii/meblog)
 
+A simple static site generator that powered your-base-on-the-internet.
 
-A DIY blog engine that powered your-base-on-the-internet!
+Live demo: [meblog.sinzii.me](https://meblog.sinzii.me).
 
-Live demo: [meblog.sinzii.me](https://meblog.sinzii.me)
+## Table of contents
+  * [Have a quick taste](#have-a-quick-taste)
+  * [Features](#features)
+  * [Project structure](#project-structure)
+  * [How do I create new post](#how-do-i-create-new-post)
+  * [Preview your post while editing](#preview-your-post-while-editing)
+  * [Configuration](#configuration)
+  * [Deploy your site on Github](#deploy-your-site-on-github)
+  * [Websites built with meblog](#websites-built-with-meblog)
+  * [Contribution](#contribution)
+  * [License](#license)
 
 ## Have a quick taste
 ```ssh
-npm install
+npm install -g meblog // use --unsafe-perm if facing node-gyp error
 
-npm run dev:sample -- --numberOfPosts=50
+meblog init your-site && cd your-site
 
-npm run dev:serve
+meblog sample --number-of-posts=20
+
+meblog serve
 ```
 
-## How do I customize the pages & styles
-The project makes use of `pug` for templating, `scss` for styling and `gulpjs` for generating the site and automating the process.
-- `theme/templates`: Pug templates.
-- `theme/templates/pages`: Add your new page here.
-- `theme/scss`: SCSS styling files.
-- `theme/js`: Javascripts
-- `assets`: Put your images, favicon, and other resources here.
+## Features
+- Simple and fast as you always want.
+- Edit the code or posts and see the change immediately with the support of browser-sync.
+- Support [different styles of post url](#configuration).
+- Love using `pug` template? __meblog__ is the right tool for you.
 
-## How do I create new post?
-Create a new `post-name.md` in folder `posts` (production) or `posts-dev` (dev) using the below format:
+## Project structure
+The project makes use of `pug` for templating, `scss` for styling and `gulpjs` for generating the site and automating the process.
+
+- `theme`: Where you customize the pages & styles
+  - `theme/templates`: Pug templates
+  - `theme/templates/pages`: Add your new page here
+  - `theme/scss`: SCSS styling files
+  - `theme/js`: Javascript files
+- `assets`: Put your images, favicon, and other resources here
+- `posts`: Put your posts in markdown format here. Ideally, arrange your posts into year and month folders for better referencing or searching.
+- `config.js`: [Config file](#configuration) for the site
+
+## How do I create new post
+Create a new `post-name.md` in folder `posts` using the below format:
 ```md
 ---
 title: This is the post title
 slug: this-is-the-post-slug
-publishedAt: 2021-05-15T18:04:00+07:00
+publishedAt: 2021-05-15T18:04:00+07:00 (YYYY-MM-DDTHH:mm:ssZ)
 tags: tag1, tag2
 excerpt: Some thoughts about the growing journey 
 ---
@@ -38,32 +61,42 @@ Post body goes here
 If you don't provide a slug, the engine will automatically slugify the post title for one.
 
 ## Preview your post while editing
-Run the command `npm run prod:serve` and start editing your post and hit the save button to see the magic ✍️✍️✍️
+Run the command `meblog serve` and start editing your post then hit the save button if you want to see the change.
+
+Set the auto saving interval to 2s in your editor for better editing experience. _(As far as I know, __Visual Studio Code__ or __IntelliJ-based IDEs__ have this feature 😄)_
+
+Now let's start composing! ✍️✍️✍️
 
 ![Preview while editing](/documents/images/PreviewOnEditing.gif)
 
 ## Configuration
-Put all configurations in `config.ts` file, then all the data in this file will be available to use in the `pug` templates.
+Put all configurations in `config.js` file, then all the data in this file will be available to use in the `pug` templates.
 But there are some configurations that you need understand why do we have it.
-- `baseUrl`: This will be the host url that you're about to deploy to, eg: `https://sinzii.me` or `https://yourname.github.io`. It's not required for the site to work properly, but if you care about sharing your posts on Facebook. This property will be used to calculate the url in meta tags for the purpose of SEO or sharing your posts on social media or generate RSS feed.
+- `baseUrl`: This will be the host url that you're about to deploy to, eg: `https://sinzii.me` or `https://yourname.github.io`. It's not required for the site to work properly. But if you care about sharing your posts on Facebook, this property will be used to calculate the url in meta tags for the purpose of SEO or sharing your posts on social media or generate RSS feed.
 - `baseContext`: If you want to deploy the site on a sub directory like `https:/sinzii.me/blog`. Then set it's value as `blog`.
 - `postUrlStyle`: The engine can generate different styles of post url, choose your favorite one.
-  - `PostUrlStyle.POST_SLUG`: ../posts/hello-world.html __(default)__
-  - `PostUrlStyle.POSTS_YEAR_MONTH_SLUG`: ../posts/2021/05/hello-world.html
-  - `PostUrlStyle.POSTS_YEAR_SLUG`: ../posts/2021/hello-world.html
-  - `PostUrlStyle.YEAR_MONTH_SLUG`: ../2021/05/hello-world.html
-  - `PostUrlStyle.YEAR_SLUG`: ../2021/hello-world.html
-  - `PostUrlStyle.SLUG`: ../hello-world.html
+  - `POST_SLUG`: ../posts/hello-world.html __(default)__
+  - `POSTS_YEAR_MONTH_SLUG`: ../posts/2021/05/hello-world.html
+  - `POSTS_YEAR_SLUG`: ../posts/2021/hello-world.html
+  - `YEAR_MONTH_SLUG`: ../2021/05/hello-world.html
+  - `YEAR_SLUG`: ../2021/hello-world.html
+  - `SLUG`: ../hello-world.html
 
 ## Deploy your site on Github
-1. Put all your posts in folder `posts`, you can arrange posts in sub folders if you want. Ideally, you could arrange your posts into year and month folders for better referencing or searching.
-2. Run `npm run prod:build`: Your site will be generated into folder `docs`.
+1. Put all your posts in folder `posts`.
+2. Run `meblog build`, your site will be generated into folder `docs`, use option `--outdir` if you want the build will be generated somewhere else.
 3. Commit the files & push your commit to Github.
 4. Enable [Github Pages](https://guides.github.com/features/pages/), make sure to choose `/docs` as the source folder.
 5. Enjoy the result! 🍺
 
 ## Websites built with meblog
+- [meblog.sinzii.me](http://meblog.sinzii.me) - meblog demo website
 - [sinzii.me](https://sinzii.me) - Thang X. Vu (@sinzii)
+- Who next?
+
+## Contribution
+- We embrace all the contributions to our hearts. So don't hesitate to shoot a pull request.
+- If you spot any problems or have any ideas to improve __meblog__, let's discuss it [here](https://github.com/sinzii/meblog/issues)!
 
 ## License
 [MIT](LICENSE)
