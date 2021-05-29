@@ -3,7 +3,7 @@ import {hideBin} from 'yargs/helpers';
 import * as commands from './commands';
 import {initLogger} from './log';
 
-export default () => {
+const cli = () => {
     initLogger();
 
     yargs(hideBin(process.argv))
@@ -26,4 +26,10 @@ export default () => {
         .strictCommands()
         .demandCommand(1)
         .argv;
+}
+
+export default cli;
+
+if (require.main === module) {
+    cli();
 }
