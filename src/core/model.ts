@@ -10,7 +10,7 @@ export interface IPost {
 }
 
 export interface Config {
-    rootDir: string,
+    rootDir?: string,
     baseUrl: string,
     baseContext: string,
     siteName: string,
@@ -18,15 +18,15 @@ export interface Config {
     devMode?: boolean,
     dateTimeFormat: string,
     dateFormat: string,
-    postUrlStyle: PostUrlStyle,
+    postUrlStyle?: PostUrlStyle,
     [otherOption: string]: any
 }
 
 export enum PostUrlStyle {
-    POST_SLUG, // ../posts/hello-world.html
-    POSTS_YEAR_MONTH_SLUG, // ../posts/2021/05/hello-world.html
-    POSTS_YEAR_SLUG, // ../posts/2021/hello-world.html
-    YEAR_MONTH_SLUG, // ../2021/05/hello-world.html
-    YEAR_SLUG, // ../2021/hello-world.html
-    SLUG, // ../hello-world.html
+    POST_SLUG = 'POST_SLUG', // ../posts/hello-world.html
+    POSTS_YEAR_MONTH_SLUG = 'POSTS_YEAR_MONTH_SLUG', // ../posts/2021/05/hello-world.html
+    POSTS_YEAR_SLUG = 'POSTS_YEAR_SLUG', // ../posts/2021/hello-world.html
+    YEAR_MONTH_SLUG = 'YEAR_MONTH_SLUG', // ../2021/05/hello-world.html
+    YEAR_SLUG = 'YEAR_SLUG', // ../2021/hello-world.html
+    SLUG = 'SLUG', // ../hello-world.html
 }
