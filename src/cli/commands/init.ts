@@ -21,28 +21,34 @@ const getProjectTemplatePath = (template = DEFAULT_TEMPLATE_NAME) => {
     return projectTemplatePath;
 }
 
-const getProjectPath = (projectName) => {
-    const projectPath = path.join(process.cwd(), projectName);
-
-    if (fs.existsSync(projectPath)) {
-        throw new Error(`Directory ${ansi.blue(projectName)} is already existed`);
-    }
-
-    return projectPath;
+const getProjectPath = args => {
+    const {outdir, name} = args;
+    return path.resolve(process.cwd(), outdir || name);
 }
 
-const customizeOnCopying = args => {
+const isInitInCurrentDir = args => {
+    return process.cwd() === getProjectPath(args);
+}
+
+const customizeOnCopying = (destination, args) => {
     const {
         name: projectName
     } = args;
 
-    return through.obj(function (file: File, enc, cb) {
-        // Update project name in package.json
-        if (file.basename === 'package.json') {
-            const packageJson = JSON.parse(file.contents.toString());
-            packageJson.name = projectName;
+    const hasPackageJsonFile = fs.existsSync(path.join(destination, 'package.json'));
 
-            file.contents = Buffer.from(JSON.stringify(packageJson, null, 2));
+    return through.obj(function (file: File, enc, cb) {
+        if (file.basename === 'package.json') {
+            if (hasPackageJsonFile) {
+                cb();
+                return;
+            } else {
+                // Update project name in package.json
+                const packageJson = JSON.parse(file.contents.toString());
+                packageJson.name = projectName;
+
+                file.contents = Buffer.from(JSON.stringify(packageJson, null, 2));
+            }
         }
 
         cb(null, file);
@@ -51,7 +57,7 @@ const customizeOnCopying = args => {
 
 const copyProjectTemplateToTargetPath = (src, destination, args) => {
     gulp.src(`${src}/**/*`)
-        .pipe(customizeOnCopying(args))
+        .pipe(customizeOnCopying(destination, args))
         .pipe(gulp.dest(destination));
 }
 
@@ -67,35 +73,64 @@ const initProject = args => {
     );
 
     const projectTemplatePath = getProjectTemplatePath(template);
-    const projectPath = getProjectPath(projectName);
+    const projectPath = getProjectPath(args);
     copyProjectTemplateToTargetPath(projectTemplatePath, projectPath, args);
 
+    const initCurrentDir = isInitInCurrentDir(args);
+
     logger.info(ansi.green('Project initialization succeed'));
+    const steps = [
+        `\t${ansi.green('meblog')} ${ansi.blue('sample')}: ${ansi.cyan('To generate sample posts')}\n`,
+        `\t${ansi.green('meblog')} ${ansi.blue('serve')}: ${ansi.cyan('To start development server')}`
+    ];
+
+    if (!initCurrentDir) {
+        steps.unshift(`\t${ansi.green('cd')} ${ansi.blue(`${path.basename(projectPath)}`)}\n`)
+    }
+
     logger.info(
 `\nNext steps:
-    1. ${ansi.green('cd')} ${ansi.blue(`${projectName}`)}
-    2. ${ansi.green('meblog')} ${ansi.blue('sample')}: ${ansi.cyan('To generate sample posts')}
-    3. ${ansi.green('meblog')} ${ansi.blue('serve')}: ${ansi.cyan('To start development server')}
+${steps.join('')}
 `)
 }
 
 export default {
-    command: "init <name>",
+    command: "init [name]",
     describe: "Init the project",
     builder: yargs => {
         yargs
             .positional('name', {
                 type: 'string',
-                describe: 'Project name'
+                describe: 'Project name',
             })
             .option('template', {
                 type: 'string',
                 describe: 'Project template name, default: meblog',
                 alias: 't'
             })
+            .option('outdir', {
+                type: 'string',
+                describe: 'Customize output directory',
+                alias: 'o'
+            })
             .check(args => {
-                if (!args['name']) {
+                // if name and ourdir is not provided
+                // the project will be initialized in current dir
+                // with the name of current folder name.
+                if (!args['name'] && !args['outdir']) {
+                    args['outdir'] = '.';
+                }
+
+                const initCurrentDir = isInitInCurrentDir(args);
+                if (initCurrentDir) {
+                    args['name'] = path.basename(process.cwd());
+                }
+
+                const {name} = args;
+                if (!name) {
                     throw new Error('Project name is required');
+                } if (name.length < 3) {
+                    throw new Error(`Project name \"${name}\" is too short`);
                 }
 
                 if (!args['template']) {
