@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 import SampleGenerator from '../../src/core/SampleGenerator';
 import FilesSource from '../../src/core/FilesSource';
-import config from '../../config';
+import config from '../config';
 import {assert} from 'chai';
 import {assertPost} from './helper';
 import * as sinon from 'sinon';

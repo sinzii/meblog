@@ -2,6 +2,10 @@
   "name": "meblog",
   "version": "1.0.0",
   "description": "A DIY blog engine",
+  "main": "./bin/meblog.ts",
+  "bin": {
+    "meblog": "./bin/meblog.ts"
+  },
   "scripts": {
     "dev:serve": "npx gulp -f gulpfile.ts --series cleanCache dev serve",
     "prod:serve": "npx gulp -f gulpfile.ts --series cleanCache dev prod serve",
@@ -18,8 +22,12 @@
     "prod:newPost": "npx gulp -f gulpfile.ts --series prod newPost",
     "test": "npx mocha --require ts-node/register \"./test/**/*.test.@(js|ts)\""
   },
-  "author": "@sinzii",
+  "author": "Thang X. Vu <zthangxv@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sinzii/meblog.git"
+  },
   "devDependencies": {
     "@types/chai": "^4.2.18",
     "@types/debug": "^4.1.5",
@@ -31,6 +39,7 @@
     "@types/mocha": "^8.2.2",
     "@types/moment": "^2.13.0",
     "@types/sinon": "^10.0.0",
+    "@types/yargs": "^17.0.0",
     "browser-sync": "^2.26.14",
     "chai": "*",
     "mocha": "^8.4.0",
@@ -39,8 +48,10 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
+    "ansi-colors": "^4.1.1",
     "del": "^6.0.0",
     "faker": "^5.5.3",
+    "fancy-log": "^1.3.3",
     "glob": "^7.1.7",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
@@ -61,6 +72,7 @@
     "pug": "^3.0.2",
     "through2": "^4.0.2",
     "twemoji": "^13.1.0",
-    "vinyl": "^2.2.1"
+    "vinyl": "^2.2.1",
+    "yargs": "^17.0.1"
   }
 }
