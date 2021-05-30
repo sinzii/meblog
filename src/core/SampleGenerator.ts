@@ -134,7 +134,7 @@ ${post.body}
 
         const posts = this.posts(numberOfPost);
         posts.forEach((post) => {
-            const filePath = path.join(dirPath, post.publishedMonth, post.sampleFileName);
+            const filePath = path.join(dirPath, post.publishedMonth, `${post.slug}.md`);
             const monthPath = path.dirname(filePath);
             if (!fs.existsSync(monthPath)) {
                 fs.mkdirSync(monthPath, {recursive: true});

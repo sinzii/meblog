@@ -44,10 +44,4 @@ export class Post {
     get publishedYear(): string {
         return moment(this.publishedAt).format('YYYY');
     }
-
-    get sampleFileName(): string {
-        const publishedDate = moment(this.publishedAt).format('DD');
-
-        return `${publishedDate}-${this.slug}.md`;
-    }
 }
