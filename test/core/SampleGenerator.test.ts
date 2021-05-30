@@ -29,12 +29,11 @@ describe('SampleGenerator', function () {
         const lines = markdown.split('\n');
         assert.isTrue(lines[0] === '---');
         assert.isTrue(lines[1].startsWith('title: '));
-        assert.isTrue(lines[2].startsWith('slug: '));
-        assert.isTrue(lines[3].startsWith('publishedAt: '));
-        assert.isTrue(lines[4].startsWith('tags: '));
-        assert.isTrue(lines[5].startsWith('excerpt: '));
-        assert.isTrue(lines[6] === '---');
-        assert.typeOf(lines[7], 'string');
+        assert.isTrue(lines[2].startsWith('publishedAt: '));
+        assert.isTrue(lines[3].startsWith('tags: '));
+        assert.isTrue(lines[4].startsWith('excerpt: '));
+        assert.isTrue(lines[5] === '---');
+        assert.typeOf(lines[6], 'string');
     });
 
     it('should generate en empty post', function () {
@@ -46,12 +45,11 @@ describe('SampleGenerator', function () {
         const lines = markdown.split('\n');
         assert.isTrue(lines[0] === '---');
         assert.isTrue(lines[1] === 'title: ');
-        assert.isTrue(lines[2] === 'slug: ');
-        assert.isTrue(lines[3].startsWith('publishedAt: '));
-        assert.isTrue(lines[4] === 'tags: ');
-        assert.isTrue(lines[5] === 'excerpt: ');
-        assert.isTrue(lines[6] === '---');
-        assert.typeOf(lines[7], 'string');
+        assert.isTrue(lines[2].startsWith('publishedAt: '));
+        assert.isTrue(lines[3] === 'tags: ');
+        assert.isTrue(lines[4] === 'excerpt: ');
+        assert.isTrue(lines[5] === '---');
+        assert.typeOf(lines[6], 'string');
     });
 
     it('should generate markdown post and save', function () {

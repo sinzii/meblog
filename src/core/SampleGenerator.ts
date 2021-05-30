@@ -6,7 +6,6 @@ const fs = require('fs');
 const path = require('path');
 const faker = require('faker');
 const glob = require('glob');
-const _ = require('lodash');
 const del = require('del');
 
 const TAG_POOL = [
@@ -103,10 +102,12 @@ export default class SampleGenerator {
     }
 
     private toMarkdown(post: Post): string {
-        const meta = _.pick(post, ['title', 'slug']);
-        meta.publishedAt = post.publishedAt.toISOString();
-        meta.tags = post.tags.join(", ");
-        meta.excerpt = post.excerpt;
+        const meta = {
+            title: post.title,
+            publishedAt: post.publishedAt.toISOString(),
+            tags: post.tags.join(", "),
+            excerpt: post.excerpt
+        };
 
         return `---
 ${Object.keys(meta).map(prop => `${prop}: ${meta[prop]}`).join('\n')}

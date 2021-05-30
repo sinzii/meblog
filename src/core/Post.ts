@@ -1,5 +1,4 @@
 import {IPost, Tag} from "./model";
-import faker from 'faker';
 import moment from 'moment';
 
 export class Post {
@@ -26,12 +25,6 @@ export class Post {
 
         if (typeof post.tags === 'string') {
             post.tags = post.tags.split(',').map(t => t.trim());
-        }
-
-        if (post.slug) {
-            post.slug = faker.helpers.slugify(post.slug).toLowerCase();
-        } else {
-            post.slug = faker.helpers.slugify(post.title).toLowerCase();
         }
 
         Object.assign(this, post);

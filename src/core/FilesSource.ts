@@ -70,9 +70,16 @@ export default class FilesSource extends DataSource {
         return false;
     }
 
-    private parseMarkdownPost(content: string): Post {
+    private parseMarkdownPost(filePath: string): Post {
+        if (!fs.existsSync(filePath)) {
+            throw new Error(`Markdown post is not existed at ${filePath}`);
+        }
+
+        let content = fs.readFileSync(filePath).toString();
+
         const post: any = {};
         post.markdown = content;
+        post.slug = this.extractFileName(filePath);
 
         let separatorCounter = 0;
         const metaLines: string[] = [];
@@ -118,9 +125,8 @@ export default class FilesSource extends DataSource {
         const files = this.getSourcePostPaths();
 
         const posts: Post[] = files
-            .map(file => fs.readFileSync(file).toString())
-            .map(content => this.parseMarkdownPost(content))
-            .filter(p => p.title && p.publishedAt);
+            .map(file => this.parseMarkdownPost(file))
+            .filter(p => p.title && p.publishedAt && p.slug);
 
         const tags = posts.flatMap(p => p.tags).filter(t => t);
 
@@ -167,8 +173,7 @@ export default class FilesSource extends DataSource {
     public parsePostsFromPaths(filePaths: string[]): Post[] {
         return filePaths
             .filter(file => fs.existsSync(file))
-            .map(file => fs.readFileSync(file).toString())
-            .map(this.parseMarkdownPost.bind(this));
+            .map(file => this.parseMarkdownPost(file));
     }
 
     public loadData(force = false): void {
@@ -192,5 +197,11 @@ export default class FilesSource extends DataSource {
 
     public getTags(): Tag[] {
         return this.tags;
+    }
+
+    private extractFileName(filePath: string) {
+        const fileName = path.basename(filePath, '.md');
+
+        return fileName.replace(/[^\w-]*/gm, '');
     }
 }
