@@ -176,7 +176,7 @@ ${post.body}
         const postDirName = path.basename(dirPath);
         logger.info(
             ansi.green('A new draft has been generated successfully at:'),
-            ansi.blue(`./${postDirName}/${filePath.replace(dirPath, '')}`)
+            ansi.blue(`./${path.join(postDirName, filePath.replace(dirPath, ''))}`)
         );
     }
 }
