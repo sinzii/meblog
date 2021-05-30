@@ -47,8 +47,8 @@ The project makes use of `pug` for templating, `scss` for styling and `gulpjs` f
 - `posts`: Put your posts in markdown format here. Ideally, arrange your posts into year and month folders for better referencing or searching.
 - `config.js`: [Config file](#configuration) for the site
 
-## How do I create new post
-Create a new `post-name.md` in folder `posts` using the below format:
+## How to create new post
+Simply run `meblog draft` or create a new file `post-name.md` in folder `posts` using the below format:
 ```md
 ---
 title: This is the post title
