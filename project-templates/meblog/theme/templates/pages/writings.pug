@@ -4,7 +4,7 @@ block prepend head
     - var title = 'Writings';
 
 block append head
-    - var description = 'Where my thoughts wander...';
+    - var description = 'Latest writings';
     meta(property='og:description' content=description)
     meta(property='og:url' content=rootUrl('/writings.html'))
     meta(property='description' content=description)
@@ -12,6 +12,9 @@ block append head
 block content
     +header
     +personal-board-small
-    each post in posts
-        +post-summary(post)
+    if posts.length > 0
+        each post in posts
+            +post-summary(post)
+    else
+        p.text-center.meta-color Stay tuned, new articles will be listed here soon!
 

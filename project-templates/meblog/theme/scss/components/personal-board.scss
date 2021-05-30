@@ -1,5 +1,11 @@
 .personal-board {
   text-align: center;
+
+  &__sub {
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .avatar {

@@ -3,8 +3,14 @@
 }
 
 .page-content {
-  width: 800px;
+  width: 900px;
   min-width: 300px;
+  margin: auto;
+  padding: 0 50px 0 50px;
+
+  @media (max-width: $breakpoint) {
+    padding: 0 35px 0 35px;
+  }
 }
 
 .left-sidebar, .right-sidebar {
