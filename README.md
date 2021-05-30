@@ -9,7 +9,7 @@ Live demo: [meblog.sinzii.me](https://meblog.sinzii.me).
   * [Have a quick taste](#have-a-quick-taste)
   * [Features](#features)
   * [Project structure](#project-structure)
-  * [How do I create new post](#how-do-i-create-new-post)
+  * [How to create new post](#how-to-create-new-post)
   * [Preview your post while editing](#preview-your-post-while-editing)
   * [Configuration](#configuration)
   * [Deploy your site on Github](#deploy-your-site-on-github)
