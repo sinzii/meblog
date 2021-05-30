@@ -136,7 +136,7 @@ export default class SiteGenerator extends ConfigHolder {
     dev(done) {
         browserSync.init({
             server: {
-                baseDir: this.outputDirectory
+                baseDir: this.outputRelativeDirectory
             },
             port: DEV_PORT
         });
