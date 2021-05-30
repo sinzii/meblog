@@ -52,14 +52,13 @@ Create a new `post-name.md` in folder `posts` using the below format:
 ```md
 ---
 title: This is the post title
-slug: this-is-the-post-slug
 publishedAt: 2021-05-15T18:04:00+07:00 (YYYY-MM-DDTHH:mm:ssZ)
 tags: tag1, tag2
 excerpt: Some thoughts about the growing journey 
 ---
 Post body goes here
 ```
-If you don't provide a slug, the engine will automatically slugify the post title for one.
+The file name `post-name` will be used as post slug.
 
 ## Preview your post while editing
 Run the command `meblog serve` and start editing your post then hit the save button if you want to see the change.
