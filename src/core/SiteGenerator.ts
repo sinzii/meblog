@@ -8,10 +8,10 @@ import scss from 'gulp-sass';
 import logger from 'gulplog';
 import ansi from 'ansi-colors';
 
-import FilesSource from './FilesSource';
+import DataSource from './source/DataSource';
+import FilesSource from './source/FilesSource';
 import TemplateCompiler from './TemplateCompiler';
 import SampleGenerator from './SampleGenerator';
-import DataSource from './DataSource';
 import RssGenerator from './RssGenerator';
 import {Config} from './model';
 import ConfigHolder from './ConfigHolder';

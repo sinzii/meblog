@@ -3,11 +3,11 @@ import path from 'path';
 import glob from 'glob';
 import logger from 'gulplog';
 
-import DataSource from "./DataSource";
-import {Config, IPost, Tag} from "./model";
-import {Post} from './Post';
-import Renderer from './markdown/Renderer';
-import MarkdownItRenderer from './markdown/MarkdownItRenderer';
+import DataSource from './DataSource';
+import {Config, IPost, Tag} from '../model';
+import {Post} from '../post/Post';
+import Renderer from '../markdown/Renderer';
+import MarkdownItRenderer from '../markdown/MarkdownItRenderer';
 
 export default class FilesSource extends DataSource {
     private readonly postsDirectoryPath: string;
@@ -52,7 +52,7 @@ export default class FilesSource extends DataSource {
 
     private hasAnyChanges(): boolean {
         if (!fs.existsSync(this.postsJsonPath)) {
-            logger.info("data/posts.json is not existed");
+            logger.info('data/posts.json is not existed');
             return true;
         }
         const postsJsonLastModifiedAt = fs.statSync(this.postsJsonPath).mtimeMs;
@@ -62,7 +62,7 @@ export default class FilesSource extends DataSource {
             const lastModifiedAt = fs.statSync(filePath).mtimeMs;
 
             if (lastModifiedAt > postsJsonLastModifiedAt) {
-                logger.info("New post change at file:", filePath);
+                logger.info('New post change at file:', filePath);
                 return true;
             }
         }

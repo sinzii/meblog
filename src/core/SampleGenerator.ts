@@ -1,4 +1,4 @@
-import {Post} from './Post';
+import {Post} from './post/Post';
 import logger from 'gulplog';
 import ansi from 'ansi-colors';
 

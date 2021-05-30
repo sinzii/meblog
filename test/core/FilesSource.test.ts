@@ -3,7 +3,7 @@ import del from 'del';
 import fs from 'fs';
 import _ from 'lodash';
 import SampleGenerator from '../../src/core/SampleGenerator';
-import FilesSource from '../../src/core/FilesSource';
+import FilesSource from '../../src/core/source/FilesSource';
 import config from '../config';
 import {assert} from 'chai';
 import {assertPost} from './helper';

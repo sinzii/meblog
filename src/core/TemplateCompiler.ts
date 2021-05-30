@@ -2,8 +2,8 @@ import File from 'vinyl';
 import path from 'path';
 import pug from 'pug';
 import through from 'through2';
-import ConfigHolder from "./ConfigHolder";
-import DataSource from "./DataSource";
+import ConfigHolder from './ConfigHolder';
+import DataSource from './source/DataSource';
 import logger from 'gulplog';
 import {Post} from './Post';
 

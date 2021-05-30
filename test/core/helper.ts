@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import {Post} from '../../src/core/Post';
+import {Post} from '../../src/core/post/Post';
 
 const postProperties = [
     'title',

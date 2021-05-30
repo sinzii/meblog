@@ -1,4 +1,4 @@
-import {IPost, Tag} from "./model";
+import {IPost, Tag} from '../model';
 import moment from 'moment';
 
 export class Post {
