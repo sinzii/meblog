@@ -35,7 +35,7 @@ meblog serve
 - Built-in RSS feed generator.
 - Love using `pug` template? __meblog__ is the right tool for you.
 
-## Project structure
+## Template project structure
 The project makes use of `pug` for templating, `scss` for styling and `gulpjs` for generating the site and automating the process.
 
 - `theme`: Where you customize the pages & styles
