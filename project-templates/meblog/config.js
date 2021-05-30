@@ -2,7 +2,7 @@ module.exports = {
     baseUrl: '',
     baseContext: '',
     siteName: 'meblog',
-    siteDescription: 'A simple static site generator',
+    siteDescription: 'A simple blog engine for personal blogging',
     dateTimeFormat: 'DD/MM/YYYY - HH:mm',
     dateFormat: 'DD/MM/YYYY',
     postUrlStyle: 'POST_SLUG',

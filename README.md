@@ -1,7 +1,7 @@
 # :house_with_garden:	 meblog
 ![GitHub](https://img.shields.io/github/license/sinzii/meblog)
 
-A simple static site generator that powered your-base-on-the-internet.
+A simple blog engine for personal blogging
 
 Live demo: [meblog.sinzii.me](https://meblog.sinzii.me).
 
