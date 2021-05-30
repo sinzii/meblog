@@ -53,7 +53,7 @@ export default class ConfigHolder {
                 return `/${post.publishedYear}/${post.slug}.html`;
             case PostUrlStyle.SLUG:
                 return `/${post.slug}.html`;
-            case PostUrlStyle.POST_SLUG:
+            case PostUrlStyle.POSTS_SLUG:
             default:
                 return `/${defaultPostsDir}/${post.slug}.html`
         }

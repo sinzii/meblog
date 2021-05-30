@@ -5,7 +5,7 @@ module.exports = {
     siteDescription: 'A simple blog engine for personal blogging',
     dateTimeFormat: 'DD/MM/YYYY - HH:mm',
     dateFormat: 'DD/MM/YYYY',
-    postUrlStyle: 'POST_SLUG',
+    postUrlStyle: 'POSTS_SLUG',
     me: {
         fullname: 'Your Name',
         nickname: '@meblog',

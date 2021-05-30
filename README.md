@@ -75,7 +75,7 @@ But there are some configurations that you need understand why do we have it.
 - `baseUrl`: This will be the host url that you're about to deploy to, eg: `https://sinzii.me` or `https://yourname.github.io`. It's not required for the site to work properly. But if you care about sharing your posts on Facebook, this property will be used to calculate the url in meta tags for the purpose of SEO or sharing your posts on social media or generate RSS feed.
 - `baseContext`: If you want to deploy the site on a sub directory like `https:/sinzii.me/blog`. Then set it's value as `blog`.
 - `postUrlStyle`: The engine can generate different styles of post url, choose your favorite one.
-  - `POST_SLUG`: ../posts/hello-world.html __(default)__
+  - `POSTS_SLUG`: ../posts/hello-world.html __(default)__
   - `POSTS_YEAR_MONTH_SLUG`: ../posts/2021/05/hello-world.html
   - `POSTS_YEAR_SLUG`: ../posts/2021/hello-world.html
   - `YEAR_MONTH_SLUG`: ../2021/05/hello-world.html

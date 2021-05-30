@@ -23,7 +23,7 @@ export interface Config {
 }
 
 export enum PostUrlStyle {
-    POST_SLUG = 'POST_SLUG', // ../posts/hello-world.html
+    POSTS_SLUG = 'POSTS_SLUG', // ../posts/hello-world.html
     POSTS_YEAR_MONTH_SLUG = 'POSTS_YEAR_MONTH_SLUG', // ../posts/2021/05/hello-world.html
     POSTS_YEAR_SLUG = 'POSTS_YEAR_SLUG', // ../posts/2021/hello-world.html
     YEAR_MONTH_SLUG = 'YEAR_MONTH_SLUG', // ../2021/05/hello-world.html
