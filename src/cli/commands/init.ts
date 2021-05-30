@@ -11,7 +11,7 @@ const DEFAULT_TEMPLATE_NAME = 'meblog';
 
 const getProjectTemplatePath = (template = DEFAULT_TEMPLATE_NAME) => {
     const projectTemplatePath = path.join(
-        __dirname, `../../../project-templates/${template}`
+        __dirname, `../../../templates/${template}`
     );
 
     if (!fs.existsSync(projectTemplatePath)) {
