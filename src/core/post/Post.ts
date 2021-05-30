@@ -24,7 +24,9 @@ export class Post {
         this.convertPublishedDate(post);
 
         if (typeof post.tags === 'string') {
-            post.tags = post.tags.split(',').map(t => t.trim());
+            post.tags = post.tags.split(/[\s,]/gm)
+                .filter(t => t)
+                .map(t => t.trim());
         }
 
         Object.assign(this, post);
