@@ -73,9 +73,7 @@ export default class FilesSource extends DataSource {
     private parse(): { posts: Post[], tags: Tag[] } {
         const files = this.getSourcePostPaths();
 
-        const posts: Post[] = files
-            .map(file => this.postParser.parse(file, this.separator))
-            .filter(p => p.title && p.publishedAt && p.slug);
+        const posts: Post[] = this.parsePostsFromPaths(files);
 
         const tags = posts.flatMap(p => p.tags).filter(t => t);
 
@@ -126,7 +124,8 @@ export default class FilesSource extends DataSource {
     public parsePostsFromPaths(filePaths: string[]): Post[] {
         return filePaths
             .filter(file => fs.existsSync(file))
-            .map(file => this.postParser.parse(file, this.separator));
+            .map(file => this.postParser.parse(file, this.separator))
+            .filter(p => p.title && p.publishedAt && p.slug);
     }
 
     public loadData(force = false): void {

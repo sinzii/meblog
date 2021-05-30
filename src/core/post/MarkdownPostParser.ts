@@ -15,6 +15,10 @@ export default class MarkdownPostParser extends PostParser {
     public parse(filePath: string, separator: string = '---'): Post {
         const post: any = {};
         let content = FileUtils.readFile(filePath);
+        if (!content) {
+            return new Post();
+        }
+
         post.markdown = content;
         post.slug = this.extractSlug(filePath);
 
