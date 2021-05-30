@@ -1,4 +1,4 @@
-import Parser from './Parser';
+import Renderer from './Renderer';
 import MarkdownIt from 'markdown-it';
 import emoji from 'markdown-it-emoji';
 import sub from 'markdown-it-sub';
@@ -8,7 +8,7 @@ import abbr from 'markdown-it-abbr';
 import twemoji from 'twemoji';
 import hljs from 'highlight.js';
 
-export default class MarkdownItParser extends Parser {
+export default class MarkdownItRenderer extends Renderer {
     private md: MarkdownIt;
 
     private highlight(code, lang) {
@@ -20,7 +20,7 @@ export default class MarkdownItParser extends Parser {
         return twemoji.parse(token[idx].content);
     }
 
-    private initParser() {
+    private initRenderer() {
         if (this.md) {
             return;
         }
@@ -41,9 +41,9 @@ export default class MarkdownItParser extends Parser {
         this.md.renderer.rules.emoji = this.twemoji.bind(this);
     }
 
-    parse(content: string): string {
-        this.initParser();
+    render(markdown: string): string {
+        this.initRenderer();
 
-        return this.md.render(content);
+        return this.md.render(markdown);
     }
 }

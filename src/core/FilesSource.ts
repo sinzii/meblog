@@ -6,14 +6,14 @@ import logger from 'gulplog';
 import DataSource from "./DataSource";
 import {Config, IPost, Tag} from "./model";
 import {Post} from './Post';
-import Parser from './markdown/Parser';
-import MarkdownItParser from './markdown/MarkdownItParser';
+import Renderer from './markdown/Renderer';
+import MarkdownItRenderer from './markdown/MarkdownItRenderer';
 
 export default class FilesSource extends DataSource {
     private readonly postsDirectoryPath: string;
     private readonly dataDirectoryPath: string;
     private readonly separator: string;
-    private readonly mdParser: Parser;
+    private readonly mdRenderer: Renderer;
 
     private posts: Post[] = [];
     private tags: Tag[] = [];
@@ -35,7 +35,7 @@ export default class FilesSource extends DataSource {
         this.postsDirectoryPath = postsDirectoryPath;
         this.dataDirectoryPath = path.resolve(this.postsDirectoryPath, '../data');
         this.separator = separator;
-        this.mdParser = new MarkdownItParser();
+        this.mdRenderer = new MarkdownItRenderer();
     }
 
     get postsJsonPath(): string {
@@ -98,7 +98,7 @@ export default class FilesSource extends DataSource {
                 separatorCounter += 1;
 
                 if (separatorCounter === 2) {
-                    post.body = this.mdParser.parse(content);
+                    post.body = this.mdRenderer.render(content);
                     break;
                 } else {
                     continue;
