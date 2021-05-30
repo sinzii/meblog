@@ -6,14 +6,14 @@ import logger from 'gulplog';
 import DataSource from './DataSource';
 import {Config, IPost, Tag} from '../model';
 import {Post} from '../post/Post';
-import Renderer from '../markdown/Renderer';
-import MarkdownItRenderer from '../markdown/MarkdownItRenderer';
+import PostParser from '../post/PostParser';
+import MarkdownPostParser from '../post/MarkdownPostParser';
 
 export default class FilesSource extends DataSource {
     private readonly postsDirectoryPath: string;
     private readonly dataDirectoryPath: string;
     private readonly separator: string;
-    private readonly mdRenderer: Renderer;
+    private readonly postParser: PostParser;
 
     private posts: Post[] = [];
     private tags: Tag[] = [];
@@ -35,7 +35,7 @@ export default class FilesSource extends DataSource {
         this.postsDirectoryPath = postsDirectoryPath;
         this.dataDirectoryPath = path.resolve(this.postsDirectoryPath, '../data');
         this.separator = separator;
-        this.mdRenderer = new MarkdownItRenderer();
+        this.postParser = new MarkdownPostParser();
     }
 
     get postsJsonPath(): string {
@@ -52,7 +52,7 @@ export default class FilesSource extends DataSource {
 
     private hasAnyChanges(): boolean {
         if (!fs.existsSync(this.postsJsonPath)) {
-            logger.info('data/posts.json is not existed');
+            logger.debug('Cache data is not found');
             return true;
         }
         const postsJsonLastModifiedAt = fs.statSync(this.postsJsonPath).mtimeMs;
@@ -70,62 +70,11 @@ export default class FilesSource extends DataSource {
         return false;
     }
 
-    private parseMarkdownPost(filePath: string): Post {
-        if (!fs.existsSync(filePath)) {
-            throw new Error(`Markdown post is not existed at ${filePath}`);
-        }
-
-        let content = fs.readFileSync(filePath).toString();
-
-        const post: any = {};
-        post.markdown = content;
-        post.slug = this.extractFileName(filePath);
-
-        let separatorCounter = 0;
-        const metaLines: string[] = [];
-
-        while (true) {
-            const index = content.indexOf('\n');
-            if (index < 0) {
-                break;
-            }
-
-            const line = content.substring(0, index).trim();
-
-            content = content.substring(index + 1);
-
-            if (line === this.separator) {
-                separatorCounter += 1;
-
-                if (separatorCounter === 2) {
-                    post.body = this.mdRenderer.render(content);
-                    break;
-                } else {
-                    continue;
-                }
-            }
-
-            if (separatorCounter <= 1) {
-                metaLines.push(line);
-            }
-        }
-
-        metaLines.forEach(line => {
-            const colonIndex = line.indexOf(':');
-            const metaName = line.substring(0, colonIndex).trim();
-            const metaValue = line.substring(colonIndex + 1).trim();
-
-            post[metaName] = metaValue;
-        });
-
-        return new Post(post);
-    }
-
     private parse(): { posts: Post[], tags: Tag[] } {
         const files = this.getSourcePostPaths();
 
         const posts: Post[] = files
-            .map(file => this.parseMarkdownPost(file))
+            .map(file => this.postParser.parse(file, this.separator))
             .filter(p => p.title && p.publishedAt && p.slug);
 
         const tags = posts.flatMap(p => p.tags).filter(t => t);
@@ -152,8 +101,12 @@ export default class FilesSource extends DataSource {
             return;
         }
 
-        const {posts, tags} = this.parse();
+        const result = this.parse();
 
+        this.cacheData(result);
+    }
+
+    private cacheData({posts, tags}) {
         const jsonPrettySpace = this.config.devMode ? 2 : 0;
         if (!fs.existsSync(this.dataDirectoryPath)) {
             fs.mkdirSync(this.dataDirectoryPath);
@@ -173,7 +126,7 @@ export default class FilesSource extends DataSource {
     public parsePostsFromPaths(filePaths: string[]): Post[] {
         return filePaths
             .filter(file => fs.existsSync(file))
-            .map(file => this.parseMarkdownPost(file));
+            .map(file => this.postParser.parse(file, this.separator));
     }
 
     public loadData(force = false): void {
@@ -197,11 +150,5 @@ export default class FilesSource extends DataSource {
 
     public getTags(): Tag[] {
         return this.tags;
-    }
-
-    private extractFileName(filePath: string) {
-        const fileName = path.basename(filePath, '.md');
-
-        return fileName.replace(/[^\w-]*/gm, '');
     }
 }

@@ -5,7 +5,7 @@ import through from 'through2';
 import ConfigHolder from './ConfigHolder';
 import DataSource from './source/DataSource';
 import logger from 'gulplog';
-import {Post} from './Post';
+import {Post} from './post/Post';
 
 
 export default class TemplateCompiler extends ConfigHolder {
@@ -40,8 +40,6 @@ export default class TemplateCompiler extends ConfigHolder {
 
         return Buffer.from(compiled);
     }
-
-
 
     public pugPosts(posts: Post[]) {
         const compilePugTemplate = this.compilePugTemplate.bind(this);
