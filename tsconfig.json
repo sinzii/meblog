@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "rootDir": "./src",
+    "rootDirs": ["src", "test"],
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -25,6 +25,6 @@
   ],
   "exclude": [
     "node_modules",
-    "__tests__"
+    "test"
   ]
 }
