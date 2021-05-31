@@ -2,6 +2,7 @@ import {IPost, Tag} from '../model';
 import moment from 'moment';
 import logger from 'gulplog';
 import ansi from 'ansi-colors';
+import StringUtils from '../util/StringUtils';
 
 export class Post {
     title: string;
@@ -23,11 +24,7 @@ export class Post {
 
         this.convertPublishedDate(post);
 
-        if (typeof post.tags === 'string') {
-            post.tags = post.tags.split(/[\s,]/gm)
-                .filter(t => t)
-                .map(t => t.trim());
-        }
+        post.tags = StringUtils.collectTags(post.tags);
 
         Object.assign(this, post);
     }

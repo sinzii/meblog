@@ -6,6 +6,7 @@ import ConfigHolder from './ConfigHolder';
 import DataSource from './source/DataSource';
 import logger from 'gulplog';
 import {Post} from './post/Post';
+import StringUtils from './util/StringUtils';
 
 
 export default class TemplateCompiler extends ConfigHolder {
@@ -81,7 +82,12 @@ export default class TemplateCompiler extends ConfigHolder {
                 }
                 cb();
             } else if (file.path.endsWith('tag.pug')) {
-                for (const tag of dataSource.getTags()) {
+                const {predefinedTags = ''} = config;
+                const tags = StringUtils.collectTags(
+                    [predefinedTags, dataSource.getTags()]
+                );
+
+                for (const tag of tags) {
                     this.push(new File({
                         base: file.base,
                         path: path.join(file.base, `tags/${tag}.html`),
