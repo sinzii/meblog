@@ -7,6 +7,7 @@ export default class StringUtils {
         }
 
         const tags = source
+            .filter(t => t)
             .flatMap(s => s)
             .map(s => String(s))
             .flatMap(s => s.split(/[\s,]/gm))

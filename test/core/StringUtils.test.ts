@@ -64,4 +64,15 @@ describe('StringUtils', function () {
             ]
         );
     });
+
+    it('should filter out falsy value', function () {
+        const tags = StringUtils.collectTags([
+            null, undefined, '', 'tag'
+        ]);
+
+        assert.deepEqual(
+            tags,
+            ['tag']
+        );
+    });
 });
