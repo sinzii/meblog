@@ -8,6 +8,7 @@ import {Config, IPost, Tag} from '../model';
 import {Post} from '../post/Post';
 import PostParser from '../post/PostParser';
 import MarkdownPostParser from '../post/MarkdownPostParser';
+import FileUtils from '../util/FileUtils';
 
 export default class FilesSource extends DataSource {
     private readonly postsDirectoryPath: string;
@@ -121,8 +122,13 @@ export default class FilesSource extends DataSource {
         );
     }
 
+    private filterUnpublishedPosts(filePath: string): boolean {
+        return !FileUtils.basename(filePath).startsWith('__');
+    }
+
     public parsePostsFromPaths(filePaths: string[]): Post[] {
         return filePaths
+            .filter(file => this.filterUnpublishedPosts(file))
             .filter(file => fs.existsSync(file))
             .map(file => this.postParser.parse(file, this.separator))
             .filter(p => p.title && p.publishedAt && p.slug);
