@@ -12,6 +12,7 @@ export class Post {
     excerpt: string;
     body: string;
     markdown: string;
+    [prop: string]: unknown;
 
     constructor(post?: IPost) {
         this.copyInto(post);
@@ -36,7 +37,7 @@ export class Post {
 
         const date = new Date(String(post.publishedAt));
         if (isNaN(date.getTime())) {
-            logger.error(`${ansi.red('Invalid date')} ${ansi.green(post.publishedAt)} from post ${ansi.green(post.title)},\ this post will be ignore from showing`);
+            logger.info(`${ansi.red('Invalid date')} ${ansi.green(post.publishedAt)} from post ${ansi.green(post.title)},\ this post will be ignore from showing`);
             post.publishedAt = null;
             return;
         }

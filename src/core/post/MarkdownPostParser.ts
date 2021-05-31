@@ -53,6 +53,10 @@ export default class MarkdownPostParser extends PostParser {
 
         metaLines.forEach(line => {
             const colonIndex = line.indexOf(':');
+            if (colonIndex <= 0) {
+                return;
+            }
+
             const metaName = line.substring(0, colonIndex).trim();
             const metaValue = line.substring(colonIndex + 1).trim();
 
