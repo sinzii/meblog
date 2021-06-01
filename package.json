@@ -57,6 +57,7 @@
     "gulp-autoprefixer": "^7.0.1",
     "gulp-clean-css": "^4.3.0",
     "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^3.0.0",
     "gulplog": "^1.0.0",
     "highlight.js": "^10.7.2",
     "lodash": "^4.17.21",

@@ -2,6 +2,10 @@ import gulp from 'gulp';
 import path from 'path';
 import del from 'del';
 import BS, {BrowserSyncInstance} from 'browser-sync';
+import cleanCss from 'gulp-clean-css';
+import autoprefixer from 'gulp-autoprefixer'
+import scss from 'gulp-sass';
+import sourcemaps from 'gulp-sourcemaps'
 import logger from 'gulplog';
 import ansi from 'ansi-colors';
 import DataSource from './source/DataSource';
@@ -135,6 +139,34 @@ export default class SiteGenerator extends ConfigHolder {
         rssGenerator.generate(this.outputDirectory);
     }
 
+    async generateCss(): Promise<void> {
+        return new Promise(resolve => {
+            let stream = gulp.src('./scss/main.scss', {allowEmpty: true});
+
+            if (this.config.devMode) {
+                stream = stream
+                    .pipe(sourcemaps.init())
+            }
+
+            stream = stream
+                .pipe(scss().on('error', scss.logError))
+
+            if (this.config.devMode) {
+                stream = stream
+                    .pipe(sourcemaps.write())
+            } else {
+                stream = stream
+                    .pipe(autoprefixer())
+                    .pipe(cleanCss());
+            }
+
+            return stream
+                .pipe(gulp.dest(this.outputDirectory))
+                .on('end', resolve)
+                .pipe(this.browserSync.stream());
+        })
+    }
+
     copyAssets(): Promise<void> {
         return new Promise(resolve => {
             gulp.src('./assets/**/*')
@@ -216,7 +248,7 @@ export default class SiteGenerator extends ConfigHolder {
     async build(): Promise<void> {
         await this.runSeries([
             'logOutputDir', 'clean', 'copyAssets',
-            'loadData', 'generateTemplates', 'generateRssFeed'
+            'loadData', 'generateTemplates', 'generateRssFeed', 'generateCss'
         ]);
     }
 
@@ -259,6 +291,7 @@ export default class SiteGenerator extends ConfigHolder {
             this.generateTags,
             this.generateTemplates,
             this.generateRssFeed,
+            this.generateCss,
             this.generateSamplePosts,
             this.newDraft,
             this.onServe,
