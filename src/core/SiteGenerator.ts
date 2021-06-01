@@ -1,13 +1,9 @@
 import gulp from 'gulp';
 import path from 'path';
 import del from 'del';
-import cleanCss from 'gulp-clean-css';
-import autoprefixer from 'gulp-autoprefixer'
 import BS from 'browser-sync';
-import scss from 'gulp-sass';
 import logger from 'gulplog';
 import ansi from 'ansi-colors';
-
 import DataSource from './source/DataSource';
 import FilesSource from './source/FilesSource';
 import TemplateCompiler from './TemplateCompiler';
@@ -15,6 +11,7 @@ import SampleGenerator from './SampleGenerator';
 import RssGenerator from './RssGenerator';
 import {Config} from './model';
 import ConfigHolder from './ConfigHolder';
+import {EventEmitter} from 'events';
 
 const browserSync = BS.create();
 const DEV_PORT = 3000;
@@ -24,11 +21,21 @@ export default class SiteGenerator extends ConfigHolder {
     private compiler: TemplateCompiler;
     private generator: SampleGenerator;
     private args: any;
+    private eventEmitter: EventEmitter
 
     constructor(config: Config, args: any) {
         super(config);
         this.args = args;
         this.generator = new SampleGenerator();
+        this.eventEmitter = new EventEmitter();
+
+        this.registerEvents();
+    }
+
+    private registerEvents() {
+        if (typeof this.config.eventRegister === 'function') {
+            this.config.eventRegister.call(this, this.eventEmitter);
+        }
     }
 
     /**
@@ -67,73 +74,52 @@ export default class SiteGenerator extends ConfigHolder {
         return path.join(this.config.rootDir, 'posts');
     }
 
-    logOutputDir(done) {
+    async logOutputDir(): Promise<void> {
         logger.info('Output directory:', ansi.blue(this.outputRelativeDirectory));
-        done();
     }
 
-    clean(done) {
+    async clean(): Promise<void> {
         del.sync([this.outputDirectory])
-        done();
     }
 
-    cleanCache(done) {
+    async cleanCache(): Promise<void> {
         del.sync(['./data']);
-        done();
     }
 
-    cleanPosts(done) {
+    async cleanPosts(): Promise<void> {
         del.sync(`${this.postsDirPath}/*`);
-        done();
     }
 
-    generatePages() {
-        this.initCompiler();
-        this.loadData();
+    generatePages(): Promise<void> {
+        return new Promise(resolve => {
+            this.initCompiler();
+            this.loadData();
 
-        return gulp.src('./theme/templates/pages/**/*.pug')
-            .pipe(this.compiler.pug())
-            .pipe(gulp.dest(this.outputDirectory))
-            .pipe(browserSync.stream());
+            gulp.src('./templates/pages/**/*.pug')
+                .pipe(this.compiler.pug())
+                .pipe(gulp.dest(this.outputDirectory))
+                .on('end', resolve)
+                .pipe(browserSync.stream());
+        });
     }
 
-    generateRssFeed(done) {
+    async generateRssFeed(): Promise<void> {
         this.initCompiler();
         this.loadData();
 
         const rssGenerator = new RssGenerator(this.dataSource);
         rssGenerator.generate(this.outputDirectory);
-        done();
     }
 
-    generateCss() {
-        let stream =
-            gulp.src('./theme/scss/main.scss')
-                .pipe(scss());
-
-        if (!this.config.devMode) {
-            stream = stream
-                .pipe(autoprefixer())
-                .pipe(cleanCss());
-        }
-
-        return stream
-            .pipe(gulp.dest(this.outputDirectory))
-            .pipe(browserSync.stream());
+    copyAssets(): Promise<void> {
+        return new Promise(resolve => {
+            gulp.src('./assets/**/*')
+                .pipe(gulp.dest(this.outputDirectory))
+                .on('end', resolve);
+        })
     }
 
-    copyAssets() {
-        return gulp.src('./assets/**/*')
-            .pipe(gulp.dest(this.outputDirectory));
-    }
-
-    generateJs() {
-        return gulp.src('./theme/js/*.js')
-            .pipe(gulp.dest(this.outputDirectory))
-            .pipe(browserSync.stream());
-    }
-
-    dev(done) {
+    async onServe(): Promise<void> {
         browserSync.init({
             server: {
                 baseDir: this.outputRelativeDirectory
@@ -141,9 +127,7 @@ export default class SiteGenerator extends ConfigHolder {
             port: DEV_PORT
         });
 
-        gulp.watch('./theme/scss/**/*.scss', gulp.series('generateCss'));
-        gulp.watch('./theme/js/**/*.js', gulp.series('generateJs'));
-        gulp.watch('./theme/templates/**/*.pug', gulp.series('generatePages'));
+        gulp.watch('./templates/**/*.pug', gulp.series('generatePages'));
         gulp.watch('./assets/**/*', gulp.series('copyAssets', (done) => {
             browserSync.reload();
             done();
@@ -154,8 +138,6 @@ export default class SiteGenerator extends ConfigHolder {
         watcher
             .on('change', this.onUpdateMarkdownPost.bind(this))
             .on('add', this.onUpdateMarkdownPost.bind(this));
-
-        done();
     }
 
     private onUpdateMarkdownPost(path: string): void {
@@ -166,7 +148,7 @@ export default class SiteGenerator extends ConfigHolder {
 
         const posts = this.dataSource.parsePostsFromPaths([path]);
 
-        gulp.src('./theme/templates/pages/post.pug')
+        gulp.src('./templates/pages/post.pug')
             .pipe(this.compiler.pugPosts(posts))
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(browserSync.stream());
@@ -176,54 +158,89 @@ export default class SiteGenerator extends ConfigHolder {
         logger.info(`[POST UPDATED] ${postUrls.join(', ')}`);
     }
 
-    generateSamplePosts(done) {
+    async generateSamplePosts(): Promise<void> {
         const generator = new SampleGenerator();
         const numberOfPosts = Number(this.args['number-of-posts']) || 10;
         generator.generateMarkdownPostsAndSave(numberOfPosts, this.postsDirPath);
-
-        done();
     }
 
-    onProd(done) {
+    async prod(): Promise<void> {
         this.config.devMode = false;
-
-        done();
     }
 
-    onDev(done) {
+    async dev(): Promise<void> {
         this.config.devMode = true;
         this.config.baseUrl = `http://localhost:${DEV_PORT}`;
         this.config.baseContext = '';
-
-        done();
     }
 
-    newPost(done) {
+    async newPost(): Promise<void> {
         const generator = new SampleGenerator();
         generator.generateEmptyMarkdownPostAndSave(this.postsDirPath);
-        done();
     }
 
-    initTasks() {
-        gulp.task('prod', this.onProd.bind(this));
-        gulp.task('dev', this.onDev.bind(this));
-        gulp.task('logOutputDir', this.logOutputDir.bind(this));
-        gulp.task('clean', this.clean.bind(this));
-        gulp.task('cleanPosts', this.cleanPosts.bind(this));
-        gulp.task('cleanCache', this.cleanCache.bind(this));
-        gulp.task('copyAssets', this.copyAssets.bind(this));
-        gulp.task('generatePages', this.generatePages.bind(this));
-        gulp.task('generateRssFeed', this.generateRssFeed.bind(this));
-        gulp.task('generateCss', this.generateCss.bind(this));
-        gulp.task('generateJs', this.generateJs.bind(this));
-        gulp.task('generateSamplePosts', this.generateSamplePosts.bind(this));
-        gulp.task('newPost', this.newPost.bind(this));
-        gulp.task('build', gulp.series(
+    private runSeries(tasks: string[]): Promise<void> {
+        return new Promise((resolve, reject) => {
+            gulp.series(tasks)(function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        })
+    }
+
+
+    async build(): Promise<void> {
+        await this.runSeries([
             'logOutputDir', 'clean', 'copyAssets',
-            'generatePages', 'generateRssFeed',
-            'generateCss', 'generateJs'
-        ));
-        gulp.task('serve', gulp.series('build', this.dev.bind(this)));
+            'generatePages', 'generateRssFeed'
+        ]);
+    }
+
+    async serve(): Promise<void> {
+        await this.runSeries(['build', 'onServe']);
+    }
+
+    private wrap(func) {
+        return async function () {
+            logger.debug(`[BEFORE] ${func.name}`);
+            this.eventEmitter.emit(`BEFORE:${func.name}`);
+
+            await func.call(this);
+
+            logger.debug(`[AFTER] ${func.name}`);
+            this.eventEmitter.emit(`AFTER:${func.name}`);
+        }
+    }
+
+    private registerTask(func) {
+        gulp.task(
+            func.name,
+            this.wrap(func).bind(this)
+        );
+    }
+
+    public initTasks() {
+        const tasks = [
+            this.prod,
+            this.dev,
+            this.logOutputDir,
+            this.clean,
+            this.cleanPosts,
+            this.cleanCache,
+            this.copyAssets,
+            this.generatePages,
+            this.generateRssFeed,
+            this.generateSamplePosts,
+            this.newPost,
+            this.onServe,
+            this.build,
+            this.serve
+        ];
+
+        tasks.forEach(t => this.registerTask(t));
     }
 
     public run(tasks: string[]) {

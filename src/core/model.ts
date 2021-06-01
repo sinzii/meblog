@@ -1,3 +1,5 @@
+import {EventEmitter} from 'events';
+
 export type Tag = string;
 
 export interface IPost {
@@ -7,6 +9,10 @@ export interface IPost {
     tags: Tag[] | string,
     excerpt: string,
     body: string
+}
+
+interface EventRegister {
+    (eventEmitter: EventEmitter): void
 }
 
 export interface Config {
@@ -19,6 +25,7 @@ export interface Config {
     dateTimeFormat: string,
     dateFormat: string,
     postUrlStyle?: PostUrlStyle,
+    eventRegister?: EventRegister;
     [otherOption: string]: any
 }
 
