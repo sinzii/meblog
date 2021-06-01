@@ -25,13 +25,13 @@ export default class RssGenerator extends ConfigHolder {
 
     private generateRssContent() {
         return '<rss version="2.0">' +
-    '<channel>' +
-        `<title>${this.config.siteName}</title>` +
-        `<link>${this.config.baseUrl}</link>` +
-        `<description>${this.config.siteDescription}</description>` +
-        this.generateItemFeeds() +
-    '</channel>' +
-'</rss>';
+                    '<channel>' +
+                        `<title>${this.config.siteName}</title>` +
+                        `<link>${this.config.baseUrl}</link>` +
+                        `<description>${this.config.siteDescription}</description>` +
+                        this.generateItemFeeds() +
+                    '</channel>' +
+                '</rss>';
     }
 
     private generateItemFeeds(): string {
@@ -44,13 +44,13 @@ export default class RssGenerator extends ConfigHolder {
     private getItemFeed(post: Post): string {
         const postUrl = this.postRootUrl(post);
         return '<item>' +
-    `<title>${post.title}</title>` +
-    `<link>${postUrl}</link>` +
-    `<description><![CDATA[${post.excerpt}]]></description>` +
-    `<guid>${postUrl}</guid>` +
-    `<pubDate>${this.formatRFC822DateTime(post.publishedAt)}</pubDate>` +
-            this.getItemCategories(post) +
-'</item>';
+                    `<title>${post.title}</title>` +
+                    `<link>${postUrl}</link>` +
+                    `<description><![CDATA[${post.excerpt}]]></description>` +
+                    `<guid>${postUrl}</guid>` +
+                    `<pubDate>${this.formatRFC822DateTime(post.publishedAt)}</pubDate>` +
+                            this.getItemCategories(post) +
+                '</item>';
     }
 
     private getItemCategories(post: Post) {
