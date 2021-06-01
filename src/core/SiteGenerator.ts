@@ -45,11 +45,6 @@ export default class SiteGenerator extends ConfigHolder {
         }
     }
 
-    /**
-     * We might call init compiler again over times
-     * because of postsDirPath might be changed due
-     * to the changing of environment (dev or prod).
-     */
     private initCompiler() {
         this.dataSource = new FilesSource(this.config, this.postsDirPath);
         this.compiler = new TemplateRenderer(this.dataSource);
@@ -176,7 +171,7 @@ export default class SiteGenerator extends ConfigHolder {
         })
     }
 
-    async reloadConfig() {
+    reloadConfig() {
         const {configFilePath} = this.args;
         delete require.cache[configFilePath];
         const newConfig = require(configFilePath);
@@ -185,7 +180,7 @@ export default class SiteGenerator extends ConfigHolder {
         this.registerEvents();
     }
 
-    async reloadBrowser() {
+    reloadBrowser() {
         this.browserSync.reload();
     }
 
