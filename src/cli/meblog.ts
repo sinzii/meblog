@@ -14,6 +14,7 @@ export const loadConfig = (args: any): Config => {
     }
 
     logger.info('Load config file from:', ansi.blue(configFile));
+    args['configFilePath'] = configFilePath;
 
     const config = require(configFilePath);
     config.rootDir = process.cwd();

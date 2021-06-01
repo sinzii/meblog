@@ -40,6 +40,7 @@ export default class SiteGenerator extends ConfigHolder {
 
     private registerEvents() {
         if (typeof this.config.eventRegister === 'function') {
+            this.eventEmitter.removeAllListeners();
             this.config.eventRegister.call(this, this.eventEmitter);
         }
     }
@@ -175,6 +176,19 @@ export default class SiteGenerator extends ConfigHolder {
         })
     }
 
+    async reloadConfig() {
+        const {configFilePath} = this.args;
+        delete require.cache[configFilePath];
+        const newConfig = require(configFilePath);
+        Object.assign(this.config, newConfig);
+
+        this.registerEvents();
+    }
+
+    async reloadBrowser() {
+        this.browserSync.reload();
+    }
+
     async onServe(): Promise<void> {
         this.browserSync.init({
             server: {
@@ -184,11 +198,20 @@ export default class SiteGenerator extends ConfigHolder {
             open: this.args['no-open'] ? false : 'local'
         });
 
-        gulp.watch('./templates/**/*.pug', gulp.series('generatePages'));
-        gulp.watch('./assets/**/*', gulp.series('copyAssets', (done) => {
-            this.browserSync.reload();
-            done();
-        }));
+        gulp.watch(
+            this.args['configFilePath'],
+            gulp.series('reloadConfig', 'dev', 'generateTemplates')
+        );
+
+        gulp.watch(
+            './templates/**/*.pug',
+            gulp.series('generateTemplates')
+        );
+
+        gulp.watch(
+            './assets/**/*',
+            gulp.series('copyAssets', 'reloadBrowser')
+        );
 
         const watcher = gulp.watch(this.postsDirPath + '/**/*.md');
         watcher
@@ -254,7 +277,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async serve(): Promise<void> {
-        await this.runSeries(['build', 'onServe']);
+        await this.runSeries(['dev', 'build', 'onServe']);
     }
 
     private wrap(func) {
@@ -296,6 +319,8 @@ export default class SiteGenerator extends ConfigHolder {
             this.generateSamplePosts,
             this.newDraft,
             this.onServe,
+            this.reloadConfig,
+            this.reloadBrowser,
             this.build,
             this.serve
         ];

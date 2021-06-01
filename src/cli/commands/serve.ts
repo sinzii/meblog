@@ -20,6 +20,6 @@ export default {
     },
     handler: args => {
         logger.info('Starting local development server');
-        run(args, ['cleanCache', 'dev', 'serve']);
+        run(args, ['cleanCache', 'serve']);
     }
 } as CommandModule;
