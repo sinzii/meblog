@@ -226,13 +226,14 @@ export default class SiteGenerator extends ConfigHolder {
 
     private wrap(func) {
         return async function () {
-            logger.debug(`[BEFORE] ${func.name}`);
-            this.eventEmitter.emit(`BEFORE:${func.name}`);
+            const funcCapitalized = StringUtils.capitalize(func.name);
+            logger.debug(`[BEFORE] ${funcCapitalized}`);
+            this.eventEmitter.emit(`BEFORE:${funcCapitalized}`);
 
             await func.call(this);
 
-            logger.debug(`[AFTER] ${func.name}`);
-            this.eventEmitter.emit(`AFTER:${func.name}`);
+            logger.debug(`[AFTER] ${funcCapitalized}`);
+            this.eventEmitter.emit(`AFTER:${funcCapitalized}`);
         }
     }
 

@@ -15,4 +15,12 @@ export default class StringUtils {
 
         return Array.from(new Set(tags));
     }
+
+    static capitalize(str: string) {
+        if (!str) {
+            return '';
+        }
+
+        return str.charAt(0).toUpperCase() + str.substring(1);
+    }
 }
