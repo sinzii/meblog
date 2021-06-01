@@ -8,7 +8,8 @@ export interface IPost {
     publishedAt: Date | string,
     tags: Tag[] | string,
     excerpt: string,
-    body: string
+    body: string,
+    layout?: string,
 }
 
 interface EventRegister {

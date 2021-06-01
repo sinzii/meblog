@@ -12,6 +12,7 @@ export class Post {
     excerpt: string;
     body: string;
     markdown: string;
+    layout?: string;
     [prop: string]: unknown;
 
     constructor(post?: IPost) {
@@ -26,6 +27,10 @@ export class Post {
         this.convertPublishedDate(post);
 
         post.tags = StringUtils.collectTags(post.tags);
+
+        if (!post.layout) {
+            post.layout = 'post'; // use default layout if does not set one
+        }
 
         Object.assign(this, post);
     }
