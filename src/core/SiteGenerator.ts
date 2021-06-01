@@ -196,7 +196,7 @@ export default class SiteGenerator extends ConfigHolder {
         this.config.baseContext = '';
     }
 
-    async newPost(): Promise<void> {
+    async newDraft(): Promise<void> {
         const generator = new SampleGenerator();
         generator.generateEmptyMarkdownPostAndSave(this.postsDirPath);
     }
@@ -260,7 +260,7 @@ export default class SiteGenerator extends ConfigHolder {
             this.generateTemplates,
             this.generateRssFeed,
             this.generateSamplePosts,
-            this.newPost,
+            this.newDraft,
             this.onServe,
             this.build,
             this.serve
