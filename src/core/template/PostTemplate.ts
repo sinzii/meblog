@@ -1,9 +1,9 @@
-import Template from './Template';
+import PageTemplate from './PageTemplate';
 import File from 'vinyl';
 import path from "path";
 import {Post} from '../post/Post';
 
-export default class PostTemplate extends Template {
+export default class PostTemplate extends PageTemplate {
     render(): File[] {
         return this.renderPosts(this.dataSource.getPosts());
     }

@@ -3,7 +3,7 @@ import File from 'vinyl';
 import DataSource from '../source/DataSource';
 import ConfigHolder from '../ConfigHolder';
 
-export default class Template extends ConfigHolder {
+export default class PageTemplate extends ConfigHolder {
     protected dataSource: DataSource;
     protected template: File;
 
@@ -22,7 +22,7 @@ export default class Template extends ConfigHolder {
     }
 
     get templateName(): string {
-        return Template.getTemplateName(this.template);
+        return PageTemplate.getTemplateName(this.template);
     }
 
     static getTemplateName(file: File): string {

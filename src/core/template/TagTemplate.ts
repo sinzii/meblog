@@ -1,10 +1,10 @@
-import Template from './Template';
+import PageTemplate from './PageTemplate';
 import {Tag} from '../model';
 import StringUtils from '../util/StringUtils';
 import File from 'vinyl';
 import path from "path";
 
-export default class TagTemplate extends Template {
+export default class TagTemplate extends PageTemplate {
     render(): File[] {
         return this.getTags().map(tag => this.renderTag(tag));
     }
