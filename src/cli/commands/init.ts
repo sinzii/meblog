@@ -56,7 +56,7 @@ const customizeOnCopying = (destination, args) => {
 }
 
 const copyProjectTemplateToTargetPath = (src, destination, args) => {
-    gulp.src(`${src}/**/*`)
+    gulp.src(`${src}/**/*`, {dot: true})
         .pipe(customizeOnCopying(destination, args))
         .pipe(gulp.dest(destination));
 }
