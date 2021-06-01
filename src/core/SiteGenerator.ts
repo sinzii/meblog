@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 import path from 'path';
 import del from 'del';
-import BS from 'browser-sync';
+import BS, {BrowserSyncInstance} from 'browser-sync';
 import logger from 'gulplog';
 import ansi from 'ansi-colors';
 import DataSource from './source/DataSource';
@@ -13,21 +13,22 @@ import {Config} from './model';
 import ConfigHolder from './ConfigHolder';
 import {EventEmitter} from 'events';
 
-const browserSync = BS.create();
 const DEV_PORT = 3000;
 
 export default class SiteGenerator extends ConfigHolder {
     private dataSource: DataSource;
     private compiler: TemplateCompiler;
     private generator: SampleGenerator;
+    private eventEmitter: EventEmitter;
+    private browserSync: BrowserSyncInstance;
     private args: any;
-    private eventEmitter: EventEmitter
 
     constructor(config: Config, args: any) {
         super(config);
         this.args = args;
         this.generator = new SampleGenerator();
         this.eventEmitter = new EventEmitter();
+        this.browserSync = BS.create('meblog');
 
         this.registerEvents();
     }
@@ -99,7 +100,7 @@ export default class SiteGenerator extends ConfigHolder {
                 .pipe(this.compiler.pug())
                 .pipe(gulp.dest(this.outputDirectory))
                 .on('end', resolve)
-                .pipe(browserSync.stream());
+                .pipe(this.browserSync.stream());
         });
     }
 
@@ -120,7 +121,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async onServe(): Promise<void> {
-        browserSync.init({
+        this.browserSync.init({
             server: {
                 baseDir: this.outputRelativeDirectory
             },
@@ -129,7 +130,7 @@ export default class SiteGenerator extends ConfigHolder {
 
         gulp.watch('./templates/**/*.pug', gulp.series('generatePages'));
         gulp.watch('./assets/**/*', gulp.series('copyAssets', (done) => {
-            browserSync.reload();
+            this.browserSync.reload();
             done();
         }));
 
@@ -151,7 +152,7 @@ export default class SiteGenerator extends ConfigHolder {
         gulp.src('./templates/pages/post.pug')
             .pipe(this.compiler.pugPosts(posts))
             .pipe(gulp.dest(this.outputDirectory))
-            .pipe(browserSync.stream());
+            .pipe(this.browserSync.stream());
 
         const postUrls = posts.map(p => this.postRootUrl(p));
 

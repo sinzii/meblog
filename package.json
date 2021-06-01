@@ -28,6 +28,7 @@
     "diy"
   ],
   "devDependencies": {
+    "@types/browser-sync": "^2.26.1",
     "@types/chai": "^4.2.18",
     "@types/debug": "^4.1.5",
     "@types/faker": "^5.5.5",
@@ -70,9 +71,9 @@
     "moment-timezone": "^0.5.33",
     "pug": "^3.0.2",
     "through2": "^4.0.2",
+    "tslib": "^2.2.0",
     "twemoji": "^13.1.0",
     "vinyl": "^2.2.1",
-    "yargs": "^17.0.1",
-    "tslib": "^2.2.0"
+    "yargs": "^17.0.1"
   }
 }
