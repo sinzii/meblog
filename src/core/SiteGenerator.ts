@@ -180,7 +180,8 @@ export default class SiteGenerator extends ConfigHolder {
             server: {
                 baseDir: this.outputRelativeDirectory
             },
-            port: DEV_PORT
+            port: this.args['port'] || DEV_PORT,
+            open: this.args['no-open'] ? false : 'local'
         });
 
         gulp.watch('./templates/**/*.pug', gulp.series('generatePages'));
