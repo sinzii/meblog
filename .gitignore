@@ -7,6 +7,6 @@ gen
 node_modules
 dev
 package-lock.json
-data
+cache
 posts-dev
 lib

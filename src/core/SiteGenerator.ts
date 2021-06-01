@@ -79,7 +79,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async cleanCache(): Promise<void> {
-        del.sync(['./data']);
+        del.sync(['./cache']);
     }
 
     async cleanPosts(): Promise<void> {

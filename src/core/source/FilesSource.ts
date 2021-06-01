@@ -34,7 +34,7 @@ export default class FilesSource extends DataSource {
         }
 
         this.postsDirectoryPath = postsDirectoryPath;
-        this.dataDirectoryPath = path.resolve(this.postsDirectoryPath, '../data');
+        this.dataDirectoryPath = path.resolve(this.postsDirectoryPath, '../cache');
         this.separator = separator;
         this.postParser = new MarkdownPostParser();
     }
