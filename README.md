@@ -109,7 +109,7 @@ But there are some configurations that you need understand why do we have it.
 
 ## Websites built with meblog
 
--   [meblog.sinzii.me](http://meblog.sinzii.me) - meblog demo website
+-   [meblog.sinzii.me](http://meblog.sinzii.me) - meblog website
 -   [sinzii.me](https://sinzii.me) - Thang X. Vu (@sinzii)
 -   Who next?
 
