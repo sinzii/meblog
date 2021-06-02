@@ -10,23 +10,29 @@ import { assertPost } from './helper';
 import sinon from 'sinon';
 import { glob } from 'glob';
 
+config.rootDir = path.join(process.cwd(), 'test');
+
 describe('FilesSource', function () {
     const generator = new SampleGenerator();
-    const numberOfPosts = 1;
-    const postsDir = path.join(__dirname, '../posts-test');
-    const dataDir = path.join(__dirname, '../data');
-    let dataSource;
+    const numberOfPosts = 10;
+    const postsDir = path.join(config.rootDir, './posts-test');
+    const dataDir = path.join(config.rootDir, './cache');
+    let dataSource: FilesSource;
 
     const assertLoadedData = () => {
         assert.equal(dataSource.getPosts().length, numberOfPosts);
         dataSource.getPosts().forEach(assertPost);
         const tags = dataSource.getPosts().flatMap((p) => p.tags);
-        assert.isTrue(_.isEqual(tags, dataSource.getTags()));
+        assert.isTrue(_.isEqual(new Set(tags), new Set(dataSource.getTags())));
         assert.isTrue(fs.existsSync(dataDir));
     };
 
     before(function () {
         generator.generateMarkdownPostsAndSave(numberOfPosts, postsDir);
+
+        sinon
+            .stub(FilesSource.prototype, 'getLayouts' as any)
+            .returns(['post']);
 
         dataSource = new FilesSource(config, postsDir);
     });
@@ -34,7 +40,7 @@ describe('FilesSource', function () {
     it('should load data from posts dir', function () {
         del.sync(dataDir);
 
-        const parseSpy = sinon.spy(dataSource, 'parse');
+        const parseSpy = sinon.spy(FilesSource.prototype, 'parse' as any);
 
         dataSource.loadData();
 
@@ -44,7 +50,7 @@ describe('FilesSource', function () {
     });
 
     it('should load data from cache', function () {
-        const parseSpy = sinon.spy(dataSource, 'parse');
+        const parseSpy = sinon.spy(FilesSource.prototype, 'parse' as any);
 
         dataSource.loadData();
 
@@ -54,7 +60,7 @@ describe('FilesSource', function () {
     });
 
     it('should load data from posts by force', function () {
-        const parseSpy = sinon.spy(dataSource, 'parse');
+        const parseSpy = sinon.spy(FilesSource.prototype, 'parse' as any);
 
         dataSource.loadData(true);
 
@@ -70,7 +76,7 @@ describe('FilesSource', function () {
         // change the modified time of the file
         fs.utimesSync(firstFile, new Date(), new Date());
 
-        const parseSpy = sinon.spy(dataSource, 'parse');
+        const parseSpy = sinon.spy(FilesSource.prototype, 'parse' as any);
 
         dataSource.loadData();
 
