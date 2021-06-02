@@ -1,16 +1,17 @@
 # :house_with_garden: meblog
 
 ![GitHub](https://img.shields.io/github/license/sinzii/meblog)
+![npm](https://img.shields.io/npm/v/meblog)
 
 A simple blog engine for personal blogging
 
-Live demo: [meblog.sinzii.me](https://meblog.sinzii.me).
+Website: [meblog.sinzii.me](https://meblog.sinzii.me)
 
 ## Table of contents
 
 -   [Have a quick taste](#have-a-quick-taste)
 -   [Features](#features)
--   [Project structure](#project-structure)
+-   [Template project structure](#template-project-structure)
 -   [How to create new post](#how-to-create-new-post)
 -   [Preview your post while editing](#preview-your-post-while-editing)
 -   [Configuration](#configuration)
@@ -43,11 +44,13 @@ meblog serve
 
 The project makes use of `pug` for templating, `scss` for styling and `gulpjs` for generating the site and automating the process.
 
--   `theme`: Where you customize the pages & styles
-    -   `theme/templates`: Pug templates
-    -   `theme/templates/pages`: Add your new page here
-    -   `theme/scss`: SCSS styling files
-    -   `theme/js`: Javascript files
+-   `templates`: Template files
+    -   `templates/pages`: Add new pages here
+    -   `templates/posts`: Add new post layout here. By default, `post.pug` will be used as default layout for posts
+    -   `templates/tags`:
+        -   `templates/tags/tag.pug`: Default tag template
+-   `scss`: SCSS styling files
+    -    `scss/main.scss`: Main entry point of scss files, the engine will generate this file to `main.css` on building.
 -   `assets`: Put your images, favicon, and other resources here
 -   `posts`: Put your posts in markdown format here. Ideally, arrange your posts into year and month folders for better referencing or searching.
 -   `config.js`: [Config file](#configuration) for the site
@@ -62,6 +65,8 @@ title: This is the post title
 publishedAt: 2021-05-15T18:04:00+07:00 (YYYY-MM-DDTHH:mm:ssZ)
 tags: tag1, tag2
 excerpt: Some thoughts about the growing journey
+layout: ... (post is default layout for rendering posts page, but you can defined new layout in templates/posts folder)
+customfield: Custom field will also be parsed and loaded into post object
 ---
 
 Post body goes here
