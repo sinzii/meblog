@@ -2,6 +2,7 @@ import pug from 'pug';
 import File from 'vinyl';
 import DataSource from '../source/DataSource';
 import ConfigHolder from '../ConfigHolder';
+import FileUtils from '../util/FileUtils';
 
 export default class PageTemplate extends ConfigHolder {
     protected dataSource: DataSource;
@@ -26,7 +27,7 @@ export default class PageTemplate extends ConfigHolder {
     }
 
     static getTemplateName(file: File): string {
-        return file.basename.replace(file.extname, '');
+        return FileUtils.basenameWithoutExt(file.path);
     }
 
     protected compile(file: File, data?: any): Buffer {
