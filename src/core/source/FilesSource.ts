@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import glob from 'glob';
 import logger from 'gulplog';
+import ansi from 'ansi-colors';
 
 import DataSource from './DataSource';
 import {Config, IPost, Tag} from '../model';
@@ -15,6 +16,7 @@ export default class FilesSource extends DataSource {
     private readonly dataDirectoryPath: string;
     private readonly separator: string;
     private readonly postParser: PostParser;
+    private readonly postLayouts: string[];
 
     private posts: Post[] = [];
     private tags: Tag[] = [];
@@ -37,6 +39,7 @@ export default class FilesSource extends DataSource {
         this.dataDirectoryPath = path.resolve(this.postsDirectoryPath, '../cache');
         this.separator = separator;
         this.postParser = new MarkdownPostParser();
+        this.postLayouts = this.getLayouts();
     }
 
     get postsJsonPath(): string {
@@ -45,6 +48,23 @@ export default class FilesSource extends DataSource {
 
     get tagsJsonPath(): string {
         return path.join(this.dataDirectoryPath, 'tags.json');
+    }
+
+    private getLayouts(): string[] {
+        return glob
+            .sync(path.join(this.config.rootDir, './templates/posts/*.pug'))
+            .map(file => FileUtils.basenameWithoutExt(file));
+    }
+
+    private filterInvalidPostLayout(post: Post): boolean {
+        if (!this.postLayouts.includes(post.layout)) {
+            logger.info(`Post ${ansi.green(post.title)}\
+ has ${ansi.red(`invalid layout \"${post.layout}\" will be ignored`)}`)
+
+            return false;
+        }
+
+        return true;
     }
 
     private getSourcePostPaths(): string[] {
@@ -131,7 +151,8 @@ export default class FilesSource extends DataSource {
             .filter(file => this.filterUnpublishedPosts(file))
             .filter(file => fs.existsSync(file))
             .map(file => this.postParser.parse(file, this.separator))
-            .filter(p => p.title && p.publishedAt && p.slug);
+            .filter(p => p.title && p.publishedAt && p.slug)
+            .filter(p => this.filterInvalidPostLayout(p));
     }
 
     public loadData(force = false): void {

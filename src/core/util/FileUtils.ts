@@ -21,6 +21,10 @@ export default class FileUtils {
         return path.basename(filePath, ext);
     }
 
+    static basenameWithoutExt(filePath: string) {
+        return FileUtils.basename(filePath, FileUtils.ext(filePath));
+    }
+
     static ext(filePath: string): string {
         return path.extname(filePath);
     }
