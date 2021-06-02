@@ -1,4 +1,4 @@
-import {assert} from 'chai';
+import { assert } from 'chai';
 import StringUtils from '../../src/core/util/StringUtils';
 
 describe('StringUtils', function () {

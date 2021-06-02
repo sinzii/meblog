@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import {CommandModule} from 'yargs';
+import { CommandModule } from 'yargs';
 import logger from 'gulplog';
 import gulp from 'gulp';
 import through from 'through2';

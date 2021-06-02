@@ -3,7 +3,7 @@ import through from 'through2';
 import ConfigHolder from '../ConfigHolder';
 import DataSource from '../source/DataSource';
 import logger from 'gulplog';
-import {Post} from '../post/Post';
+import { Post } from '../post/Post';
 import PageTemplate from '../template/PageTemplate';
 import PostTemplate from '../template/PostTemplate';
 import TagTemplate from '../template/TagTemplate';

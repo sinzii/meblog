@@ -5,8 +5,8 @@ import logger from 'gulplog';
 import ansi from 'ansi-colors';
 
 import DataSource from './DataSource';
-import {Config, IPost, Tag} from '../model';
-import {Post} from '../post/Post';
+import { Config, IPost, Tag } from '../model';
+import { Post } from '../post/Post';
 import PostParser from '../post/PostParser';
 import MarkdownPostParser from '../post/MarkdownPostParser';
 import FileUtils from '../util/FileUtils';

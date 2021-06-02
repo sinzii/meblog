@@ -1,9 +1,9 @@
 import SampleGenerator from '../../src/core/SampleGenerator';
-import {assert} from 'chai';
+import { assert } from 'chai';
 import path from 'path';
 import del from 'del';
 import glob from 'glob';
-import {assertPost, assertPostProperties} from './helper';
+import { assertPost, assertPostProperties } from './helper';
 
 const generator = new SampleGenerator();
 

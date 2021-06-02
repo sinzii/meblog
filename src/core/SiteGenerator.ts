@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 import path from 'path';
 import del from 'del';
-import BS, {BrowserSyncInstance} from 'browser-sync';
+import BS, { BrowserSyncInstance } from 'browser-sync';
 import cleanCss from 'gulp-clean-css';
 import autoprefixer from 'gulp-autoprefixer';
 import scss from 'gulp-sass';
@@ -13,11 +13,11 @@ import FilesSource from './source/FilesSource';
 import TemplateRenderer from './template/TemplateRenderer';
 import SampleGenerator from './SampleGenerator';
 import RssGenerator from './RssGenerator';
-import {Config} from './model';
+import { Config } from './model';
 import ConfigHolder from './ConfigHolder';
-import {EventEmitter} from 'events';
+import { EventEmitter } from 'events';
 import StringUtils from './util/StringUtils';
-import {Arguments} from 'yargs';
+import { Arguments } from 'yargs';
 import stream from 'stream';
 
 const DEV_PORT = 3000;

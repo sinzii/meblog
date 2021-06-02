@@ -1,4 +1,4 @@
-import {Config, PostUrlStyle} from '../src/core/model';
+import { Config, PostUrlStyle } from '../src/core/model';
 
 export default {
     baseUrl: 'https://meblog.sinzii.me',

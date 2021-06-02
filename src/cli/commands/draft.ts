@@ -1,5 +1,5 @@
-import {CommandModule} from 'yargs';
-import {run} from '../meblog';
+import { CommandModule } from 'yargs';
+import { run } from '../meblog';
 
 export default {
     command: 'draft',

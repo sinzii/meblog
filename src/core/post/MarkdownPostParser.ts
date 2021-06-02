@@ -1,5 +1,5 @@
 import PostParser from './PostParser';
-import {Post} from './Post';
+import { Post } from './Post';
 import FileUtils from '../util/FileUtils';
 import Renderer from '../markdown/Renderer';
 import MarkdownItRenderer from '../markdown/MarkdownItRenderer';

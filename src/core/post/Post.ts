@@ -1,4 +1,4 @@
-import {IPost, Tag} from '../model';
+import { IPost, Tag } from '../model';
 import moment from 'moment';
 import logger from 'gulplog';
 import ansi from 'ansi-colors';

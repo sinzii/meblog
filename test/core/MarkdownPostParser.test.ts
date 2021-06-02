@@ -1,4 +1,4 @@
-import {assert} from 'chai';
+import { assert } from 'chai';
 import MarkdownPostParser from '../../src/core/post/MarkdownPostParser';
 
 describe('MarkdownPostParser', function () {

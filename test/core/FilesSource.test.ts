@@ -5,10 +5,10 @@ import _ from 'lodash';
 import SampleGenerator from '../../src/core/SampleGenerator';
 import FilesSource from '../../src/core/source/FilesSource';
 import config from '../config';
-import {assert} from 'chai';
-import {assertPost} from './helper';
+import { assert } from 'chai';
+import { assertPost } from './helper';
 import sinon from 'sinon';
-import {glob} from 'glob';
+import { glob } from 'glob';
 
 describe('FilesSource', function () {
     const generator = new SampleGenerator();

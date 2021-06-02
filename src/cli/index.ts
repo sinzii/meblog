@@ -1,7 +1,7 @@
 import yargs from 'yargs/yargs';
-import {hideBin} from 'yargs/helpers';
+import { hideBin } from 'yargs/helpers';
 import * as commands from './commands';
-import {initLogger} from './log';
+import { initLogger } from './log';
 
 const cli = (): void => {
     initLogger();

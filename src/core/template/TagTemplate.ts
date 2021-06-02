@@ -1,5 +1,5 @@
 import PageTemplate from './PageTemplate';
-import {Tag} from '../model';
+import { Tag } from '../model';
 import StringUtils from '../util/StringUtils';
 import File from 'vinyl';
 import path from 'path';

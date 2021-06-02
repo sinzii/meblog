@@ -1,7 +1,7 @@
-import {Config, PostUrlStyle} from './model';
+import { Config, PostUrlStyle } from './model';
 import moment from 'moment';
 import 'moment-timezone';
-import {Post} from './post/Post';
+import { Post } from './post/Post';
 
 export default class ConfigHolder {
     private readonly _config: Config;

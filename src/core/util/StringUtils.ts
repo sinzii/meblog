@@ -1,4 +1,4 @@
-import {Tag} from '../model';
+import { Tag } from '../model';
 
 export default class StringUtils {
     static collectTags(source: string | string[]): Tag[] {
