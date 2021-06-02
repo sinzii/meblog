@@ -10,7 +10,7 @@ export default class StringUtils {
             .filter((t) => t)
             .flatMap((s) => s)
             .map((s) => String(s))
-            .flatMap((s) => s.split(/[\s,]/gm))
+            .flatMap((s) => s.split(/[\s,]/gm)) // any spaces & comma
             .filter((t) => t);
 
         return Array.from(new Set(tags));
@@ -29,6 +29,7 @@ export default class StringUtils {
             return '';
         }
 
+        // remove any trailing & starting forward slashes
         return str.replace(/^\/|\/$/gm, '');
     }
 }

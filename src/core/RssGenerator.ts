@@ -3,7 +3,6 @@ import path from 'path';
 import ConfigHolder from './ConfigHolder';
 import DataSource from './source/DataSource';
 import { Post } from './post/Post';
-import logger from 'gulplog';
 
 export default class RssGenerator extends ConfigHolder {
     private readonly dataSource: DataSource;
