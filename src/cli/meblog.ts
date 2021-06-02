@@ -4,6 +4,7 @@ import logger from 'gulplog';
 import SiteGenerator from '../core/SiteGenerator';
 import {Config} from '../core/model';
 import ansi from 'ansi-colors';
+import StringUtils from '../core/util/StringUtils';
 
 export const loadConfig = (args: any): Config => {
     const cwd = process.cwd();
@@ -19,6 +20,8 @@ export const loadConfig = (args: any): Config => {
     const config = require(configFilePath);
     config.rootDir = process.cwd();
     config.devMode = true;
+    config.baseUrl = StringUtils.trimSlashes(config.baseUrl);
+    config.baseContext = StringUtils.trimSlashes(config.baseContext);
 
     return config;
 }

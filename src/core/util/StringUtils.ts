@@ -23,4 +23,12 @@ export default class StringUtils {
 
         return str.charAt(0).toUpperCase() + str.substring(1);
     }
+
+    static trimSlashes(str: string) {
+        if (!str) {
+            return '';
+        }
+
+        return str.replace(/^\/|\/$/gm, '');
+    }
 }
