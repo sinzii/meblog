@@ -19,7 +19,8 @@ export default {
             });
     },
     handler: (args) => {
-        logger.info('Starting local development server');
-        run(args, ['cleanCache', 'serve']);
+        run(args, ['cleanCache', 'serve']).catch((err: Error) => {
+            logger.error(err);
+        });
     },
 } as CommandModule;

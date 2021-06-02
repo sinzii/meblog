@@ -23,7 +23,7 @@ export default class TemplateRenderer extends ConfigHolder {
         return through.obj(function (file, enc, cb) {
             const template: PageTemplate = new Template(dataSource, file);
 
-            logger.info('Compiling template', template.templateName);
+            logger.debug('Render template', template.templateName);
 
             const files: File[] = template.render();
             files.forEach((file) => this.push(file));
@@ -50,7 +50,7 @@ export default class TemplateRenderer extends ConfigHolder {
         return through.obj(function (file, enc, cb) {
             const template: PostTemplate = new PostTemplate(dataSource, file);
 
-            logger.info('Compiling template', template.templateName);
+            logger.debug('Render template', template.templateName);
 
             const files: File[] = template.renderPosts(posts);
 

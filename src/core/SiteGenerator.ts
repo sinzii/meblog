@@ -69,7 +69,7 @@ export default class SiteGenerator extends ConfigHolder {
         return path.join(this.config.rootDir, 'posts');
     }
 
-    async logOutputDir(): Promise<void> {
+    private logOutputDir(): void {
         logger.info(
             'Output directory:',
             ansi.blue(this.outputRelativeDirectory),
@@ -81,6 +81,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async cleanCache(): Promise<void> {
+        logger.info(ansi.green('Cleaning cache'));
         del.sync(['./cache']);
     }
 
@@ -89,6 +90,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     loadData(): void {
+        logger.info(ansi.green('Loading posts'));
         this.initCompiler();
         this.dataSource.loadData();
     }
@@ -107,6 +109,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async generatePages(): Promise<void> {
+        logger.info(ansi.green('Rendering pages'));
         await this.renderTemplates(
             './templates/pages/**/*.pug',
             this.compiler.renderPages(),
@@ -114,6 +117,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async generatePosts(): Promise<void> {
+        logger.info(ansi.green('Rendering posts'));
         await this.renderTemplates(
             './templates/posts/*.pug',
             this.compiler.renderPosts(),
@@ -121,6 +125,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async generateTags(): Promise<void> {
+        logger.info(ansi.green('Rendering tags'));
         await this.renderTemplates(
             './templates/tags/tag.pug',
             this.compiler.renderTags(),
@@ -136,11 +141,13 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async generateRssFeed(): Promise<void> {
+        logger.info(ansi.green('Generating RSS feed'));
         const rssGenerator = new RssGenerator(this.dataSource);
         rssGenerator.generate(this.outputDirectory);
     }
 
     async generateCss(): Promise<void> {
+        logger.info(ansi.green('Generating CSS'));
         return new Promise((resolve) => {
             let stream = gulp.src('./scss/main.scss', {
                 allowEmpty: true,
@@ -166,6 +173,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     copyAssets(): Promise<void> {
+        logger.info(ansi.green('Copying assets'));
         return new Promise((resolve) => {
             gulp.src('./assets/**/*')
                 .pipe(gulp.dest(this.outputDirectory))
@@ -174,6 +182,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     reloadConfig(): void {
+        logger.info(ansi.green('Reloading config'));
         const configFilePath = this.args['configFilePath'] as string;
         delete require.cache[configFilePath];
         const newConfig = require(configFilePath);
@@ -187,6 +196,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async onServe(): Promise<void> {
+        logger.info(ansi.green('Starting local development server'));
         this.browserSync.init({
             server: {
                 baseDir: this.outputRelativeDirectory,
@@ -228,6 +238,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async generateSamplePosts(): Promise<void> {
+        logger.info(ansi.green('Generating sample posts'));
         const generator = new SampleGenerator();
         const numberOfPosts = Number(this.args['number-of-posts']) || 10;
         generator.generateMarkdownPostsAndSave(
@@ -247,6 +258,7 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async newDraft(): Promise<void> {
+        logger.info(ansi.green('Generating a draft'));
         const generator = new SampleGenerator();
         generator.generateEmptyMarkdownPostAndSave(this.postsDirPath);
     }
@@ -264,8 +276,9 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async build(): Promise<void> {
+        logger.info(ansi.green('Start building'));
+        this.logOutputDir();
         await this.runSeries([
-            'logOutputDir',
             'clean',
             'copyAssets',
             'loadData',
@@ -273,6 +286,7 @@ export default class SiteGenerator extends ConfigHolder {
             'generateRssFeed',
             'generateCss',
         ]);
+        logger.info(ansi.green("Build's completed"));
     }
 
     async serve(): Promise<void> {
@@ -300,7 +314,6 @@ export default class SiteGenerator extends ConfigHolder {
         const tasks = [
             this.prod,
             this.dev,
-            this.logOutputDir,
             this.clean,
             this.cleanPosts,
             this.cleanCache,
@@ -324,12 +337,7 @@ export default class SiteGenerator extends ConfigHolder {
         tasks.forEach((t) => this.registerTask(t));
     }
 
-    public run(tasks: string[]): void {
-        gulp.series(tasks)(function (err) {
-            if (err) {
-                logger.error(err);
-                process.exit(1);
-            }
-        });
+    public async run(tasks: string[]): Promise<void> {
+        await this.runSeries(tasks);
     }
 }

@@ -1,5 +1,6 @@
 import { run } from '../meblog';
 import { CommandModule } from 'yargs';
+import logger from 'gulplog';
 
 export default {
     command: 'sample',
@@ -12,6 +13,8 @@ export default {
         });
     },
     handler: (args) => {
-        run(args, ['generateSamplePosts']);
+        run(args, ['generateSamplePosts']).catch((err: Error) => {
+            logger.error(err);
+        });
     },
 } as CommandModule;

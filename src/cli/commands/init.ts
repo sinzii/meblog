@@ -71,7 +71,7 @@ const initProject = (args) => {
 
     logger.info(
         `Initializing the project with name ${ansi.blue(projectName)}\
- at using template ${ansi.blue(template)}`,
+ using template ${ansi.blue(template)}`,
     );
 
     const projectTemplatePath = getProjectTemplatePath(template);

@@ -13,7 +13,8 @@ export default {
         }).argv;
     },
     handler: (args) => {
-        logger.info('Start building...');
-        run(args, ['cleanCache', 'prod', 'build']);
+        run(args, ['cleanCache', 'prod', 'build']).catch((err: Error) => {
+            logger.error(err);
+        });
     },
 } as CommandModule;

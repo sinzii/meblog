@@ -15,7 +15,7 @@ export const loadConfig = (args: Arguments): Config => {
         throw new Error('config.js file is required');
     }
 
-    logger.info('Load config file from:', ansi.blue(configFile));
+    logger.info('Loading config file from:', ansi.blue(configFile));
     args['configFilePath'] = configFilePath;
 
     const config = require(configFilePath);
@@ -27,9 +27,9 @@ export const loadConfig = (args: Arguments): Config => {
     return config;
 };
 
-export const run = (args: Arguments, tasks: string[]): void => {
+export const run = async (args: Arguments, tasks: string[]): Promise<void> => {
     const config = loadConfig(args);
     const generator = new SiteGenerator(config, args);
     generator.initTasks();
-    generator.run(tasks);
+    await generator.run(tasks);
 };
