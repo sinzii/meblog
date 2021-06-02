@@ -1,4 +1,4 @@
-import {Config, PostUrlStyle} from "./model";
+import {Config, PostUrlStyle} from './model';
 import moment from 'moment';
 import 'moment-timezone';
 import {Post} from './post/Post';
@@ -8,7 +8,7 @@ export default class ConfigHolder {
 
     constructor(config: Config) {
         if (!config) {
-            throw new Error("Missing config");
+            throw new Error('Missing config');
         }
 
         this._config = config;
@@ -18,12 +18,12 @@ export default class ConfigHolder {
         return this._config;
     }
 
-    public rootUrl(path): string {
-        const {baseUrl = '', baseContext = ''} = this.config;
+    public rootUrl(path: string): string {
+        const { baseUrl = '', baseContext = '' } = this.config;
         let url = path;
 
         if (baseContext) {
-            url = `/${baseContext}${path}`
+            url = `/${baseContext}${path}`;
         }
 
         if (baseUrl) {
@@ -34,12 +34,12 @@ export default class ConfigHolder {
     }
 
     public url(path: string): string {
-        const {baseContext = ''} = this.config;
+        const { baseContext = '' } = this.config;
         return `${baseContext}${path}`;
     }
 
     public postPartialPath(post: Post): string {
-        const {postUrlStyle} = this.config;
+        const { postUrlStyle } = this.config;
         const defaultPostsDir = 'posts';
 
         switch (postUrlStyle) {
@@ -55,7 +55,7 @@ export default class ConfigHolder {
                 return `/${post.slug}.html`;
             case PostUrlStyle.POSTS_SLUG:
             default:
-                return `/${defaultPostsDir}/${post.slug}.html`
+                return `/${defaultPostsDir}/${post.slug}.html`;
         }
     }
 
@@ -68,11 +68,11 @@ export default class ConfigHolder {
     }
 
     formatDateTime(date: Date): string {
-        return moment(date).format(this.config.dateTimeFormat)
+        return moment(date).format(this.config.dateTimeFormat);
     }
 
     formatDate(date: Date): string {
-        return moment(date).format(this.config.dateFormat)
+        return moment(date).format(this.config.dateFormat);
     }
 
     formatRFC822DateTime(date: Date): string {

@@ -1,22 +1,22 @@
 import {Tag} from '../model';
 
 export default class StringUtils {
-    static collectTags(source: string|string[]): Tag[] {
+    static collectTags(source: string | string[]): Tag[] {
         if (typeof source === 'string') {
             source = [source];
         }
 
         const tags = source
-            .filter(t => t)
-            .flatMap(s => s)
-            .map(s => String(s))
-            .flatMap(s => s.split(/[\s,]/gm))
-            .filter(t => t);
+            .filter((t) => t)
+            .flatMap((s) => s)
+            .map((s) => String(s))
+            .flatMap((s) => s.split(/[\s,]/gm))
+            .filter((t) => t);
 
         return Array.from(new Set(tags));
     }
 
-    static capitalize(str: string) {
+    static capitalize(str: string): string {
         if (!str) {
             return '';
         }
@@ -24,7 +24,7 @@ export default class StringUtils {
         return str.charAt(0).toUpperCase() + str.substring(1);
     }
 
-    static trimSlashes(str: string) {
+    static trimSlashes(str: string): string {
         if (!str) {
             return '';
         }

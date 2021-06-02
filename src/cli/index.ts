@@ -3,7 +3,7 @@ import {hideBin} from 'yargs/helpers';
 import * as commands from './commands';
 import {initLogger} from './log';
 
-const cli = () => {
+const cli = (): void => {
     initLogger();
 
     yargs(hideBin(process.argv))
@@ -24,9 +24,8 @@ const cli = () => {
         })
         .epilog(`More information at: https://github.com/sinzii/meblog`)
         .strictCommands()
-        .demandCommand(1)
-        .argv;
-}
+        .demandCommand(1).argv;
+};
 
 export default cli;
 

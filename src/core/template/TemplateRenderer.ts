@@ -7,6 +7,7 @@ import {Post} from '../post/Post';
 import PageTemplate from '../template/PageTemplate';
 import PostTemplate from '../template/PostTemplate';
 import TagTemplate from '../template/TagTemplate';
+import stream from 'stream';
 
 export default class TemplateRenderer extends ConfigHolder {
     private readonly dataSource: DataSource;
@@ -17,7 +18,7 @@ export default class TemplateRenderer extends ConfigHolder {
         this.dataSource = dataSource;
     }
 
-    public render(Template) {
+    public render(Template: typeof PageTemplate): stream.Transform {
         const dataSource = this.dataSource;
         return through.obj(function (file, enc, cb) {
             const template: PageTemplate = new Template(dataSource, file);
@@ -25,25 +26,25 @@ export default class TemplateRenderer extends ConfigHolder {
             logger.info('Compiling template', template.templateName);
 
             const files: File[] = template.render();
-            files.forEach(file => this.push(file));
+            files.forEach((file) => this.push(file));
 
             cb();
         });
     }
 
-    public renderTags() {
+    public renderTags(): stream.Transform {
         return this.render(TagTemplate);
     }
 
-    public renderPosts() {
+    public renderPosts(): stream.Transform {
         return this.render(PostTemplate);
     }
 
-    public renderPages() {
+    public renderPages(): stream.Transform {
         return this.render(PageTemplate);
     }
 
-    public renderSpecifiedPosts(posts: Post[]) {
+    public renderSpecifiedPosts(posts: Post[]): stream.Transform {
         const dataSource = this.dataSource;
 
         return through.obj(function (file, enc, cb) {
@@ -53,10 +54,9 @@ export default class TemplateRenderer extends ConfigHolder {
 
             const files: File[] = template.renderPosts(posts);
 
-            files.forEach(file => this.push(file));
+            files.forEach((file) => this.push(file));
 
             cb();
         });
     }
 }
-

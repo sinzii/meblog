@@ -4,9 +4,7 @@ import {run} from '../meblog';
 export default {
     command: 'draft',
     describe: 'Generate a empty draft post',
-    handler: args => {
+    handler: (args) => {
         run(args, ['newDraft']);
-    }
+    },
 } as CommandModule;
-
-

@@ -31,12 +31,7 @@ export default class MarkdownItRenderer extends Renderer {
             highlight: this.highlight.bind(this),
         });
 
-        this.md
-            .use(emoji)
-            .use(footnote)
-            .use(abbr)
-            .use(sup)
-            .use(sub);
+        this.md.use(emoji).use(footnote).use(abbr).use(sup).use(sub);
 
         this.md.renderer.rules.emoji = this.twemoji.bind(this);
     }

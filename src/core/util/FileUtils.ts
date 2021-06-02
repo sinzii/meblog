@@ -7,21 +7,21 @@ export default class FileUtils {
         return fs.readFileSync(filePath).toString();
     }
 
-    static isExists(filePath: string) {
+    static isExists(filePath: string): boolean {
         return fs.existsSync(filePath);
     }
 
-    static checkExists(filePath: string) {
+    static checkExists(filePath: string): void {
         if (!FileUtils.isExists(filePath)) {
             throw new Error(`${filePath} is not existed`);
         }
     }
 
-    static basename(filePath: string, ext?: string) {
+    static basename(filePath: string, ext?: string): string {
         return path.basename(filePath, ext);
     }
 
-    static basenameWithoutExt(filePath: string) {
+    static basenameWithoutExt(filePath: string): string {
         return FileUtils.basename(filePath, FileUtils.ext(filePath));
     }
 

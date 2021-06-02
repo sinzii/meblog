@@ -3,31 +3,31 @@ import {EventEmitter} from 'events';
 export type Tag = string;
 
 export interface IPost {
-    title: string,
-    slug: string,
-    publishedAt: Date | string,
-    tags: Tag[] | string,
-    excerpt: string,
-    body: string,
-    layout?: string,
+    title: string;
+    slug: string;
+    publishedAt: Date | string;
+    tags: Tag[] | string;
+    excerpt: string;
+    body: string;
+    layout?: string;
 }
 
 interface EventRegister {
-    (eventEmitter: EventEmitter): void
+    (eventEmitter: EventEmitter): void;
 }
 
 export interface Config {
-    rootDir?: string,
-    baseUrl: string,
-    baseContext: string,
-    siteName: string,
-    siteDescription: string,
-    devMode?: boolean,
-    dateTimeFormat: string,
-    dateFormat: string,
-    postUrlStyle?: PostUrlStyle,
+    rootDir?: string;
+    baseUrl: string;
+    baseContext: string;
+    siteName: string;
+    siteDescription: string;
+    devMode?: boolean;
+    dateTimeFormat: string;
+    dateFormat: string;
+    postUrlStyle?: PostUrlStyle;
     eventRegister?: EventRegister;
-    [otherOption: string]: any
+    [otherOption: string]: any;
 }
 
 export enum PostUrlStyle {

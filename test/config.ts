@@ -11,7 +11,7 @@ export default {
     me: {
         fullname: 'Your Name',
         nickname: '@meblog',
-        github: 'https://github.com/sinzii/meblog'
+        github: 'https://github.com/sinzii/meblog',
     },
-    latestPosts: 5
-} as Config
+    latestPosts: 5,
+} as Config;

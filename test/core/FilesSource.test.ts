@@ -10,7 +10,6 @@ import {assertPost} from './helper';
 import sinon from 'sinon';
 import {glob} from 'glob';
 
-
 describe('FilesSource', function () {
     const generator = new SampleGenerator();
     const numberOfPosts = 1;
@@ -21,18 +20,15 @@ describe('FilesSource', function () {
     const assertLoadedData = () => {
         assert.equal(dataSource.getPosts().length, numberOfPosts);
         dataSource.getPosts().forEach(assertPost);
-        const tags = dataSource.getPosts().flatMap(p => p.tags);
+        const tags = dataSource.getPosts().flatMap((p) => p.tags);
         assert.isTrue(_.isEqual(tags, dataSource.getTags()));
         assert.isTrue(fs.existsSync(dataDir));
     };
 
     before(function () {
-        generator.generateMarkdownPostsAndSave(
-            numberOfPosts,
-            postsDir
-        );
+        generator.generateMarkdownPostsAndSave(numberOfPosts, postsDir);
 
-        dataSource = new FilesSource(config, postsDir)
+        dataSource = new FilesSource(config, postsDir);
     });
 
     it('should load data from posts dir', function () {
@@ -48,7 +44,7 @@ describe('FilesSource', function () {
     });
 
     it('should load data from cache', function () {
-        const parseSpy = sinon.spy(dataSource, "parse");
+        const parseSpy = sinon.spy(dataSource, 'parse');
 
         dataSource.loadData();
 
@@ -58,7 +54,7 @@ describe('FilesSource', function () {
     });
 
     it('should load data from posts by force', function () {
-        const parseSpy = sinon.spy(dataSource, "parse");
+        const parseSpy = sinon.spy(dataSource, 'parse');
 
         dataSource.loadData(true);
 
@@ -74,7 +70,7 @@ describe('FilesSource', function () {
         // change the modified time of the file
         fs.utimesSync(firstFile, new Date(), new Date());
 
-        const parseSpy = sinon.spy(dataSource, "parse");
+        const parseSpy = sinon.spy(dataSource, 'parse');
 
         dataSource.loadData();
 
@@ -90,5 +86,5 @@ describe('FilesSource', function () {
 
     afterEach(function () {
         sinon.restore();
-    })
+    });
 });

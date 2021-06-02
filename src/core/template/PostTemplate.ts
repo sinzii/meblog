@@ -1,6 +1,6 @@
 import PageTemplate from './PageTemplate';
 import File from 'vinyl';
-import path from "path";
+import path from 'path';
 import {Post} from '../post/Post';
 
 export default class PostTemplate extends PageTemplate {
@@ -10,15 +10,15 @@ export default class PostTemplate extends PageTemplate {
 
     renderPosts(posts: Post[]): File[] {
         return posts
-            .filter(p => p.layout === this.templateName)
-            .map(p => this.renderPost(p))
+            .filter((p) => p.layout === this.templateName)
+            .map((p) => this.renderPost(p));
     }
 
-    renderPost(post): File {
+    renderPost(post: Post): File {
         return new File({
             base: this.template.base,
             path: path.join(this.template.base, this.postPartialPath(post)),
-            contents: this.compile(this.template, {post})
+            contents: this.compile(this.template, { post }),
         });
     }
 }

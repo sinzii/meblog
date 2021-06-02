@@ -10,4 +10,5 @@ prop with no value:
 prop with space: is valid
     prop  :     will be trim off     
 ---
+
 This is post body

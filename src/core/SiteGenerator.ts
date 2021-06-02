@@ -3,9 +3,9 @@ import path from 'path';
 import del from 'del';
 import BS, {BrowserSyncInstance} from 'browser-sync';
 import cleanCss from 'gulp-clean-css';
-import autoprefixer from 'gulp-autoprefixer'
+import autoprefixer from 'gulp-autoprefixer';
 import scss from 'gulp-sass';
-import sourcemaps from 'gulp-sourcemaps'
+import sourcemaps from 'gulp-sourcemaps';
 import logger from 'gulplog';
 import ansi from 'ansi-colors';
 import DataSource from './source/DataSource';
@@ -17,6 +17,8 @@ import {Config} from './model';
 import ConfigHolder from './ConfigHolder';
 import {EventEmitter} from 'events';
 import StringUtils from './util/StringUtils';
+import {Arguments} from 'yargs';
+import stream from 'stream';
 
 const DEV_PORT = 3000;
 
@@ -26,9 +28,9 @@ export default class SiteGenerator extends ConfigHolder {
     private generator: SampleGenerator;
     private eventEmitter: EventEmitter;
     private browserSync: BrowserSyncInstance;
-    private args: any;
+    private args: Arguments;
 
-    constructor(config: Config, args: any) {
+    constructor(config: Config, args: Arguments) {
         super(config);
         this.args = args;
         this.generator = new SampleGenerator();
@@ -50,8 +52,8 @@ export default class SiteGenerator extends ConfigHolder {
         this.compiler = new TemplateRenderer(this.dataSource);
     }
 
-    get outputRelativeDirectory() {
-        const outDir = this.args['outdir'];
+    get outputRelativeDirectory(): string {
+        const outDir = this.args['outdir'] as string;
         if (outDir) {
             return outDir;
         }
@@ -59,23 +61,23 @@ export default class SiteGenerator extends ConfigHolder {
         return this.config.devMode ? './dev' : './docs';
     }
 
-    get outputDirectory() {
-        return path.resolve(
-            this.config.rootDir,
-            this.outputRelativeDirectory
-        );
+    get outputDirectory(): string {
+        return path.resolve(this.config.rootDir, this.outputRelativeDirectory);
     }
 
-    get postsDirPath() {
+    get postsDirPath(): string {
         return path.join(this.config.rootDir, 'posts');
     }
 
     async logOutputDir(): Promise<void> {
-        logger.info('Output directory:', ansi.blue(this.outputRelativeDirectory));
+        logger.info(
+            'Output directory:',
+            ansi.blue(this.outputRelativeDirectory),
+        );
     }
 
     async clean(): Promise<void> {
-        del.sync([this.outputDirectory])
+        del.sync([this.outputDirectory]);
     }
 
     async cleanCache(): Promise<void> {
@@ -86,13 +88,16 @@ export default class SiteGenerator extends ConfigHolder {
         del.sync(`${this.postsDirPath}/*`);
     }
 
-    loadData() {
+    loadData(): void {
         this.initCompiler();
         this.dataSource.loadData();
     }
 
-    renderTemplates(templateGlob: string, renderFn): Promise<void> {
-        return new Promise(resolve => {
+    renderTemplates(
+        templateGlob: string,
+        renderFn: stream.Transform,
+    ): Promise<void> {
+        return new Promise((resolve) => {
             gulp.src(templateGlob)
                 .pipe(renderFn)
                 .pipe(gulp.dest(this.outputDirectory))
@@ -104,21 +109,21 @@ export default class SiteGenerator extends ConfigHolder {
     async generatePages(): Promise<void> {
         await this.renderTemplates(
             './templates/pages/**/*.pug',
-            this.compiler.renderPages()
+            this.compiler.renderPages(),
         );
     }
 
     async generatePosts(): Promise<void> {
         await this.renderTemplates(
             './templates/posts/*.pug',
-            this.compiler.renderPosts()
+            this.compiler.renderPosts(),
         );
     }
 
     async generateTags(): Promise<void> {
         await this.renderTemplates(
             './templates/tags/tag.pug',
-            this.compiler.renderTags()
+            this.compiler.renderTags(),
         );
     }
 
@@ -126,7 +131,7 @@ export default class SiteGenerator extends ConfigHolder {
         await this.runSeries([
             'generatePages',
             'generatePosts',
-            'generateTags'
+            'generateTags',
         ]);
     }
 
@@ -136,43 +141,40 @@ export default class SiteGenerator extends ConfigHolder {
     }
 
     async generateCss(): Promise<void> {
-        return new Promise(resolve => {
-            let stream = gulp.src('./scss/main.scss', {allowEmpty: true});
+        return new Promise((resolve) => {
+            let stream = gulp.src('./scss/main.scss', {
+                allowEmpty: true,
+            });
 
             if (this.config.devMode) {
-                stream = stream
-                    .pipe(sourcemaps.init())
+                stream = stream.pipe(sourcemaps.init());
             }
 
-            stream = stream
-                .pipe(scss().on('error', scss.logError))
+            stream = stream.pipe(scss().on('error', scss.logError));
 
             if (this.config.devMode) {
-                stream = stream
-                    .pipe(sourcemaps.write())
+                stream = stream.pipe(sourcemaps.write());
             } else {
-                stream = stream
-                    .pipe(autoprefixer())
-                    .pipe(cleanCss());
+                stream = stream.pipe(autoprefixer()).pipe(cleanCss());
             }
 
             return stream
                 .pipe(gulp.dest(this.outputDirectory))
                 .on('end', resolve)
                 .pipe(this.browserSync.stream());
-        })
+        });
     }
 
     copyAssets(): Promise<void> {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             gulp.src('./assets/**/*')
                 .pipe(gulp.dest(this.outputDirectory))
                 .on('end', resolve);
-        })
+        });
     }
 
-    reloadConfig() {
-        const {configFilePath} = this.args;
+    reloadConfig(): void {
+        const configFilePath = this.args['configFilePath'] as string;
         delete require.cache[configFilePath];
         const newConfig = require(configFilePath);
         Object.assign(this.config, newConfig);
@@ -180,33 +182,27 @@ export default class SiteGenerator extends ConfigHolder {
         this.registerEvents();
     }
 
-    reloadBrowser() {
+    reloadBrowser(): void {
         this.browserSync.reload();
     }
 
     async onServe(): Promise<void> {
         this.browserSync.init({
             server: {
-                baseDir: this.outputRelativeDirectory
+                baseDir: this.outputRelativeDirectory,
             },
-            port: this.args['port'] || DEV_PORT,
-            open: this.args['no-open'] ? false : 'local'
+            port: (this.args['port'] as number) || DEV_PORT,
+            open: this.args['no-open'] ? false : 'local',
         });
 
         gulp.watch(
-            this.args['configFilePath'],
-            gulp.series('reloadConfig', 'dev', 'generateTemplates')
+            this.args['configFilePath'] as string,
+            gulp.series('reloadConfig', 'dev', 'generateTemplates'),
         );
 
-        gulp.watch(
-            './templates/**/*.pug',
-            gulp.series('generateTemplates')
-        );
+        gulp.watch('./templates/**/*.pug', gulp.series('generateTemplates'));
 
-        gulp.watch(
-            './assets/**/*',
-            gulp.series('copyAssets', 'reloadBrowser')
-        );
+        gulp.watch('./assets/**/*', gulp.series('copyAssets', 'reloadBrowser'));
 
         const watcher = gulp.watch(this.postsDirPath + '/**/*.md');
         watcher
@@ -227,14 +223,17 @@ export default class SiteGenerator extends ConfigHolder {
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(this.browserSync.stream());
 
-        const postUrls = posts.map(p => this.postRootUrl(p));
+        const postUrls = posts.map((p) => this.postRootUrl(p));
         logger.info(`[POST UPDATED] ${postUrls.join(', ')}`);
     }
 
     async generateSamplePosts(): Promise<void> {
         const generator = new SampleGenerator();
         const numberOfPosts = Number(this.args['number-of-posts']) || 10;
-        generator.generateMarkdownPostsAndSave(numberOfPosts, this.postsDirPath);
+        generator.generateMarkdownPostsAndSave(
+            numberOfPosts,
+            this.postsDirPath,
+        );
     }
 
     async prod(): Promise<void> {
@@ -261,13 +260,18 @@ export default class SiteGenerator extends ConfigHolder {
                     resolve();
                 }
             });
-        })
+        });
     }
 
     async build(): Promise<void> {
         await this.runSeries([
-            'logOutputDir', 'clean', 'copyAssets',
-            'loadData', 'generateTemplates', 'generateRssFeed', 'generateCss'
+            'logOutputDir',
+            'clean',
+            'copyAssets',
+            'loadData',
+            'generateTemplates',
+            'generateRssFeed',
+            'generateCss',
         ]);
     }
 
@@ -285,17 +289,14 @@ export default class SiteGenerator extends ConfigHolder {
 
             logger.debug(`[AFTER] ${funcCapitalized}`);
             this.eventEmitter.emit(`AFTER:${funcCapitalized}`);
-        }
+        };
     }
 
     private registerTask(func) {
-        gulp.task(
-            func.name,
-            this.wrap(func).bind(this)
-        );
+        gulp.task(func.name, this.wrap(func).bind(this));
     }
 
-    public initTasks() {
+    public initTasks(): void {
         const tasks = [
             this.prod,
             this.dev,
@@ -317,13 +318,13 @@ export default class SiteGenerator extends ConfigHolder {
             this.reloadConfig,
             this.reloadBrowser,
             this.build,
-            this.serve
+            this.serve,
         ];
 
-        tasks.forEach(t => this.registerTask(t));
+        tasks.forEach((t) => this.registerTask(t));
     }
 
-    public run(tasks: string[]) {
+    public run(tasks: string[]): void {
         gulp.series(tasks)(function (err) {
             if (err) {
                 logger.error(err);

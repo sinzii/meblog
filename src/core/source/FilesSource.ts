@@ -21,9 +21,7 @@ export default class FilesSource extends DataSource {
     private posts: Post[] = [];
     private tags: Tag[] = [];
 
-    constructor(config: Config,
-                postsDirectoryPath: string,
-                separator: string = '---') {
+    constructor(config: Config, postsDirectoryPath: string, separator = '---') {
         super(config);
 
         if (!fs.existsSync(postsDirectoryPath)) {
@@ -36,7 +34,10 @@ export default class FilesSource extends DataSource {
         }
 
         this.postsDirectoryPath = postsDirectoryPath;
-        this.dataDirectoryPath = path.resolve(this.postsDirectoryPath, '../cache');
+        this.dataDirectoryPath = path.resolve(
+            this.postsDirectoryPath,
+            '../cache',
+        );
         this.separator = separator;
         this.postParser = new MarkdownPostParser();
         this.postLayouts = this.getLayouts();
@@ -53,13 +54,13 @@ export default class FilesSource extends DataSource {
     private getLayouts(): string[] {
         return glob
             .sync(path.join(this.config.rootDir, './templates/posts/*.pug'))
-            .map(file => FileUtils.basenameWithoutExt(file));
+            .map((file) => FileUtils.basenameWithoutExt(file));
     }
 
     private filterInvalidPostLayout(post: Post): boolean {
         if (!this.postLayouts.includes(post.layout)) {
             logger.info(`Post ${ansi.green(post.title)}\
- has ${ansi.red(`invalid layout \"${post.layout}\" will be ignored`)}`)
+ has ${ansi.red(`invalid layout "${post.layout}" will be ignored`)}`);
 
             return false;
         }
@@ -91,22 +92,21 @@ export default class FilesSource extends DataSource {
         return false;
     }
 
-    private parse(): { posts: Post[], tags: Tag[] } {
+    private parse(): { posts: Post[]; tags: Tag[] } {
         const files = this.getSourcePostPaths();
 
         const posts: Post[] = this.parsePostsFromPaths(files);
 
-        const tags = posts.flatMap(p => p.tags).filter(t => t);
+        const tags = posts.flatMap((p) => p.tags).filter((t) => t);
 
         // sorting the posts, newer post will appear first
         posts.sort(
-            (p1, p2) =>
-                p2.publishedAt.getTime() - p1.publishedAt.getTime()
+            (p1, p2) => p2.publishedAt.getTime() - p1.publishedAt.getTime(),
         );
 
         return {
             posts: posts,
-            tags: Array.from(new Set(tags))
+            tags: Array.from(new Set(tags)),
         };
     }
 
@@ -125,7 +125,7 @@ export default class FilesSource extends DataSource {
         this.cacheData(result);
     }
 
-    private cacheData({posts, tags}) {
+    private cacheData({ posts, tags }) {
         const jsonPrettySpace = this.config.devMode ? 2 : 0;
         if (!fs.existsSync(this.dataDirectoryPath)) {
             fs.mkdirSync(this.dataDirectoryPath);
@@ -133,12 +133,12 @@ export default class FilesSource extends DataSource {
 
         fs.writeFileSync(
             this.postsJsonPath,
-            JSON.stringify(posts, null, jsonPrettySpace)
+            JSON.stringify(posts, null, jsonPrettySpace),
         );
 
         fs.writeFileSync(
             this.tagsJsonPath,
-            JSON.stringify(tags, null, jsonPrettySpace)
+            JSON.stringify(tags, null, jsonPrettySpace),
         );
     }
 
@@ -148,11 +148,11 @@ export default class FilesSource extends DataSource {
 
     public parsePostsFromPaths(filePaths: string[]): Post[] {
         return filePaths
-            .filter(file => this.filterUnpublishedPosts(file))
-            .filter(file => fs.existsSync(file))
-            .map(file => this.postParser.parse(file, this.separator))
-            .filter(p => p.title && p.publishedAt && p.slug)
-            .filter(p => this.filterInvalidPostLayout(p));
+            .filter((file) => this.filterUnpublishedPosts(file))
+            .filter((file) => fs.existsSync(file))
+            .map((file) => this.postParser.parse(file, this.separator))
+            .filter((p) => p.title && p.publishedAt && p.slug)
+            .filter((p) => this.filterInvalidPostLayout(p));
     }
 
     public loadData(force = false): void {
@@ -162,7 +162,7 @@ export default class FilesSource extends DataSource {
         delete require.cache[this.tagsJsonPath];
 
         const jsonPosts = require(this.postsJsonPath) as IPost[];
-        this.posts = jsonPosts.map(p => new Post(p));
+        this.posts = jsonPosts.map((p) => new Post(p));
         this.tags = require(this.tagsJsonPath) as Tag[];
     }
 
@@ -171,7 +171,7 @@ export default class FilesSource extends DataSource {
     }
 
     public getPostsByTag(tag: Tag): Post[] {
-        return this.posts.filter(p => p.tags.includes(tag));
+        return this.posts.filter((p) => p.tags.includes(tag));
     }
 
     public getTags(): Tag[] {

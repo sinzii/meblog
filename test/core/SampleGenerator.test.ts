@@ -23,7 +23,7 @@ describe('SampleGenerator', function () {
     });
 
     it('should generate a markdown post content', function () {
-        const {markdown} = generator.post();
+        const { markdown } = generator.post();
         assert.typeOf(markdown, 'string');
 
         const lines = markdown.split('\n');
@@ -39,7 +39,7 @@ describe('SampleGenerator', function () {
     it('should generate en empty post', function () {
         const post = generator.emptyPost();
         assertPostProperties(post);
-        const {markdown} = post;
+        const { markdown } = post;
         assert.typeOf(markdown, 'string');
 
         const lines = markdown.split('\n');

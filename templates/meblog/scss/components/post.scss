@@ -1,72 +1,73 @@
 .post-summary {
-  margin-bottom: 30px;
-  text-align: justify;
+    margin-bottom: 30px;
+    text-align: justify;
 
-  &__title {
-    margin: 0 0 10px 0;
-  }
+    &__title {
+        margin: 0 0 10px 0;
+    }
 
-  &__excerpt {
-    margin-bottom: 15px;
-    hyphens: auto;
-  }
+    &__excerpt {
+        margin-bottom: 15px;
+        hyphens: auto;
+    }
 }
 
 .post-info {
-  &__meta {
-    display: inline-block;
-    margin: 10px 20px 10px 0;
-  }
+    &__meta {
+        display: inline-block;
+        margin: 10px 20px 10px 0;
+    }
 
-  &__tag {
-    margin-right: 10px;
-  }
+    &__tag {
+        margin-right: 10px;
+    }
 
-  &__published_at {
-    color: var(--meta-color);
-  }
+    &__published_at {
+        color: var(--meta-color);
+    }
 }
 
 .post-single {
-  &__content {
-    text-align: justify;
-    line-height: 1.8em;
-  }
-
-  blockquote {
-    border-left: 5px solid var(--primray-color);
-    padding: 1px 40px;
-    margin-left: 0;
-    margin-right: 0;
-
-    background-color: var(--code-bgc);
-    filter: none;
-  }
-
-  table {
-    border-spacing: 0;
-    border: 1px solid var(--border-color);
-    border-bottom: none;
-    margin: auto;
-    width: 100%;
-
-    th {
-      background-color: var(--code-bgc);
+    &__content {
+        text-align: justify;
+        line-height: 1.8em;
     }
-    td, th {
-      border-bottom: 1px solid var(--border-color);
-      border-left: 1px solid var(--border-color);
-      padding: 10px;
 
-      &:first-child {
-        border-left: none;
-      }
-    }
-  }
+    blockquote {
+        border-left: 5px solid var(--primray-color);
+        padding: 1px 40px;
+        margin-left: 0;
+        margin-right: 0;
 
-  .footnotes {
-    p {
-      margin: 0.5em 0;
+        background-color: var(--code-bgc);
+        filter: none;
     }
-  }
+
+    table {
+        border-spacing: 0;
+        border: 1px solid var(--border-color);
+        border-bottom: none;
+        margin: auto;
+        width: 100%;
+
+        th {
+            background-color: var(--code-bgc);
+        }
+        td,
+        th {
+            border-bottom: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color);
+            padding: 10px;
+
+            &:first-child {
+                border-left: none;
+            }
+        }
+    }
+
+    .footnotes {
+        p {
+            margin: 0.5em 0;
+        }
+    }
 }

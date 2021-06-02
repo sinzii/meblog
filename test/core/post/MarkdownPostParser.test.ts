@@ -10,7 +10,7 @@ describe('MarkdownPostParser', function () {
         const testFile = path.join(
             __dirname,
             'test-posts',
-            `sa@mple     post-for pars$$ing.md`
+            `sa@mple     post-for pars$$ing.md`,
         );
 
         const post = parser.parse(testFile);

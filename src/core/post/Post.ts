@@ -35,14 +35,16 @@ export class Post {
         Object.assign(this, post);
     }
 
-    private convertPublishedDate(post: IPost) {
+    private convertPublishedDate(post: IPost): void {
         if (post.publishedAt instanceof Date) {
             return;
         }
 
         const date = new Date(String(post.publishedAt));
         if (isNaN(date.getTime())) {
-            logger.info(`${ansi.red('Invalid date')} ${ansi.green(post.publishedAt)} from post ${ansi.green(post.title)},\ this post will be ignore from showing`);
+            logger.info(`${ansi.red('Invalid date')}\
+ ${ansi.green(post.publishedAt)} from post ${ansi.green(post.title)},\
+  this post will be ignore from showing`);
             post.publishedAt = null;
             return;
         }

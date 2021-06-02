@@ -1,15 +1,15 @@
 .header {
-  &__menu {
-    font-family: $sans-font;
-    margin: 20px 0;
-    list-style: none;
-    text-align: center;
-    font-size: 18px;
-    padding: 0;
+    &__menu {
+        font-family: $sans-font;
+        margin: 20px 0;
+        list-style: none;
+        text-align: center;
+        font-size: 18px;
+        padding: 0;
 
-    li {
-      display: inline-block;
-      margin: 10px;
+        li {
+            display: inline-block;
+            margin: 10px;
+        }
     }
-  }
 }

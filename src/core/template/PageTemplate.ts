@@ -30,10 +30,10 @@ export default class PageTemplate extends ConfigHolder {
         return FileUtils.basenameWithoutExt(file.path);
     }
 
-    protected compile(file: File, data?: any): Buffer {
+    protected compile(file: File, data?: { [prop: string]: unknown }): Buffer {
         const options = {
             pretty: this.config.devMode,
-            filename: file.path
+            filename: file.path,
         };
 
         const pugFn = pug.compile(String(file.contents), options);
@@ -49,7 +49,7 @@ export default class PageTemplate extends ConfigHolder {
             rootUrl: this.rootUrl.bind(this),
             url: this.url.bind(this),
             postUrl: this.postUrl.bind(this),
-            postRootUrl: this.postRootUrl.bind(this)
+            postRootUrl: this.postRootUrl.bind(this),
         });
 
         return Buffer.from(compiled);

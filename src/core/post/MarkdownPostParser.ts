@@ -12,7 +12,7 @@ export default class MarkdownPostParser extends PostParser {
         this.mdRenderer = new MarkdownItRenderer();
     }
 
-    public parse(filePath: string, separator: string = '---'): Post {
+    public parse(filePath: string, separator = '---'): Post {
         const post: any = {};
         let content = FileUtils.readFile(filePath);
         if (!content) {
@@ -51,7 +51,7 @@ export default class MarkdownPostParser extends PostParser {
             }
         }
 
-        metaLines.forEach(line => {
+        metaLines.forEach((line) => {
             const colonIndex = line.indexOf(':');
             if (colonIndex <= 0) {
                 return;

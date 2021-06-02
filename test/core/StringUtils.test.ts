@@ -4,12 +4,9 @@ import StringUtils from '../../src/core/util/StringUtils';
 describe('StringUtils', function () {
     it('should collect tags from a string', function () {
         const tags = StringUtils.collectTags(
-            'hello world,   this\'s meblog      world'
+            "hello world,   this's meblog      world",
         );
-        assert.deepEqual(
-            tags,
-            ['hello', 'world', 'this\'s', 'meblog']
-        )
+        assert.deepEqual(tags, ['hello', 'world', "this's", 'meblog']);
     });
 
     it('should collect tags from an array', function () {
@@ -18,16 +15,22 @@ describe('StringUtils', function () {
             'new    random tags',
             'will',
             'be',
-            'added'
+            'added',
         ]);
 
-        assert.deepEqual(
-            tags,
-            [
-                'this', 'is', 'a', 'random', 'string', 'for',
-                'tags', 'new', 'will', 'be', 'added'
-            ]
-        );
+        assert.deepEqual(tags, [
+            'this',
+            'is',
+            'a',
+            'random',
+            'string',
+            'for',
+            'tags',
+            'new',
+            'will',
+            'be',
+            'added',
+        ]);
     });
 
     it('should collect tags from a combination of string, number, array', function () {
@@ -37,42 +40,44 @@ describe('StringUtils', function () {
             // @ts-ignore
             123123,
             // @ts-ignore
-            ['will', 'be', 'added']
+            ['will', 'be', 'added'],
         ]);
 
-        assert.deepEqual(
-            tags,
-            [
-                'this', 'is', 'a', 'random', 'string',
-                '123123', 'will', 'be', 'added'
-            ]
-        );
+        assert.deepEqual(tags, [
+            'this',
+            'is',
+            'a',
+            'random',
+            'string',
+            '123123',
+            'will',
+            'be',
+            'added',
+        ]);
     });
 
     it('should collect tags from nested array', function () {
         const tags = StringUtils.collectTags([
             'this is a random',
             // @ts-ignore
-            [['string'], 'will', ['be', ['added']]]
+            [['string'], 'will', ['be', ['added']]],
         ]);
 
-        assert.deepEqual(
-            tags,
-            [
-                'this', 'is', 'a', 'random', 'string',
-                'will', 'be', 'added'
-            ]
-        );
+        assert.deepEqual(tags, [
+            'this',
+            'is',
+            'a',
+            'random',
+            'string',
+            'will',
+            'be',
+            'added',
+        ]);
     });
 
     it('should filter out falsy value', function () {
-        const tags = StringUtils.collectTags([
-            null, undefined, '', 'tag'
-        ]);
+        const tags = StringUtils.collectTags([null, undefined, '', 'tag']);
 
-        assert.deepEqual(
-            tags,
-            ['tag']
-        );
+        assert.deepEqual(tags, ['tag']);
     });
 });

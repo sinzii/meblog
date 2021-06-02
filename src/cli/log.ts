@@ -4,14 +4,14 @@ import logger from 'gulplog';
 /**
  * Taken from: https://github.com/gulpjs/gulp-cli/blob/master/lib/shared/log/to-console.js
  */
-var levels = [
+const levels = [
     'error', // -L: Logs error events.
-    'warn',  // -LL: Logs warn and error events.
-    'info',  // -LLL: Logs info, warn and error events.
+    'warn', // -LL: Logs warn and error events.
+    'info', // -LLL: Logs info, warn and error events.
     'debug', // -LLLL: Logs all log levels.
 ];
 
-const cleanup = log => {
+const cleanup = (log): void => {
     levels.forEach(removeListeners);
 
     function removeListeners(level) {
@@ -21,7 +21,7 @@ const cleanup = log => {
             log.removeListener(level, fancyLog);
         }
     }
-}
+};
 
 const toConsole = (log, logLevel = 3) => {
     cleanup(log);
@@ -37,10 +37,10 @@ const toConsole = (log, logLevel = 3) => {
                 log.on(level, fancyLog);
             }
         });
-}
+};
 
-export const initLogger = (logLevel = 3) => {
+export const initLogger = (logLevel = 3): any => {
     toConsole(logger, logLevel);
 
     return logger;
-}
+};

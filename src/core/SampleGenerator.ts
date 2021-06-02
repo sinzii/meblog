@@ -9,30 +9,23 @@ const glob = require('glob');
 const del = require('del');
 
 const TAG_POOL = [
-    'programming', 'coding', 'engineering', 'life',
-    'thoughts', 'random', 'opinion', 'DIY', 'stuff'
+    'programming',
+    'coding',
+    'engineering',
+    'life',
+    'thoughts',
+    'random',
+    'opinion',
+    'DIY',
+    'stuff',
 ];
 const SAMPLE_MD_FILES = glob.sync(path.join(__dirname, '../sample/**/*.md'));
 const SAMPLE_MD_CACHE = {};
 
 const heading = (min = 3, max = 8) => {
-    const titleLength = faker.datatype.number({min, max});
+    const titleLength = faker.datatype.number({ min, max });
     return faker.lorem.sentence(titleLength).replace('.', '');
-}
-
-const paragraphs = () => {
-    const numberOfParagraphs = faker.datatype.number({min: 3, max: 12});
-
-    const content = [];
-    for (let index = 0; index < numberOfParagraphs; index += 1) {
-        content.push(faker.lorem.paragraph(faker.datatype.number({
-            min: 1,
-            max: 5
-        })));
-    }
-
-    return content.join('\n\n');
-}
+};
 
 const pickSampleMd = () => {
     const randomFile = faker.random.arrayElement(SAMPLE_MD_FILES);
@@ -45,41 +38,25 @@ const pickSampleMd = () => {
     SAMPLE_MD_CACHE[randomFile] = content;
 
     return content;
-}
-
-const markdownBody = () => {
-    let body = '';
-    const numberOfHeading = faker.datatype.number({min: 3, max: 12});
-
-    for (let index = 0; index < numberOfHeading; index += 1) {
-        body += `## ${heading()}\n`;
-        body += paragraphs();
-        body += '\n\n';
-    }
-
-    return body;
-}
-
+};
 
 export default class SampleGenerator {
     public post(): Post {
         const post = new Post();
         post.title = heading();
-        post.slug = faker.helpers
-            .slugify(post.title)
-            .toLowerCase();
+        post.slug = faker.helpers.slugify(post.title).toLowerCase();
 
         post.publishedAt = faker.date.past();
 
         post.tags = faker.random.arrayElements(
             TAG_POOL,
-            faker.datatype.number({min: 1, max: 3})
+            faker.datatype.number({ min: 1, max: 3 }),
         );
 
         post.body = pickSampleMd();
 
         post.excerpt = faker.lorem.sentence(
-            faker.datatype.number({min: 20, max: 35})
+            faker.datatype.number({ min: 20, max: 35 }),
         );
 
         post.markdown = this.toMarkdown(post);
@@ -105,12 +82,14 @@ export default class SampleGenerator {
         const meta = {
             title: post.title,
             publishedAt: post.publishedAt.toISOString(),
-            tags: post.tags.join(", "),
-            excerpt: post.excerpt
+            tags: post.tags.join(', '),
+            excerpt: post.excerpt,
         };
 
         return `---
-${Object.keys(meta).map(prop => `${prop}: ${meta[prop]}`).join('\n')}
+${Object.keys(meta)
+    .map((prop) => `${prop}: ${meta[prop]}`)
+    .join('\n')}
 ---
 ${post.body}
 `;
@@ -120,11 +99,13 @@ ${post.body}
         return [...Array(numberOfPost)].map(() => this.post());
     }
 
-    public generateMarkdownPostsAndSave(numberOfPost = 10,
-                                        dirPath: string): void {
+    public generateMarkdownPostsAndSave(
+        numberOfPost = 10,
+        dirPath: string,
+    ): void {
         logger.info(
             'Number of posts to generate:',
-            ansi.blue(String(numberOfPost))
+            ansi.blue(String(numberOfPost)),
         );
 
         if (fs.existsSync(dirPath)) {
@@ -135,10 +116,14 @@ ${post.body}
 
         const posts = this.posts(numberOfPost);
         posts.forEach((post) => {
-            const filePath = path.join(dirPath, post.publishedMonth, `${post.slug}.md`);
+            const filePath = path.join(
+                dirPath,
+                post.publishedMonth,
+                `${post.slug}.md`,
+            );
             const monthPath = path.dirname(filePath);
             if (!fs.existsSync(monthPath)) {
-                fs.mkdirSync(monthPath, {recursive: true});
+                fs.mkdirSync(monthPath, { recursive: true });
             }
 
             fs.writeFileSync(filePath, post.markdown);
@@ -162,13 +147,13 @@ ${post.body}
                 return pickASampleName();
             }
 
-            return filePath
-        }
+            return filePath;
+        };
 
         const filePath = pickASampleName();
         const monthPath = path.dirname(filePath);
         if (!fs.existsSync(monthPath)) {
-            fs.mkdirSync(monthPath, {recursive: true});
+            fs.mkdirSync(monthPath, { recursive: true });
         }
 
         fs.writeFileSync(filePath, post.markdown);
@@ -176,7 +161,9 @@ ${post.body}
         const postDirName = path.basename(dirPath);
         logger.info(
             ansi.green('A new draft has been generated successfully at:'),
-            ansi.blue(`./${path.join(postDirName, filePath.replace(dirPath, ''))}`)
+            ansi.blue(
+                `./${path.join(postDirName, filePath.replace(dirPath, ''))}`,
+            ),
         );
     }
 }
