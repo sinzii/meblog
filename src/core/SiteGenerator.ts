@@ -103,8 +103,7 @@ export default class SiteGenerator extends ConfigHolder {
             gulp.src(templateGlob)
                 .pipe(renderFn)
                 .pipe(gulp.dest(this.outputDirectory))
-                .on('end', resolve)
-                .pipe(this.browserSync.stream());
+                .on('end', resolve);
         });
     }
 
@@ -137,6 +136,7 @@ export default class SiteGenerator extends ConfigHolder {
             'generatePages',
             'generatePosts',
             'generateTags',
+            'reloadBrowser',
         ]);
     }
 
@@ -209,8 +209,28 @@ export default class SiteGenerator extends ConfigHolder {
             this.args['configFilePath'] as string,
             gulp.series('reloadConfig', 'dev', 'generateTemplates'),
         );
-
-        gulp.watch('./templates/**/*.pug', gulp.series('generateTemplates'));
+        gulp.watch('./scss/**/*.@(scss|sass)', gulp.series('generateCss'));
+        gulp.watch(
+            './templates/pages/**/*.pug',
+            gulp.series('generatePages', 'reloadBrowser'),
+        );
+        gulp.watch(
+            './templates/posts/**/*.pug',
+            gulp.series('generatePosts', 'reloadBrowser'),
+        );
+        gulp.watch(
+            './templates/tags/**/*.pug',
+            gulp.series('generateTags', 'reloadBrowser'),
+        );
+        gulp.watch(
+            [
+                './templates/**/*.pug',
+                '!./templates/pages/**/*.pug',
+                '!./templates/posts/**/*.pug',
+                '!./templates/tags/**/*.pug',
+            ],
+            gulp.series('generateTemplates', 'reloadBrowser'),
+        );
 
         gulp.watch('./assets/**/*', gulp.series('copyAssets', 'reloadBrowser'));
 
