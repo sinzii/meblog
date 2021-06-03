@@ -15,6 +15,6 @@ block content
     h1.mt-0
         span Tagged as&nbsp;
         span.p-color=`#${tag}`
-    each post in posts
+    each post in postsByTag
         +post-summary(post)
 
