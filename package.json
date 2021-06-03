@@ -9,7 +9,8 @@
     "scripts": {
         "clean": "rm -rf ./lib",
         "build": "rm -rf ./lib & tsc && cp -r ./src/sample ./lib",
-        "test": "npx mocha --require ts-node/register \"./test/**/*.test.@(js|ts)\""
+        "test": "npx mocha --require ts-node/register \"./test/**/*.test.@(js|ts)\"",
+        "fm": "npx prettier --write ."
     },
     "author": "Thang X. Vu <zthangxv@gmail.com>",
     "license": "MIT",

@@ -50,7 +50,7 @@ The project makes use of `pug` for templating, `scss` for styling and `gulpjs` f
     -   `templates/tags`:
         -   `templates/tags/tag.pug`: Default tag template
 -   `scss`: SCSS styling files
-    -    `scss/main.scss`: Main entry point of scss files, the engine will generate this file to `main.css` on building.
+    -   `scss/main.scss`: Main entry point of scss files, the engine will generate this file to `main.css` on building.
 -   `assets`: Put your images, favicon, and other resources here
 -   `posts`: Put your posts in markdown format here. Ideally, arrange your posts into year and month folders for better referencing or searching.
 -   `config.js`: [Config file](#configuration) for the site
