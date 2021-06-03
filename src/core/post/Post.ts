@@ -13,7 +13,9 @@ export class Post {
     body: string;
     markdown: string;
     layout?: string;
-    [prop: string]: unknown;
+    url?: string;
+    relativeUrl?: string;
+    [prop: string]: any;
 
     constructor(post?: IPost) {
         this.copyInto(post);

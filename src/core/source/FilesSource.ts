@@ -152,7 +152,12 @@ export default class FilesSource extends DataSource {
             .filter((file) => fs.existsSync(file))
             .map((file) => this.postParser.parse(file, this.separator))
             .filter((p) => p.title && p.publishedAt && p.slug)
-            .filter((p) => this.filterInvalidPostLayout(p));
+            .filter((p) => this.filterInvalidPostLayout(p))
+            .map((p) => {
+                p.url = this.postRootUrl(p);
+                p.relativeUrl = this.postUrl(p);
+                return p;
+            });
     }
 
     public loadData(force = false): void {
@@ -163,6 +168,12 @@ export default class FilesSource extends DataSource {
 
         const jsonPosts = require(this.postsJsonPath) as IPost[];
         this.posts = jsonPosts.map((p) => new Post(p));
+
+        this.posts = this.posts.reduce((_, post) => {
+            _[post.slug] = post;
+            return _;
+        }, this.posts);
+
         this.tags = require(this.tagsJsonPath) as Tag[];
     }
 
