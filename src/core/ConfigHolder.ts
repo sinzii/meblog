@@ -1,4 +1,4 @@
-import { Config, PostUrlStyle } from './model';
+import { Config, PostUrlStyle, Tag } from './model';
 import moment from 'moment';
 import 'moment-timezone';
 import { Post } from './post/Post';
@@ -65,6 +65,14 @@ export default class ConfigHolder {
 
     postRootUrl(post: Post): string {
         return this.rootUrl(this.postPartialPath(post));
+    }
+
+    tagUrl(tag: Tag): string {
+        return this.url(`/tags/${tag}.html`);
+    }
+
+    tagRootUrl(tag: Tag): string {
+        return this.rootUrl(`/tags/${tag}.html`);
     }
 
     formatDateTime(date: Date): string {

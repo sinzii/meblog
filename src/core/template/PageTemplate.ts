@@ -37,8 +37,7 @@ export default class PageTemplate extends ConfigHolder {
         };
 
         const pugFn = pug.compile(String(file.contents), options);
-
-        const compiled = pugFn({
+        const templateData = {
             ...this.config,
             ...data,
             posts: this.dataSource.getPosts(),
@@ -50,7 +49,11 @@ export default class PageTemplate extends ConfigHolder {
             url: this.url.bind(this),
             postUrl: this.postUrl.bind(this),
             postRootUrl: this.postRootUrl.bind(this),
-        });
+            tagUrl: this.tagUrl.bind(this),
+            tagRootUrl: this.tagRootUrl.bind(this),
+        };
+
+        const compiled = pugFn(templateData);
 
         return Buffer.from(compiled);
     }
