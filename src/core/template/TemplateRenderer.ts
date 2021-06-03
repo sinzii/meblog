@@ -1,5 +1,5 @@
 import File from 'vinyl';
-import through from 'through2';
+import stream from 'stream';
 import ConfigHolder from '../ConfigHolder';
 import DataSource from '../source/DataSource';
 import logger from 'gulplog';
@@ -7,7 +7,7 @@ import { Post } from '../post/Post';
 import PageTemplate from '../template/PageTemplate';
 import PostTemplate from '../template/PostTemplate';
 import TagTemplate from '../template/TagTemplate';
-import stream from 'stream';
+import GulpUtils from '../util/GulpUtils';
 
 export default class TemplateRenderer extends ConfigHolder {
     private readonly dataSource: DataSource;
@@ -20,15 +20,19 @@ export default class TemplateRenderer extends ConfigHolder {
 
     public render(Template: typeof PageTemplate): stream.Transform {
         const dataSource = this.dataSource;
-        return through.obj(function (file, enc, cb) {
+        return GulpUtils.through(function (file, enc, cb) {
             const template: PageTemplate = new Template(dataSource, file);
 
             logger.debug('Render template', template.templateName);
 
-            const files: File[] = template.render();
-            files.forEach((file) => this.push(file));
+            try {
+                const files: File[] = template.render();
+                files.forEach((file) => this.push(file));
 
-            cb();
+                cb();
+            } catch (e) {
+                cb(GulpUtils.error(e));
+            }
         });
     }
 
@@ -47,16 +51,20 @@ export default class TemplateRenderer extends ConfigHolder {
     public renderSpecifiedPosts(posts: Post[]): stream.Transform {
         const dataSource = this.dataSource;
 
-        return through.obj(function (file, enc, cb) {
+        return GulpUtils.through(function (file, enc, cb) {
             const template: PostTemplate = new PostTemplate(dataSource, file);
 
             logger.debug('Render template', template.templateName);
 
-            const files: File[] = template.renderPosts(posts);
+            try {
+                const files: File[] = template.renderPosts(posts);
 
-            files.forEach((file) => this.push(file));
+                files.forEach((file) => this.push(file));
 
-            cb();
+                cb();
+            } catch (e) {
+                cb(GulpUtils.error(e));
+            }
         });
     }
 }

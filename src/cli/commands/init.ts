@@ -3,9 +3,9 @@ import fs from 'fs';
 import { CommandModule } from 'yargs';
 import logger from 'gulplog';
 import gulp from 'gulp';
-import through from 'through2';
 import File from 'vinyl';
 import ansi from 'ansi-colors';
+import GulpUtils from '../../core/util/GulpUtils';
 
 const DEFAULT_TEMPLATE_NAME = 'meblog';
 
@@ -40,7 +40,7 @@ const customizeOnCopying = (destination, args) => {
         path.join(destination, 'package.json'),
     );
 
-    return through.obj(function (file: File, enc, cb) {
+    return GulpUtils.through(function (file: File, enc, cb) {
         if (file.basename === 'package.json') {
             if (hasPackageJsonFile) {
                 cb();

@@ -19,6 +19,7 @@ import { EventEmitter } from 'events';
 import StringUtils from './util/StringUtils';
 import { Arguments } from 'yargs';
 import stream from 'stream';
+import GulpUtils from './util/GulpUtils';
 
 const DEV_PORT = 3000;
 
@@ -101,6 +102,7 @@ export default class SiteGenerator extends ConfigHolder {
     ): Promise<void> {
         return new Promise((resolve) => {
             gulp.src(templateGlob)
+                .pipe(GulpUtils.handleStreamError())
                 .pipe(renderFn)
                 .pipe(gulp.dest(this.outputDirectory))
                 .on('end', resolve);
@@ -249,6 +251,7 @@ export default class SiteGenerator extends ConfigHolder {
         const posts = this.dataSource.parsePostsFromPaths([path]);
 
         gulp.src('./templates/posts/*.pug')
+            .pipe(GulpUtils.handleStreamError())
             .pipe(this.compiler.renderSpecifiedPosts(posts))
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(this.browserSync.stream());
