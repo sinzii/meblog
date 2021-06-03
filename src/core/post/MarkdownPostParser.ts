@@ -69,7 +69,6 @@ export default class MarkdownPostParser extends PostParser {
     public extractSlug(filePath: string): string {
         const fileName = FileUtils.basename(filePath, FileUtils.ext(filePath));
 
-        // only accept a-zA-Z0-9 and - (hyphen char)
         return fileName.replace(/[^\w-]*/gm, '');
     }
 }
