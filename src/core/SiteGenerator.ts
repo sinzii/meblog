@@ -25,7 +25,7 @@ const DEV_PORT = 3000;
 
 export default class SiteGenerator extends ConfigHolder {
     private dataSource: DataSource;
-    private compiler: TemplateRenderer;
+    private renderer: TemplateRenderer;
     private generator: SampleGenerator;
     private eventEmitter: EventEmitter;
     private browserSync: BrowserSyncInstance;
@@ -50,7 +50,7 @@ export default class SiteGenerator extends ConfigHolder {
 
     private initCompiler() {
         this.dataSource = new FilesSource(this.config, this.postsDirPath);
-        this.compiler = new TemplateRenderer(this.dataSource);
+        this.renderer = new TemplateRenderer(this.dataSource);
     }
 
     get outputRelativeDirectory(): string {
@@ -113,7 +113,7 @@ export default class SiteGenerator extends ConfigHolder {
         logger.info(ansi.green('Rendering pages'));
         await this.renderTemplates(
             './templates/pages/**/*.pug',
-            this.compiler.renderPages(),
+            this.renderer.renderPages(),
         );
     }
 
@@ -121,7 +121,7 @@ export default class SiteGenerator extends ConfigHolder {
         logger.info(ansi.green('Rendering posts'));
         await this.renderTemplates(
             './templates/posts/*.pug',
-            this.compiler.renderPosts(),
+            this.renderer.renderPosts(),
         );
     }
 
@@ -129,7 +129,7 @@ export default class SiteGenerator extends ConfigHolder {
         logger.info(ansi.green('Rendering tags'));
         await this.renderTemplates(
             './templates/tags/tag.pug',
-            this.compiler.renderTags(),
+            this.renderer.renderTags(),
         );
     }
 
@@ -252,7 +252,7 @@ export default class SiteGenerator extends ConfigHolder {
 
         gulp.src('./templates/posts/*.pug')
             .pipe(GulpUtils.handleStreamError())
-            .pipe(this.compiler.renderSpecifiedPosts(posts))
+            .pipe(this.renderer.renderSpecifiedPosts(posts))
             .pipe(gulp.dest(this.outputDirectory))
             .pipe(this.browserSync.stream());
 
