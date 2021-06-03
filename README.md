@@ -2,6 +2,7 @@
 
 ![GitHub](https://img.shields.io/github/license/sinzii/meblog)
 ![npm](https://img.shields.io/npm/v/meblog)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/sinzii/meblog/Node.js%20CI)
 
 A simple blog engine for personal blogging
 
