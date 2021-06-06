@@ -28,9 +28,26 @@
 }
 
 .post-single {
-    &__content {
-        text-align: justify;
-        line-height: 1.8em;
+    h1.post-single__title {
+        margin-top: 0.4em;
+    }
+
+    p {
+        margin-top: 0;
+    }
+
+    blockquote {
+        border-left: 5px solid var(--primray-color);
+        padding: 0.7em 1em;
+        margin-left: 0;
+        margin-right: 0;
+
+        background-color: var(--code-bgc);
+        filter: none;
+
+        p:last-child {
+            margin-bottom: 0;
+        }
     }
 
     blockquote {

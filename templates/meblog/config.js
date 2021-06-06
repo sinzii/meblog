@@ -13,11 +13,11 @@ module.exports = {
     },
     whatToDoNext: [
         {
-            url: 'https://github.com/sinzii/meblog#project-structure',
+            url: 'https://github.com/sinzii/meblog#template-project-structure',
             text: 'Design the new site',
         },
         {
-            url: 'https://github.com/sinzii/meblog#how-do-i-create-new-post',
+            url: 'https://github.com/sinzii/meblog#how-to-create-new-post',
             text: 'Compose new posts',
         },
         {
@@ -34,6 +34,5 @@ module.exports = {
             url: 'https://sinzii.me',
             text: 'Thang X. Vu (@sinzii)',
         },
-    ],
-    latestPosts: 5,
+    ]
 };
