@@ -48,7 +48,7 @@ export default class SiteGenerator extends ConfigHolder {
         }
     }
 
-    private initCompiler() {
+    private initRenderer() {
         this.dataSource = new FilesSource(this.config, this.postsDirPath);
         this.renderer = new TemplateRenderer(this.dataSource);
     }
@@ -92,7 +92,7 @@ export default class SiteGenerator extends ConfigHolder {
 
     loadData(): void {
         logger.info(ansi.green('Loading posts'));
-        this.initCompiler();
+        this.initRenderer();
         this.dataSource.loadData();
     }
 
