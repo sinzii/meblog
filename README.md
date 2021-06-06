@@ -26,13 +26,13 @@ Website: [meblog.sinzii.me](https://meblog.sinzii.me)
 ## Have a quick taste
 
 ```ssh
-npm install -g meblog // use --unsafe-perm if facing node-gyp error
+npm install --save meblog
 
-meblog init your-site && cd your-site
+npx meblog init
 
-meblog sample --number-of-posts=20
+npx meblog sample --number-of-posts=20
 
-meblog serve
+npx meblog serve
 ```
 
 ## Features
@@ -73,7 +73,6 @@ excerpt: Some thoughts about the growing journey
 layout: ... (post is default layout for rendering posts page, but you can defined new layout in templates/posts folder)
 customfield: Custom field will also be parsed and loaded into post object
 ---
-
 Post body goes here
 ```
 
