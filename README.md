@@ -26,13 +26,15 @@ Website: [meblog.sinzii.me](https://meblog.sinzii.me)
 ## Have a quick taste
 
 ```ssh
-npm install -g meblog // use --unsafe-perm if facing node-gyp error
+npm init
 
-meblog init your-site && cd your-site
+npm install --save meblog
 
-meblog sample --number-of-posts=20
+npx meblog init your-site && cd your-site
 
-meblog serve
+npx meblog sample --number-of-posts=20
+
+npx meblog serve
 ```
 
 ## Features
