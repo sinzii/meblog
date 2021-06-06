@@ -130,7 +130,7 @@ By default, the engine only processes `pug` tempate to html pages and `scss` to 
 
 This is when event hooks come into play. Let's me first explain about the build process of meblog.
 
-### Build process
+### The build process
 Both `meblog serve` and `meblog build` commands will trigger the __build process__ when running, the only different is the former uses `dev` enviroment, and the latter uses `prod` enviroment.
 
 When the build process is running, a series of tasks will be trigger one by one.
