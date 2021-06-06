@@ -73,7 +73,6 @@ excerpt: Some thoughts about the growing journey
 layout: ... (post is default layout for rendering posts page, but you can defined new layout in templates/posts folder)
 customfield: Custom field will also be parsed and loaded into post object
 ---
-
 Post body goes here
 ```
 
