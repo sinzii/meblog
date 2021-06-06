@@ -139,10 +139,10 @@ When the build process is running, a series of tasks will be trigger one by one.
 - `Build`: Build the site
     - `CopyAssets`: Copy assets to output directory
     - `LoadData`: Parsing and loading posts from markdown format to javascript object.
-    - `RenderingTemplates`: Render templates
-        - `RenderingPages`: Render pages
-        - `RenderingPosts`: Render posts
-        - `RenderingTags`: Render tags
+    - `GenerateTemplates`: Generate templates
+        - `GeneratePages`: Generate pages
+        - `GeneratePosts`: Generate posts
+        - `GenerateTags`: Generate tags
     - `GenerateRssFeed`: Generate RSS feed
     - `GenerateCSS`: Generate CSS
 - `OnServe`: Starting local development server & watching file changes (only in `meblog serve` command)
