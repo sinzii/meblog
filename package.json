@@ -1,6 +1,6 @@
 {
     "name": "meblog",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "A simple blog engine for personal blogging",
     "main": "./lib/cli/index.js",
     "bin": {
