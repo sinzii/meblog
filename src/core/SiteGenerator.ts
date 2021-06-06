@@ -15,7 +15,7 @@ import SampleGenerator from './SampleGenerator';
 import RssGenerator from './RssGenerator';
 import { Config } from './model';
 import ConfigHolder from './ConfigHolder';
-import { EventEmitter } from 'events';
+import Emittery from 'emittery';
 import StringUtils from './util/StringUtils';
 import { Arguments } from 'yargs';
 import stream from 'stream';
@@ -27,7 +27,7 @@ export default class SiteGenerator extends ConfigHolder {
     private dataSource: DataSource;
     private renderer: TemplateRenderer;
     private generator: SampleGenerator;
-    private eventEmitter: EventEmitter;
+    private eventEmitter: Emittery;
     private browserSync: BrowserSyncInstance;
     private args: Arguments;
 
@@ -35,7 +35,7 @@ export default class SiteGenerator extends ConfigHolder {
         super(config);
         this.args = args;
         this.generator = new SampleGenerator();
-        this.eventEmitter = new EventEmitter();
+        this.eventEmitter = new Emittery();
         this.browserSync = BS.create('meblog');
 
         this.registerEvents();
@@ -43,7 +43,7 @@ export default class SiteGenerator extends ConfigHolder {
 
     private registerEvents() {
         if (typeof this.config.eventRegister === 'function') {
-            this.eventEmitter.removeAllListeners();
+            this.eventEmitter.clearListeners();
             this.config.eventRegister.call(this, this.eventEmitter);
         }
     }
@@ -320,12 +320,12 @@ export default class SiteGenerator extends ConfigHolder {
         return async function () {
             const funcCapitalized = StringUtils.capitalize(func.name);
             logger.debug(`[BEFORE] ${funcCapitalized}`);
-            this.eventEmitter.emit(`BEFORE:${funcCapitalized}`);
+            await this.eventEmitter.emitSerial(`BEFORE:${funcCapitalized}`);
 
             await func.call(this);
 
             logger.debug(`[AFTER] ${funcCapitalized}`);
-            this.eventEmitter.emit(`AFTER:${funcCapitalized}`);
+            await this.eventEmitter.emitSerial(`AFTER:${funcCapitalized}`);
         };
     }
 
