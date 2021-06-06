@@ -26,11 +26,9 @@ Website: [meblog.sinzii.me](https://meblog.sinzii.me)
 ## Have a quick taste
 
 ```ssh
-npm init
-
 npm install --save meblog
 
-npx meblog init your-site && cd your-site
+npx meblog init
 
 npx meblog sample --number-of-posts=20
 
