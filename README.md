@@ -18,6 +18,7 @@ Website: [meblog.sinzii.me](https://meblog.sinzii.me)
 -   [Configuration](#configuration)
 -   [Template variables](#template-variables)
 -   [Event hooks](#event-hooks)
+-   [I18n](#i18n)
 -   [Deploy your site on Github](#deploy-your-site-on-github)
 -   [Websites built with meblog](#websites-built-with-meblog)
 -   [Contribution](#contribution)
@@ -43,6 +44,7 @@ npx meblog serve
 -   Built-in static site generator for pages, posts and tag pages.
 -   Built-in RSS feed generator
 -   Support event hooks to customize build process
+-   Support i18n out-of-the-box
 -   Love how simple and powerful `pug` template is? **meblog** is the right tool for you.
 
 ## Template project structure
@@ -71,6 +73,7 @@ publishedAt: 2021-05-15T18:04:00+07:00 (YYYY-MM-DDTHH:mm:ssZ)
 tags: tag1, tag2
 excerpt: Some thoughts about the growing journey
 layout: ... (post is default layout for rendering posts page, but you can defined new layout in templates/posts folder)
+language: en 
 customfield: Custom field will also be parsed and loaded into post object
 ---
 Post body goes here
@@ -102,17 +105,19 @@ But there are some configurations that you need understand why do we have it.
 ## Template variables
 
 ### Global variables
--   `posts`: List of posts, but you also can access a specific post by its slug using `posts[post-slug]`
+-   `locale`: Current rendering locale
+-   `allPosts`: List of all posts include every locales, a post can also be accessed by its slug using `allPosts[post-slug]`.
+-   `posts`: List of posts of current rendering locale
 -   `tags`: List of available tags
 -   `templateName`: Name of current rendering template
--   `formatDateTime`: A function taking a date as input, output formatted date time follow `dateTimeFormat` config
--   `formatDate`: A function taking a date as input, output formatted date follow `dateFormat` config
--   `rootUrl`: A function taking a path as input, ouput an absolute url of the site
--   `url`: A function taking a path as input, output a relative url from current `baseContext` config
+-   `formatDateTime`: A function taking a date and locale as inputs, output formatted date time follow `dateTimeFormat` config
+-   `formatDate`: A function taking a date and locale as inputs, output formatted date follow `dateFormat` config
+-   `rootUrl`: A function taking a path and locale as inputs, ouput an absolute url of the site
+-   `url`: A function taking a path and locale as inputs, output a relative url from current `baseContext` config
 -   `postRootUrl`: A function taking post object as input, output an absolute url of the post
 -   `postUrl`: A function taking post object as input, output a relative url of the post
--   `tagRootUrl`: A function taking tag name as input, output an absolute url of the tag
--   `tagUrl`: A function taking tag name as input, output a relative url of the tag
+-   `tagRootUrl`: A function taking tag name and locale as inputs, output an absolute url of the tag
+-   `tagUrl`: A function taking tag name and locale as inputs, output a relative url of the tag
 -   And all properties from exported object in `config.js` will be available as global variables (eg: `baseUrl`, `siteName`, ...)
 
 ### Post layout template variables
@@ -122,7 +127,7 @@ _Variable listed here is only available in post layout template in folder `templ
 ### Tag template variables
 _Variables listed here are only available in tag template in folder `templates/tags`_
 -   `tag`: Current rendering tag name
--   `postsByTag`: List of post tagged with current rendering `tag`
+-   `postsByTag`: List of post tagged with current rendering `tag` of current rendering locale
 
 ## Event hooks
 By default, the engine only processes `pug` tempate to html pages and `scss` to css. What if you need to write some `JavaScript` or even `TypeScript` and want those scripts to be bundle into one file or hot reload the script files on change when designing the site?
@@ -179,6 +184,25 @@ module.exports = {
     ...
 }
 ```
+
+## I18n
+The project uses package [i18n-node](https://github.com/mashpie/i18n-node) to implement i18n. 
+
+Put translation files in folder `i18n` and update `config.js` for which locales you want to support.
+```js
+// in config.js file
+
+module.exports = {
+    ...
+    defaultLocale: 'en', // Default language of the site, default: en
+    locales: ['en', ...] // A list of the language that you want to support, default ['en']
+    ...
+}
+```
+
+In `pug` template, `i18n` translate functions are available to use. Supported translate functions: `__`, `__n`, `__l`, `__h`, `__mf`.
+
+By default, all posts are belong to the `defaultLocale`, use `language` meta field to define language for that post in markdown file.
 
 ## Deploy your site on Github
 
