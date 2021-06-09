@@ -66,8 +66,8 @@ export default class SiteGenerator extends ConfigHolder {
             locales,
             directory: path.join(this.config.rootDir, './i18n'),
             defaultLocale: this.config.defaultLocale,
-            autoReload: this.config.devMode,
-            updateFiles: this.config.devMode,
+            autoReload: false,
+            updateFiles: true,
         });
     }
 
