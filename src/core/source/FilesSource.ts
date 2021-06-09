@@ -169,12 +169,16 @@ export default class FilesSource extends DataSource {
         const jsonPosts = require(this.postsJsonPath) as IPost[];
         this.posts = jsonPosts.map((p) => new Post(p));
 
-        this.posts = this.posts.reduce((_, post) => {
-            _[post.slug] = post;
-            return _;
-        }, this.posts);
+        this.setupPostMap(this.posts);
 
         this.tags = require(this.tagsJsonPath) as Tag[];
+    }
+
+    private setupPostMap(posts: Post[]) {
+        posts.reduce((_, post) => {
+            _[post.slug] = post;
+            return _;
+        }, posts)
     }
 
     protected filterPost(post: Post, locale: string) {
@@ -187,7 +191,11 @@ export default class FilesSource extends DataSource {
     }
 
     public getPosts(locale?: string): Post[] {
-        return this.posts.filter(p => this.filterPost(p, locale));
+        const posts = this.posts.filter(p => this.filterPost(p, locale));
+
+        this.setupPostMap(posts);
+
+        return posts;
     }
 
     public getAllPosts(): Post[] {
@@ -195,9 +203,13 @@ export default class FilesSource extends DataSource {
     }
 
     public getPostsByTag(tag: Tag, locale?: string): Post[] {
-        return this.posts
+        const posts = this.posts
             .filter((p) => p.tags.includes(tag))
             .filter(p => this.filterPost(p, locale));
+
+        this.setupPostMap(posts);
+
+        return posts;
     }
 
     public getTags(): Tag[] {
