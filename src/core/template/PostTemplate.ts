@@ -5,7 +5,7 @@ import { Post } from '../post/Post';
 
 export default class PostTemplate extends PageTemplate {
     render(): File[] {
-        return this.renderPosts(this.dataSource.getPosts());
+        return this.renderPosts(this.dataSource.getPosts(this.template.locale));
     }
 
     renderPosts(posts: Post[]): File[] {
@@ -15,6 +15,10 @@ export default class PostTemplate extends PageTemplate {
     }
 
     renderPost(post: Post): File {
+        if (!this.template.locale) {
+            this.template.locale = post.language;
+        }
+
         return new File({
             base: this.template.base,
             path: path.join(this.template.base, this.postPartialPath(post)),

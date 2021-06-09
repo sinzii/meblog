@@ -1,3 +1,4 @@
+import path from 'path';
 import File from 'vinyl';
 import stream from 'stream';
 import ConfigHolder from '../ConfigHolder';
@@ -18,9 +19,11 @@ export default class TemplateRenderer extends ConfigHolder {
         this.dataSource = dataSource;
     }
 
-    public render(Template: typeof PageTemplate): stream.Transform {
+    private render(Template: typeof PageTemplate, locale?: string): stream.Transform {
         const dataSource = this.dataSource;
+
         return GulpUtils.through(function (file, enc, cb) {
+            file.locale = locale;
             const template: PageTemplate = new Template(dataSource, file);
 
             logger.debug('Render template', template.templateName);
@@ -36,16 +39,16 @@ export default class TemplateRenderer extends ConfigHolder {
         });
     }
 
-    public renderTags(): stream.Transform {
-        return this.render(TagTemplate);
+    public renderTags(locale?: string): stream.Transform {
+        return this.render(TagTemplate, locale);
     }
 
-    public renderPosts(): stream.Transform {
-        return this.render(PostTemplate);
+    public renderPosts(locale?: string): stream.Transform {
+        return this.render(PostTemplate, locale);
     }
 
-    public renderPages(): stream.Transform {
-        return this.render(PageTemplate);
+    public renderPages(locale?: string): stream.Transform {
+        return this.render(PageTemplate, locale);
     }
 
     public renderSpecifiedPosts(posts: Post[]): stream.Transform {

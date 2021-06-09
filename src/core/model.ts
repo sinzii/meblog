@@ -27,6 +27,8 @@ export interface Config {
     dateFormat: string;
     postUrlStyle?: PostUrlStyle;
     eventRegister?: EventRegister;
+    locales?: string[],
+    defaultLocale?: string,
     [otherOption: string]: any;
 }
 

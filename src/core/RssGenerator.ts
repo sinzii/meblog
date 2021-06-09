@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import i18n from 'i18n';
 import ConfigHolder from './ConfigHolder';
 import DataSource from './source/DataSource';
 import { Post } from './post/Post';
-
 export default class RssGenerator extends ConfigHolder {
     private readonly dataSource: DataSource;
     constructor(dataSource: DataSource) {
@@ -11,32 +11,33 @@ export default class RssGenerator extends ConfigHolder {
         this.dataSource = dataSource;
     }
 
-    public generate(outputDir: string): void {
+    public generate(outputDir: string, locale: string): void {
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir, { recursive: true });
         }
 
         const filePath = path.join(outputDir, './rss.xml');
-        const content = this.generateRssContent();
+        const content = this.generateRssContent(locale);
         fs.writeFileSync(filePath, content);
     }
 
-    private generateRssContent() {
+    private generateRssContent(locale: string) {
         return (
             '<rss version="2.0">' +
             '<channel>' +
-            `<title>${this.config.siteName}</title>` +
+            `<title>${this.getI18nFallbackToConfig('siteName', locale)}</title>` +
             `<link>${this.config.baseUrl}</link>` +
-            `<description>${this.config.siteDescription}</description>` +
-            this.generateItemFeeds() +
+            `<description>${this.getI18nFallbackToConfig('siteDescription', locale)}</description>` +
+            (locale ? `<language>${locale}</language>` : '') +
+            this.generateItemFeeds(locale) +
             '</channel>' +
             '</rss>'
         );
     }
 
-    private generateItemFeeds(): string {
+    private generateItemFeeds(locale: string): string {
         return this.dataSource
-            .getPosts()
+            .getPosts(locale)
             .map((p) => this.getItemFeed(p))
             .join('');
     }

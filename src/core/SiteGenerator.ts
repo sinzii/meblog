@@ -8,6 +8,7 @@ import scss from 'gulp-sass';
 import sourcemaps from 'gulp-sourcemaps';
 import logger from 'gulplog';
 import ansi from 'ansi-colors';
+import i18n from 'i18n';
 import DataSource from './source/DataSource';
 import FilesSource from './source/FilesSource';
 import TemplateRenderer from './template/TemplateRenderer';
@@ -22,6 +23,7 @@ import stream from 'stream';
 import GulpUtils from './util/GulpUtils';
 
 const DEV_PORT = 3000;
+const DEFAULT_LOCALE = 'en';
 
 export default class SiteGenerator extends ConfigHolder {
     private dataSource: DataSource;
@@ -39,6 +41,34 @@ export default class SiteGenerator extends ConfigHolder {
         this.browserSync = BS.create('meblog');
 
         this.registerEvents();
+        this.setupI18n();
+    }
+
+    private setupI18n(): void {
+        if (!this.config.defaultLocale) {
+            this.config.defaultLocale = DEFAULT_LOCALE;
+        }
+
+        let {locales = []} = this.config;
+
+
+        if (typeof locales === 'string') {
+            locales = [locales];
+        }
+
+        if (!locales.includes(this.config.defaultLocale)) {
+            locales.push(this.config.defaultLocale);
+        }
+
+        this.config.locales = locales;
+
+        i18n.configure({
+            locales,
+            directory: path.join(this.config.rootDir, './i18n'),
+            defaultLocale: this.config.defaultLocale,
+            autoReload: this.config.devMode,
+            updateFiles: this.config.devMode,
+        });
     }
 
     private registerEvents() {
@@ -64,6 +94,15 @@ export default class SiteGenerator extends ConfigHolder {
 
     get outputDirectory(): string {
         return path.resolve(this.config.rootDir, this.outputRelativeDirectory);
+    }
+
+    public getOutputDirectory(locale?: string): string {
+        const outdir = this.outputDirectory;
+        if (this.isDefaultLocale(locale)) {
+            return outdir;
+        }
+
+        return path.join(this.outputDirectory, locale);
     }
 
     get postsDirPath(): string {
@@ -96,24 +135,35 @@ export default class SiteGenerator extends ConfigHolder {
         this.dataSource.loadData();
     }
 
-    renderTemplates(
+    private _renderTemplates(
         templateGlob: string,
-        renderFn: stream.Transform,
+        renderFn: (locale?: string) => stream.Transform,
+        locale?: string
     ): Promise<void> {
         return new Promise((resolve) => {
             gulp.src(templateGlob)
                 .pipe(GulpUtils.handleStreamError())
-                .pipe(renderFn)
-                .pipe(gulp.dest(this.outputDirectory))
+                .pipe(renderFn(locale))
+                .pipe(gulp.dest(this.getOutputDirectory(locale)))
                 .on('end', resolve);
         });
+    }
+
+    async renderTemplates(
+        templateGlob: string,
+        renderFn: (locale?: string) => stream.Transform,
+    ): Promise<void> {
+        for (const locale of this.config.locales) {
+            i18n.setLocale(locale);
+            await this._renderTemplates(templateGlob, renderFn, locale);
+        }
     }
 
     async generatePages(): Promise<void> {
         logger.info(ansi.green('Rendering pages'));
         await this.renderTemplates(
             './templates/pages/**/*.pug',
-            this.renderer.renderPages(),
+            this.renderer.renderPages.bind(this.renderer),
         );
     }
 
@@ -121,7 +171,7 @@ export default class SiteGenerator extends ConfigHolder {
         logger.info(ansi.green('Rendering posts'));
         await this.renderTemplates(
             './templates/posts/*.pug',
-            this.renderer.renderPosts(),
+            this.renderer.renderPosts.bind(this.renderer),
         );
     }
 
@@ -129,7 +179,7 @@ export default class SiteGenerator extends ConfigHolder {
         logger.info(ansi.green('Rendering tags'));
         await this.renderTemplates(
             './templates/tags/tag.pug',
-            this.renderer.renderTags(),
+            this.renderer.renderTags.bind(this.renderer),
         );
     }
 
@@ -145,7 +195,11 @@ export default class SiteGenerator extends ConfigHolder {
     async generateRssFeed(): Promise<void> {
         logger.info(ansi.green('Generating RSS feed'));
         const rssGenerator = new RssGenerator(this.dataSource);
-        rssGenerator.generate(this.outputDirectory);
+
+        for (const locale of this.config.locales) {
+            i18n.setLocale(locale);
+            rssGenerator.generate(this.getOutputDirectory(locale), locale);
+        }
     }
 
     async generateCss(): Promise<void> {

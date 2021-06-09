@@ -19,12 +19,15 @@ export default class TagTemplate extends PageTemplate {
     }
 
     renderTag(tag: Tag): File {
+        const postsByTag = this.dataSource.getPostsByTag(
+            tag, this.template.locale
+        );
+
         return new File({
             base: this.template.base,
             path: path.join(this.template.base, `tags/${tag}.html`),
             contents: this.compile(this.template, {
-                tag,
-                postsByTag: this.dataSource.getPostsByTag(tag),
+                tag, postsByTag
             }),
         });
     }
