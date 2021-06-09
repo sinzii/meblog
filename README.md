@@ -61,6 +61,7 @@ The project makes use of `pug` for templating, `scss` for styling and `gulpjs` f
 -   `assets`: Put your images, favicon, and other resources here
 -   `posts`: Put your posts in markdown format here. Ideally, arrange your posts into year and month folders for better searching.
 -   `config.js`: [Config file](#configuration) for the site
+-   `i18n`: Put translation files for i18n here
 
 ## How to create new post
 
