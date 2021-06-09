@@ -15,6 +15,7 @@ export class Post {
     layout?: string;
     url?: string;
     relativeUrl?: string;
+    language?: string;
     [prop: string]: any;
 
     constructor(post?: IPost) {

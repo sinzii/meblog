@@ -8,7 +8,8 @@ export default abstract class DataSource extends ConfigHolder {
     }
 
     public abstract loadData(force?: boolean): void;
-    public abstract getPosts(): Post[];
+    public abstract getPosts(locale?: string): Post[];
+    public abstract getAllPosts(): Post[];
     public abstract getTags(): Tag[];
-    public abstract getPostsByTag(tag: Tag): Post[];
+    public abstract getPostsByTag(tag: Tag, locale?: string): Post[];
 }

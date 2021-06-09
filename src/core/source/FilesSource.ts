@@ -177,12 +177,27 @@ export default class FilesSource extends DataSource {
         this.tags = require(this.tagsJsonPath) as Tag[];
     }
 
-    public getPosts(): Post[] {
+    protected filterPost(post: Post, locale: string) {
+        const {language} = post;
+        locale = locale || this.config.defaultLocale;
+
+        return language
+            ? language === locale
+            : locale === this.config.defaultLocale;
+    }
+
+    public getPosts(locale?: string): Post[] {
+        return this.posts.filter(p => this.filterPost(p, locale));
+    }
+
+    public getAllPosts(): Post[] {
         return this.posts;
     }
 
-    public getPostsByTag(tag: Tag): Post[] {
-        return this.posts.filter((p) => p.tags.includes(tag));
+    public getPostsByTag(tag: Tag, locale?: string): Post[] {
+        return this.posts
+            .filter((p) => p.tags.includes(tag))
+            .filter(p => this.filterPost(p, locale));
     }
 
     public getTags(): Tag[] {
