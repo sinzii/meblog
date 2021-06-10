@@ -24,16 +24,16 @@ export default class FilesSource extends DataSource {
     constructor(config: Config, postsDirectoryPath: string, separator = '---') {
         super(config);
 
-        if (!fs.existsSync(postsDirectoryPath)) {
-            throw new Error('Post directory path is not existed');
-        }
-
         postsDirectoryPath = postsDirectoryPath.trim();
         if (postsDirectoryPath.endsWith('/')) {
             postsDirectoryPath.slice(0, -1);
         }
 
         this.postsDirectoryPath = postsDirectoryPath;
+        if (!fs.existsSync(this.postsDirectoryPath)) {
+            return;
+        }
+
         this.dataDirectoryPath = path.resolve(
             this.postsDirectoryPath,
             '../cache',
@@ -161,6 +161,10 @@ export default class FilesSource extends DataSource {
     }
 
     public loadData(force = false): void {
+        if (!fs.existsSync(this.postsDirectoryPath)) {
+            return;
+        }
+
         this.parsePosts(force);
 
         delete require.cache[this.postsJsonPath];
