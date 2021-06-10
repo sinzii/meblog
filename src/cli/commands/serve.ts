@@ -16,6 +16,11 @@ export default {
                 type: 'number',
                 alias: 'p',
                 describe: 'Customize serving port, default: 3000',
+            })
+            .option('auto-update-i18n-files',  {
+                type: 'boolean',
+                alias: 'i',
+                describe: 'Auto update missing translations in i18n files, default: false'
             });
     },
     handler: (args) => {
