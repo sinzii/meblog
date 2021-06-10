@@ -141,7 +141,7 @@ export default class SiteGenerator extends ConfigHolder {
         locale?: string
     ): Promise<void> {
         return new Promise((resolve) => {
-            gulp.src(templateGlob)
+            gulp.src(templateGlob, {allowEmpty: true})
                 .pipe(GulpUtils.handleStreamError())
                 .pipe(renderFn(locale))
                 .pipe(gulp.dest(this.getOutputDirectory(locale)))
@@ -231,7 +231,7 @@ export default class SiteGenerator extends ConfigHolder {
     copyAssets(): Promise<void> {
         logger.info(ansi.green('Copying assets'));
         return new Promise((resolve) => {
-            gulp.src('./assets/**/*')
+            gulp.src('./assets/**/*', {allowEmpty: true})
                 .pipe(gulp.dest(this.outputDirectory))
                 .on('end', resolve);
         });
@@ -304,7 +304,7 @@ export default class SiteGenerator extends ConfigHolder {
 
         const posts = this.dataSource.parsePostsFromPaths([path]);
 
-        gulp.src('./templates/posts/*.pug')
+        gulp.src('./templates/posts/*.pug', {allowEmpty: true})
             .pipe(GulpUtils.handleStreamError())
             .pipe(this.renderer.renderSpecifiedPosts(posts))
             .pipe(gulp.dest(this.outputDirectory))
