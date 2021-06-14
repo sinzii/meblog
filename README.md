@@ -138,7 +138,7 @@ This is when event hooks come into play. Let's me first explain about the build 
 ### The build process
 Both `meblog serve` and `meblog build` commands will trigger the __build process__ when running, the only different is the former uses `dev` enviroment, and the latter uses `prod` enviroment.
 
-When the build process is running, a series of tasks will be trigger one by one.
+When the build process is running, a series of tasks will be triggered one by one.
 - `CleanCache`: Clean cache
 - `Clean`: Clean output directory
 - `Build`: Build the site
@@ -203,7 +203,7 @@ module.exports = {
 
 In `pug` template, `i18n` translate functions are available to use. Supported translate functions: `__`, `__n`, `__l`, `__h`, `__mf`.
 
-By default, all posts are belong to the `defaultLocale`, use `language` meta field to define language for that post in markdown file.
+By default, all posts are belong to the `defaultLocale`, use `language` meta field to define language for a post in markdown file.
 
 ## Deploy your site on Github
 
