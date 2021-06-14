@@ -21,6 +21,10 @@ export default class ConfigHolder {
     }
 
     public rootUrl(urlPath: string, locale?: string): string {
+        if (urlPath.startsWith('http')) {
+            return urlPath;
+        }
+
         const { baseUrl = '' } = this.config;
         let url = this.url(urlPath, locale);
 
@@ -32,6 +36,10 @@ export default class ConfigHolder {
     }
 
     public url(urlPath: string, locale?: string): string {
+        if (urlPath.startsWith('http')) {
+            return urlPath;
+        }
+
         let localePath = locale;
         if (this.isDefaultLocale(locale)) {
             localePath = '';
