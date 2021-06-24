@@ -133,7 +133,7 @@ _Variables listed here are only available in tag template in folder `templates/t
 ## Event hooks
 By default, the engine only processes `pug` tempate to html pages and `scss` to css. What if you need to write some `JavaScript` or even `TypeScript` and want those scripts to be bundle into one file or hot reload the script files on change when designing the site?
 
-This is when event hooks come into play. Let's me first explain about the build process of meblog.
+This is when event hooks come into play. Let me first explain about the build process of meblog.
 
 ### The build process
 Both `meblog serve` and `meblog build` commands will trigger the __build process__ when running, the only different is the former uses `dev` enviroment, and the latter uses `prod` enviroment.
