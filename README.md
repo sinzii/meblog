@@ -216,7 +216,7 @@ By default, all posts are belong to the `defaultLocale`, use `language` meta fie
 ## Websites built with meblog
 
 -   [meblog.sinzii.me](http://meblog.sinzii.me) - meblog website
--   [sinzii.me](https://sinzii.me) - Thang X. Vu (@sinzii)
+-   [thangx.vu](https://thangx.vu) - Thang X. Vu (@sinzii)
 -   Who next?
 
 ## Contribution
